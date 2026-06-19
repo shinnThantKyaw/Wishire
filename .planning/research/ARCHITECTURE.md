@@ -12,7 +12,7 @@ Interactive web greeting/experience apps follow a **Creator-Consumer split** whe
 
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
-│                         CLIENT (Vite + React 18)                      │
+│                         CLIENT (Vite + React 19)                      │
 ├───────────────────────────────┬──────────────────────────────────────┤
 │       CREATOR FLOW            │          CONSUMER FLOW                │
 │  Route: /create               │  Route: /wish/:id                    │
@@ -89,7 +89,7 @@ Interactive web greeting/experience apps follow a **Creator-Consumer split** whe
 
 ```
 birthday-wish-generator/
-├── client/                            # Vite + React 18 SPA
+├── client/                            # Vite + React 19 SPA
 │   ├── src/
 │   │   ├── main.jsx                   # ReactDOM.createRoot + RouterProvider
 │   │   ├── App.jsx                    # <Routes> with layout route, theme wrapper
@@ -449,7 +449,7 @@ Generator fills form:
       [wishRoutes] → [wishService.createWish()]
           │
           ├── Validates required fields
-          ├── Generates unique slug with nanoid (21 chars, URL-safe)
+          ├── Generates unique slug via Prisma @default(uuid())
           ├── Splits message into sentences (split on . ! ? followed by space)
           ├── Creates Wish row in SQLite via Prisma
           ├── Creates Photo rows (one per photoUrl, with order index)
@@ -575,7 +575,7 @@ User taps emoji on ReactionBar
 
 **Why bad:** Anyone can iterate through IDs and view all wishes. This undermines the "personal, private wish" value proposition. Sequential IDs leak wish creation volume.
 
-**Instead:** Generate a cryptographically random slug on the server. Use `nanoid(21)` or `crypto.randomUUID()`. Store as a separate `slug` field with a unique index. Internal primary key can still be autoincrement (never exposed).
+**Instead:** Generate a cryptographically random slug on the server. Use `@default(uuid())` in the Prisma schema for the slug field with a unique index. Internal primary key can still be autoincrement (never exposed).
 
 ### Anti-Pattern 4: CSS @keyframes for Complex Sequences
 
@@ -609,10 +609,10 @@ Architecture dependencies drive the following phase structure:
 
 ### Phase 1: Data Foundation (Schema + Core API)
 **Depends on:** Nothing — greenfield setup
-**Build:** Prisma schema + migrations, `wishService.js` (create + read), wish creation endpoint, nanoid slug generation, `statsService.js` (record view).
+**Build:** Prisma schema + migrations, `wishService.js` (create + read), wish creation endpoint, UUID generation via Prisma @default(uuid()), `statsService.js` (record view).
 **Why first:** Everything else reads or writes wish data. The database schema must exist before any API or UI work.
 **Key pattern:** Server-side slug generation in `wishService` — not client-side.
-**Pitfall to avoid:** Sequential IDs. Use `slug String @unique` with nanoid default from day one.
+**Pitfall to avoid:** Sequential IDs. Use `slug String @unique @default(uuid())` from day one.
 
 ### Phase 2: Creator Flow (Form + Upload + Preview)
 **Depends on:** Phase 1 (wish endpoint exists)

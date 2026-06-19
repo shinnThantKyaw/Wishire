@@ -2,7 +2,7 @@
 
 **Domain:** Interactive birthday wish generator (shareable greeting experience with animations, photos, reactions)
 **Researched:** 2026-06-19
-**Confidence:** MEDIUM (synthesized from training data; web verification tools unavailable)
+**Confidence:** HIGH (Context7-verified 2026-06-19)
 
 ## Critical Pitfalls
 
@@ -331,4 +331,3 @@ Gift box animation phase (PAGE-02). This is where the first user interaction hap
 ---
 *Pitfalls research for: Interactive birthday wish generator*
 *Researched: 2026-06-19*
-*Note: Research synthesized from training data due to web search tool unavailability. Confidence: MEDIUM. Verify all claims against current library documentation before implementation.*

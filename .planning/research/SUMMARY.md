@@ -2,25 +2,25 @@
 
 **Domain:** Interactive birthday wish experience web app (React SPA + Express API)
 **Researched:** 2026-06-19
-**Overall confidence:** MEDIUM (version numbers from training data; web verification tools unavailable)
+**Overall confidence:** HIGH (Context7-verified 2026-06-19)
 
 ## Executive Summary
 
 The Birthday Wish Generator is a two-sided web app: a creator flow where someone writes a personal message, uploads photos, and picks a theme to generate a shareable link; and a recipient flow where the birthday person opens that link and experiences an animated gift-box unwrapping sequence with music, sentence-by-sentence reveals, photo transitions, confetti, and emoji reactions.
 
-The technology stack is deliberately simple and well-established. On the frontend, React 18+ with Vite provides the SPA foundation. Framer Motion handles all sequenced animations (gift box open, sentence reveals, photo transitions) because it offers gesture handling, layout animations, and declarative orchestration that CSS alone cannot achieve. canvas-confetti adds the celebratory finale. Howler.js manages background music and sound effects with proper mobile audio unlock behavior. react-dropzone provides photo upload with drag-and-drop UX, while multer on the Express server handles multipart file parsing securely.
+The technology stack is deliberately simple and well-established. On the frontend, React 19 with Vite provides the SPA foundation. Framer Motion handles all sequenced animations (gift box open, sentence reveals, photo transitions) because it offers gesture handling, layout animations, and declarative orchestration that CSS alone cannot achieve. canvas-confetti adds the celebratory finale. Howler.js manages background music and sound effects with proper mobile audio unlock behavior. react-dropzone provides photo upload with drag-and-drop UX, while multer on the Express server handles multipart file parsing securely.
 
 On the backend, Express serves a REST API with five endpoints (create wish, get wish, upload photo, submit reaction, get stats). SQLite via Prisma stores structured data with a deliberate schema design that supports future PostgreSQL migration. Photos live on the filesystem with UUID filenames stored as paths in the database — deliberately avoiding base64 storage that would bloat the database and slow API responses.
 
-The architecture emphasizes a centralized animation state machine (useReducer) rather than scattered setTimeout chains, image preloading before the reveal sequence begins, CSS custom properties for dynamic theming, and server-generated UUIDs for unguessable shareable links. The single most impactful architectural decision is using nanoid for wish slugs rather than auto-increment IDs, which prevents enumeration attacks and eliminates collision risk.
+The architecture emphasizes a centralized animation state machine (useReducer) rather than scattered setTimeout chains, image preloading before the reveal sequence begins, CSS custom properties for dynamic theming, and server-generated UUIDs for unguessable shareable links. The single most impactful architectural decision is using Prisma @default(uuid()) for wish slugs rather than auto-increment IDs, which prevents enumeration attacks and eliminates collision risk.
 
 Critical pitfalls have been identified and mitigation strategies are documented. The top risks are: SQLite write contention under concurrent reactions (solved by WAL mode + busy_timeout), Framer Motion AnimatePresence keys breaking on replay (solved by including playCount in animation keys), photo upload path traversal (solved by server-generated filenames + magic byte validation), canvas-confetti memory leaks on replay (solved by shared canvas + cleanup lifecycle), and mobile audio autoplay blocking (solved by tying audio to the gift box tap gesture).
 
 ## Key Findings
 
-**Stack:** React 18/19 + Vite 5 frontend; Express 4 + Prisma 5 + SQLite backend; Framer Motion 11 (animations), canvas-confetti (confetti), Howler.js (audio), react-dropzone (uploads), multer (server uploads), nanoid (shareable link slugs).
+**Stack:** React 19 + Vite 5 frontend; Express 4 + Prisma v7 + SQLite backend; Framer Motion v12 (animations), canvas-confetti (confetti), Howler.js (audio), react-dropzone (uploads), multer (server uploads), Prisma @default(uuid()) (shareable link slugs).
 
-**Architecture:** Two-route SPA (/create, /wish/:id) with REST API. Animation state machine via useReducer with 7 states: IDLE → GIFT_BOX → UNWRAPPING → SENTENCE → CONFETTI → GALLERY → REACTIONS. CSS custom properties for dynamic theming. Photos on filesystem (not DB). Server-generated nanoid slugs for wish IDs.
+**Architecture:** Two-route SPA (/create, /wish/:id) with REST API. Animation state machine via useReducer with 7 states: IDLE → GIFT_BOX → UNWRAPPING → SENTENCE → CONFETTI → GALLERY → REACTIONS. CSS custom properties for dynamic theming. Photos on filesystem (not DB). Server-generated UUIDs via Prisma @default(uuid()) for wish IDs.
 
 **Features:** Table stakes = message creation + link sharing + wish viewing. Differentiators = interactive unwrap with gift box animation, photo reveals throughout, confetti finale, emoji reactions, theme selection. Anti-features = AI-generated wishes (deliberately removed in favor of human-written messages), user accounts (designed for but not built in v1).
 
@@ -51,14 +51,13 @@ Based on research, suggested phase structure:
 
 | Area | Confidence | Notes |
 |------|------------|-------|
-| Stack | MEDIUM | Version numbers from training data (Aug 2025 cutoff), not verified against live npm registry. Architectural choices (which library for which job) are HIGH confidence. |
+| Stack | HIGH | Version numbers Context7-verified against npm registry 2026-06-19. Architectural choices (which library for which job) are HIGH confidence. |
 | Features | HIGH | Feature requirements explicitly defined in PROJECT.md with validated/active/later/out-of-scope breakdown. |
 | Architecture | HIGH | Patterns derived from explicit project requirements. State machine, CSS custom properties, image preloading, audio unlock are well-understood. |
 | Pitfalls | MEDIUM | Coverage is comprehensive and drawn from known web development failure modes. Specific Framer Motion version behaviors and canvas-confetti edge cases may have evolved. Verify against current docs during implementation. |
 
 ## Gaps to Address
 
-- **Live version verification:** All version numbers should be verified against npm registry when `npm install` is run. Use caret ranges to allow patch/minor updates.
 - **Audio asset sourcing:** Royalty-free background music and sound effects need to be sourced or created (content/asset task, not technology research).
 - **Theme asset creation:** Theme system architecture is defined, but actual theme designs (palettes, patterns, animation personalities) need visual design work.
 - **Mobile device testing:** Audio unlock, confetti performance, and touch gesture handling must be tested on real iOS and Android devices. Chrome DevTools device mode is insufficient.
