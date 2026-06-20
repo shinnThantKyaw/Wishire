@@ -1,6 +1,7 @@
 import { prisma } from "../lib/prisma.js";
 import { nanoid } from "nanoid";
 import { getBirthdayFlair } from "../lib/flair.js";
+import { ValidationError, NotFoundError, DatabaseError } from "../lib/errors.js";
 
 // Split message into sentences
 function splitSentences(message) {
@@ -25,15 +26,15 @@ export async function createWish(data) {
 
   // Validate
   if (!senderName || !recipientName || !message) {
-    throw new Error("senderName, recipientName, and message are required");
+    throw new ValidationError("senderName, recipientName, and message are required");
   }
 
   if (message.length > 1000) {
-    throw new Error("Message must be 1000 characters or less");
+    throw new ValidationError("Message must be 1000 characters or less");
   }
 
   if (photos.length > 5) {
-    throw new Error("Maximum 5 photos allowed");
+    throw new ValidationError("Maximum 5 photos allowed");
   }
 
   // Generate ID and split sentences
@@ -68,7 +69,7 @@ export async function createWish(data) {
     });
   } catch (dbErr) {
     // Surface the real Prisma error with context
-    throw new Error(
+    throw new DatabaseError(
       `Database error creating wish: ${dbErr.message}` +
       (dbErr.code ? ` (code: ${dbErr.code})` : "")
     );
@@ -92,11 +93,11 @@ export async function getWish(id) {
       },
     });
   } catch (dbErr) {
-    throw new Error(`Database error fetching wish: ${dbErr.message}`);
+    throw new DatabaseError(`Database error fetching wish: ${dbErr.message}`);
   }
 
   if (!wish) {
-    throw new Error(`Wish not found: ${id}`);
+    throw new NotFoundError(`Wish not found: ${id}`);
   }
 
   // Record stat (open tracking)
@@ -142,7 +143,7 @@ export async function getWishStats(wishId) {
   });
 
   if (!wish) {
-    throw new Error("Wish not found");
+    throw new NotFoundError("Wish not found");
   }
 
   return {

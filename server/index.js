@@ -4,6 +4,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import wishRoutes from "./routes/wishes.js";
 import photoRoutes from "./routes/photos.js";
+import { errorHandler } from "./middleware/errorHandler.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -32,6 +33,9 @@ app.get("*", (req, res) => {
     }
   });
 });
+
+// Centralized error handler — must be LAST middleware (RESEARCH.md Pitfall B)
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`API running on http://localhost:${PORT}`));
