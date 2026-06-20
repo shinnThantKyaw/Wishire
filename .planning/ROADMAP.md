@@ -10,7 +10,7 @@
 
 | # | Phase | Goal | Requirements | Success Criteria |
 |---|-------|------|--------------|------------------|
-| 1 | Foundation | Data model + API skeleton — wishes can be created and retrieved | WISH-01, WISH-02 | 5 |
+| 1 | Foundation | 2/2 | Complete    | 2026-06-20 |
 | 2 | Creator Flow | Generator form + photo upload — complete wish creation experience | PHOTO-01, PHOTO-02, THEME-01, WISH-03 | 5 |
 | 3 | Recipient Experience | Gift box + sentence reveals + audio — the core magic | PAGE-01, PAGE-02, PAGE-03, PAGE-04, PAGE-07 | 6 |
 | 4 | Finale | Confetti + gallery + reactions — emotional payoff | PAGE-05, PAGE-06, PAGE-08, PAGE-09 | 5 |
@@ -36,15 +36,15 @@
 - Pitfall 1: SQLite write contention (WAL mode + busy_timeout from day one)
 - Pitfall 5: SPA 404 on refresh (Express catch-all route)
 
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 Plans:
 **Wave 1**
 
-- [ ] 01-01-PLAN.md — Error handling foundation: custom error classes, centralized middleware, refactor wishes service + routes
+- [x] 01-01-PLAN.md — Error handling foundation: custom error classes, centralized middleware, refactor wishes service + routes
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 01-02-PLAN.md — Refactor photo routes to use structured error handling; verify schema consistency
+- [x] 01-02-PLAN.md — Refactor photo routes to use structured error handling; verify schema consistency
 
 ---
 
