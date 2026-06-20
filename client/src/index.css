@@ -784,3 +784,345 @@ textarea:focus {
   font-size: 0.8rem;
   color: var(--ink);
 }
+
+/* ===========================
+   Loading Skeleton
+   =========================== */
+
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding-top: 80px;
+}
+
+.skeleton__avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, var(--border) 25%, rgba(241, 228, 211, 0.5) 50%, var(--border) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+.skeleton__line {
+  height: 16px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, var(--border) 25%, rgba(241, 228, 211, 0.5) 50%, var(--border) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+.skeleton__line--short {
+  width: 40%;
+  animation-delay: 0.1s;
+}
+
+.skeleton__line--long {
+  width: 75%;
+  animation-delay: 0.2s;
+}
+
+.skeleton__line--medium {
+  width: 55%;
+  animation-delay: 0.3s;
+}
+
+.skeleton__gift {
+  width: 120px;
+  height: 120px;
+  border-radius: 16px;
+  margin-top: 24px;
+  background: linear-gradient(90deg, var(--border) 25%, rgba(241, 228, 211, 0.5) 50%, var(--border) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+  animation-delay: 0.4s;
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ===========================
+   Share Button
+   =========================== */
+
+.share-btn {
+  background: var(--card);
+  border: 2px solid var(--mint);
+  border-radius: 999px;
+  color: var(--mint);
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 10px 24px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.share-btn:hover {
+  background: var(--mint);
+  color: white;
+}
+
+/* ===========================
+   Error Boundary
+   =========================== */
+
+.error-boundary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.error-boundary__icon {
+  font-size: 3rem;
+}
+
+.error-boundary__title {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 800;
+  font-size: 1.6rem;
+  margin: 0;
+  color: var(--coral);
+}
+
+.error-boundary__msg {
+  margin: 0;
+  opacity: 0.75;
+  max-width: 320px;
+}
+
+.error-boundary__actions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.error-boundary__btn {
+  background: var(--coral);
+  color: white;
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 10px 24px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+}
+
+.error-boundary__link {
+  color: var(--mint);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.error-boundary__link:hover {
+  text-decoration: underline;
+}
+
+/* ===========================
+   Responsive — Tablet (≤768px)
+   =========================== */
+
+@media (max-width: 768px) {
+  .page {
+    padding: 32px 16px 60px;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .experience {
+    padding: 32px 16px;
+  }
+
+  .experience__sender-name {
+    font-size: 1.8rem;
+  }
+
+  .experience__happy-birthday {
+    font-size: 2rem;
+  }
+
+  .experience__happy-birthday--small {
+    font-size: 1.5rem;
+  }
+
+  .sentence-revealer {
+    padding: 32px 16px;
+  }
+
+  .sentence-revealer__text {
+    font-size: 1.15rem;
+  }
+
+  .sentence-revealer__text--final {
+    font-size: 1.3rem;
+  }
+
+  .photo-gallery__grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+  }
+
+  .photo-gallery__item img {
+    height: 150px;
+  }
+}
+
+/* ===========================
+   Responsive — Mobile (≤480px)
+   =========================== */
+
+@media (max-width: 480px) {
+  .page {
+    padding: 24px 12px 48px;
+  }
+
+  .hero {
+    margin-bottom: 24px;
+  }
+
+  .hero h1 {
+    font-size: 1.6rem;
+  }
+
+  .hero p {
+    font-size: 0.9rem;
+  }
+
+  .card {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .form__row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .form__themes {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 8px;
+  }
+
+  .form__theme-btn {
+    padding: 10px 6px;
+  }
+
+  .form__photo-thumb {
+    width: 64px;
+    height: 64px;
+  }
+
+  .wish-page {
+    padding-top: 48px;
+  }
+
+  .experience {
+    padding: 24px 12px;
+  }
+
+  .experience__sender-name {
+    font-size: 1.5rem;
+  }
+
+  .experience__happy-birthday {
+    font-size: 1.6rem;
+  }
+
+  .experience__happy-birthday--small {
+    font-size: 1.3rem;
+  }
+
+  .experience__gallery-phase {
+    gap: 24px;
+  }
+
+  .sentence-revealer {
+    padding: 24px 12px;
+    min-height: 160px;
+    gap: 16px;
+  }
+
+  .sentence-revealer__text {
+    font-size: 1.05rem;
+  }
+
+  .sentence-revealer__text--final {
+    font-size: 1.15rem;
+  }
+
+  .gift-box__body {
+    width: 100px;
+    height: 84px;
+  }
+
+  .gift-box__lid {
+    width: 110px;
+    height: 26px;
+  }
+
+  .gift-box__ribbon {
+    width: 100px;
+    height: 84px;
+  }
+
+  .gift-box__glow {
+    width: 160px;
+    height: 160px;
+  }
+
+  .photo-gallery__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .photo-gallery__item img {
+    height: 130px;
+  }
+
+  .reaction-bar__emojis {
+    gap: 6px;
+  }
+
+  .reaction-bar__emoji {
+    padding: 6px 10px;
+    font-size: 1.1rem;
+  }
+
+  .share-btn {
+    padding: 8px 18px;
+    font-size: 0.85rem;
+  }
+
+  .flair-chip {
+    padding: 4px 10px;
+    font-size: 0.8rem;
+  }
+
+  .error-boundary {
+    padding: 40px 16px;
+  }
+
+  .error-boundary__title {
+    font-size: 1.3rem;
+  }
+
+  .error-boundary__actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+}

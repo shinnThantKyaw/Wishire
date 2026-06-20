@@ -89,7 +89,13 @@ export default function WishPage() {
   if (loading) {
     return (
       <div className="page wish-page">
-        <div className="wish-loading">Loading your wish...</div>
+        <div className="skeleton">
+          <div className="skeleton__avatar" />
+          <div className="skeleton__line skeleton__line--short" />
+          <div className="skeleton__line skeleton__line--long" />
+          <div className="skeleton__line skeleton__line--medium" />
+          <div className="skeleton__gift" />
+        </div>
       </div>
     );
   }

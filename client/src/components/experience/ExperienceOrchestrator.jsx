@@ -8,6 +8,7 @@ import ConfettiFinale from "./ConfettiFinale";
 import PhotoGallery from "./PhotoGallery";
 import ReactionBar from "./ReactionBar";
 import FlairChips from "./FlairChips";
+import ShareButton from "./ShareButton";
 
 // State machine phases
 const PHASE = {
@@ -237,6 +238,8 @@ export default function ExperienceOrchestrator({ wish }) {
             <FlairChips flair={wish.flair} />
 
             <ReactionBar wishId={wish.id} />
+
+            <ShareButton />
 
             <motion.button
               className="experience__replay-btn"
