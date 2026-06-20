@@ -1,0 +1,786 @@
+:root {
+  --cream: #fff8ef;
+  --ink: #2b1d14;
+  --coral: #ff6f59;
+  --gold: #ffb84d;
+  --mint: #2bb39c;
+  --card: #ffffff;
+  --border: #f1e4d3;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: "Nunito", sans-serif;
+}
+
+.page {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 48px 20px 80px;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.hero__eyebrow {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--mint);
+  background: rgba(43, 179, 156, 0.12);
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+
+.hero h1 {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 800;
+  font-size: 2.4rem;
+  margin: 0 0 8px;
+  color: var(--coral);
+}
+
+.hero p {
+  margin: 0;
+  opacity: 0.75;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 28px;
+  box-shadow: 0 12px 30px -18px rgba(43, 29, 20, 0.35);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+input,
+select {
+  font-family: "Nunito", sans-serif;
+  font-size: 1rem;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--cream);
+  color: var(--ink);
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid var(--mint);
+  outline-offset: 1px;
+}
+
+button {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: none;
+  background: var(--coral);
+  color: white;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.error {
+  color: #c0392b;
+  text-align: center;
+  font-weight: 700;
+}
+
+.result {
+  margin-top: 24px;
+  border-color: var(--gold);
+}
+
+.result__wish {
+  font-size: 1.15rem;
+  line-height: 1.5;
+  margin: 0 0 16px;
+}
+
+.flair {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.flair__chip {
+  background: rgba(255, 184, 77, 0.18);
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+/* Form sections */
+.form__section {
+  margin-bottom: 8px;
+}
+
+.form__section-title {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin: 0 0 12px;
+  color: var(--mint);
+}
+
+.form__char-count {
+  font-size: 0.8rem;
+  opacity: 0.6;
+  text-align: right;
+}
+
+textarea {
+  font-family: "Nunito", sans-serif;
+  font-size: 1rem;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--cream);
+  color: var(--ink);
+  resize: vertical;
+  min-height: 100px;
+}
+
+textarea:focus {
+  outline: 2px solid var(--mint);
+  outline-offset: 1px;
+}
+
+/* Photo upload */
+.form__photo-upload {
+  margin-bottom: 12px;
+}
+
+.form__photo-input {
+  display: none;
+}
+
+.form__photo-label {
+  display: inline-block;
+  padding: 12px 18px;
+  background: var(--cream);
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  text-align: center;
+  transition: border-color 0.2s;
+}
+
+.form__photo-label:hover {
+  border-color: var(--mint);
+}
+
+.form__photo-preview {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.form__photo-thumb {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.form__photo-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.form__photo-remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--coral);
+  color: white;
+  border: none;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-progress {
+  text-align: center;
+  color: var(--mint);
+  font-weight: 600;
+}
+
+/* Wish page */
+.wish-page {
+  text-align: center;
+  padding-top: 80px;
+}
+
+.wish-loading,
+.wish-error {
+  padding: 40px;
+  font-size: 1.1rem;
+}
+
+.wish-header {
+  margin-bottom: 40px;
+}
+
+.wish-from {
+  font-family: "Baloo 2", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--coral);
+  margin: 0;
+}
+
+.wish-gift-box {
+  display: flex;
+  justify-content: center;
+  margin: 40px 0;
+}
+
+.gift-box-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  transition: transform 0.2s;
+}
+
+.gift-box-button:hover {
+  transform: scale(1.05);
+}
+
+.gift-box-icon {
+  font-size: 80px;
+  display: block;
+}
+
+.gift-box-text {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--mint);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.wish-content {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.wish-message {
+  margin: 0 auto 40px;
+  max-width: 480px;
+}
+
+.wish-sentence {
+  font-size: 1.25rem;
+  line-height: 1.8;
+  margin: 0 0 24px;
+  color: var(--ink);
+}
+
+.wish-photos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  margin: 0 auto 40px;
+  max-width: 600px;
+}
+
+.wish-photo {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.wish-photo img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+/* ===========================
+   Experience Orchestrator
+   =========================== */
+
+.experience {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.experience__sender {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.experience__from-label {
+  font-size: 1rem;
+  opacity: 0.7;
+  margin: 0;
+}
+
+.experience__sender-name {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 800;
+  font-size: 2.2rem;
+  margin: 0;
+  color: var(--coral);
+}
+
+.experience__finale {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.experience__happy-birthday {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 800;
+  font-size: 2.4rem;
+  margin: 0;
+  color: var(--coral);
+  text-align: center;
+}
+
+.experience__happy-birthday--small {
+  font-size: 1.8rem;
+}
+
+.experience__gallery-phase {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.experience__replay-btn {
+  background: var(--mint);
+  color: white;
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 12px 28px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+/* ===========================
+   Gift Box
+   =========================== */
+
+.gift-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 40px;
+  position: relative;
+}
+
+.gift-box__glow {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 184, 77, 0.3) 0%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.gift-box__body {
+  position: relative;
+  width: 120px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gift-box__lid {
+  width: 130px;
+  height: 30px;
+  background: var(--coral);
+  border-radius: 6px 6px 0 0;
+  position: relative;
+  z-index: 2;
+}
+
+.gift-box__ribbon {
+  width: 120px;
+  height: 100px;
+  background: var(--gold);
+  border-radius: 0 0 8px 8px;
+  position: relative;
+}
+
+.gift-box__ribbon::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 100%;
+  background: var(--coral);
+  opacity: 0.6;
+}
+
+.gift-box__ribbon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 100%;
+  height: 16px;
+  background: var(--coral);
+  opacity: 0.6;
+}
+
+.gift-box__bow {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 20px;
+  z-index: 3;
+}
+
+.gift-box__bow::before,
+.gift-box__bow::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: var(--coral);
+  border-radius: 50% 50% 0 50%;
+  top: 0;
+}
+
+.gift-box__bow::before {
+  left: 0;
+  transform: rotate(-30deg);
+}
+
+.gift-box__bow::after {
+  right: 0;
+  transform: rotate(30deg) scaleX(-1);
+}
+
+.gift-box__hint {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--mint);
+  margin: 0;
+}
+
+/* ===========================
+   Sentence Revealer
+   =========================== */
+
+.sentence-revealer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 40px 20px;
+  cursor: pointer;
+  min-height: 200px;
+  justify-content: center;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.sentence-revealer__text {
+  font-size: 1.3rem;
+  line-height: 1.8;
+  margin: 0;
+  color: var(--ink);
+  text-align: center;
+}
+
+.sentence-revealer__text--final {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--coral);
+}
+
+.sentence-revealer__hint {
+  font-size: 0.85rem;
+  color: var(--mint);
+  opacity: 0.7;
+}
+
+.sentence-revealer__progress {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.sentence-revealer__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background 0.3s;
+}
+
+.sentence-revealer__dot--active {
+  background: var(--coral);
+}
+
+/* ===========================
+   Photo Gallery
+   =========================== */
+
+.photo-gallery {
+  width: 100%;
+}
+
+.photo-gallery__title {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--mint);
+  margin: 0 0 16px;
+}
+
+.photo-gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.photo-gallery__item {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.photo-gallery__item img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+
+/* ===========================
+   Flair Chips
+   =========================== */
+
+.flair-chips {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.flair-chip {
+  background: rgba(255, 184, 77, 0.18);
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+/* ===========================
+   Reaction Bar
+   =========================== */
+
+.reaction-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.reaction-bar__emojis {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.reaction-bar__emoji {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+
+.reaction-bar__emoji:hover {
+  border-color: var(--coral);
+  background: rgba(255, 111, 89, 0.08);
+}
+
+.reaction-bar__count {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--ink);
+  opacity: 0.7;
+}
+
+.reaction-bar__heart {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  font-size: 1.6rem;
+}
+
+.reaction-bar__heart-icon {
+  display: inline-block;
+}
+
+.reaction-bar__heart-count {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--coral);
+}
+
+/* ===========================
+   Theme Selector (CreatePage)
+   =========================== */
+
+.form__themes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 10px;
+}
+
+.form__theme-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 8px;
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.15s;
+}
+
+.form__theme-btn:hover {
+  border-color: var(--mint);
+  transform: translateY(-1px);
+}
+
+.form__theme-btn--active {
+  border-color: var(--coral);
+  background: rgba(255, 111, 89, 0.05);
+}
+
+.form__theme-preview {
+  display: flex;
+  gap: 3px;
+}
+
+.form__theme-swatch {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.form__theme-label {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--ink);
+}

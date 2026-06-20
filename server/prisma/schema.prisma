@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Wish {
+  id            String   @id @default(nanoid(8))
+  senderName    String
+  recipientName String
+  relationship  String   @default("friend")
+  birthMonth    Int
+  birthDay      Int
+  message       String
+  sentences     String   // JSON array of sentences
+  theme         String   @default("sunrise")
+  createdAt     DateTime @default(now())
+
+  photos    Photo[]
+  reactions Reaction[]
+  stats     Stat[]
+}
+
+model Photo {
+  id               Int      @id @default(autoincrement())
+  wishId           String
+  originalName     String
+  filename         String   // UUID-based filename on disk
+  thumbnailFilename String  // Thumbnail UUID filename
+  createdAt        DateTime @default(now())
+
+  wish Wish @relation(fields: [wishId], references: [id], onDelete: Cascade)
+
+  @@index([wishId])
+}
+
+model Reaction {
+  id     Int    @id @default(autoincrement())
+  wishId String
+  emoji  String
+  count  Int    @default(0)
+
+  wish Wish @relation(fields: [wishId], references: [id], onDelete: Cascade)
+
+  @@unique([wishId, emoji])
+  @@index([wishId])
+}
+
+model Stat {
+  id       Int      @id @default(autoincrement())
+  wishId   String
+  openedAt DateTime @default(now())
+
+  wish Wish @relation(fields: [wishId], references: [id], onDelete: Cascade)
+
+  @@index([wishId])
+}
