@@ -65,6 +65,16 @@ Plans:
 
 - Pitfall 3: Photo upload path traversal (server-generated UUID filenames + magic byte validation)
 
+**Plans:** 2 plans
+Plans:
+**Wave 1**
+
+- [ ] 02-01-PLAN.md — PhotoUploader + ThemeSelector components (standalone sub-components with CSS)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 02-02-PLAN.md — Refactor CreatePage with sub-components, validation, success state, and skill file
+
 ---
 
 ### Phase 3: Recipient Experience
@@ -128,4 +138,4 @@ Plans:
 
 ---
 *Created: 2026-06-20*
-*Last updated: 2026-06-20 after Phase 1 planning*
+*Last updated: 2026-06-21 after Phase 2 planning*
