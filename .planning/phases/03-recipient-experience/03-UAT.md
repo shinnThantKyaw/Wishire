@@ -96,9 +96,11 @@ blocked: 0
 
 - truth: "After box opens, first sentence appears character by character (50ms/char)"
   status: diagnosed
-  reason: "User reported: no typewriter after box opens, blank screen. Root cause: lid onAnimationComplete not firing reliably with 3D rotateX transform. Fix: added 1.1s fallback timeout + perspective + fireOpened guard."
+  reason: "User reported: blank screen after opening box. Root cause: AnimatePresence mode='wait' unmounts GiftBox when state changes GIFT_BOX→UNWRAPPING, killing the internal timeout. State stuck permanently in UNWRAPPING (empty div). Fix: moved state transition timeout to WishPage (stays mounted), removed UNWRAPPING dispatch, simplified GiftBox."
   severity: blocker
   test: 2
   artifacts:
+    - client/src/pages/WishPage.jsx
     - client/src/components/experience/GiftBox.jsx
+    - client/src/components/experience/ExperienceOrchestrator.jsx
   missing: []
