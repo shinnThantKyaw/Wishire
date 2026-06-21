@@ -11,7 +11,7 @@
 | # | Phase | Goal | Requirements | Success Criteria |
 |---|-------|------|--------------|------------------|
 | 1 | Foundation | 2/2 | Complete    | 2026-06-20 |
-| 2 | Creator Flow | Generator form + photo upload — complete wish creation experience | PHOTO-01, PHOTO-02, THEME-01, WISH-03 | 5 |
+| 2 | Creator Flow | 1/2 | In Progress|  |
 | 3 | Recipient Experience | Gift box + sentence reveals + audio — the core magic | PAGE-01, PAGE-02, PAGE-03, PAGE-04, PAGE-07 | 6 |
 | 4 | Finale | Confetti + gallery + reactions — emotional payoff | PAGE-05, PAGE-06, PAGE-08, PAGE-09 | 5 |
 | 5 | Polish | Themes, flair, status page, mobile — production ready | PAGE-10, THEME-02, TRACK-01, TRACK-02 | 5 |
@@ -65,11 +65,11 @@ Plans:
 
 - Pitfall 3: Photo upload path traversal (server-generated UUID filenames + magic byte validation)
 
-**Plans:** 2 plans
+**Plans:** 1/2 plans executed
 Plans:
 **Wave 1**
 
-- [ ] 02-01-PLAN.md — PhotoUploader + ThemeSelector components (standalone sub-components with CSS)
+- [x] 02-01-PLAN.md — PhotoUploader + ThemeSelector components (standalone sub-components with CSS)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
