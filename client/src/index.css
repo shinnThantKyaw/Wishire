@@ -1172,6 +1172,24 @@ textarea:focus {
 }
 
 /* ===========================
+   Form Validation Errors
+   =========================== */
+
+.form__field-error {
+  color: #c0392b;
+  font-size: 0.875rem;
+  font-weight: 700;
+  font-family: "Nunito", sans-serif;
+  margin-top: 4px;
+  display: block;
+}
+
+.form__input--error {
+  outline: 2px solid #c0392b;
+  outline-offset: -1px;
+}
+
+/* ===========================
    Responsive — Tablet (≤768px)
    =========================== */
 

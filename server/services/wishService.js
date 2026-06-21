@@ -25,8 +25,8 @@ export async function createWish(data) {
   } = data;
 
   // Validate
-  if (!senderName || !recipientName || !message) {
-    throw new ValidationError("senderName, recipientName, and message are required");
+  if (!recipientName || !message) {
+    throw new ValidationError("recipientName and message are required");
   }
 
   if (message.length > 1000) {

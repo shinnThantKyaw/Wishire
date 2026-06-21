@@ -1,14 +1,8 @@
 import { useState } from "react";
+import PhotoUploader from "../components/create/PhotoUploader.jsx";
+import ThemeSelector from "../components/create/ThemeSelector.jsx";
 
 const RELATIONSHIPS = ["friend", "family", "coworker", "partner"];
-
-const THEMES = [
-  { id: "sunrise", label: "Sunrise", colors: ["#ff6f59", "#ffb84d", "#fff8ef"] },
-  { id: "ocean", label: "Ocean", colors: ["#4d96ff", "#6bcb77", "#e8f4f8"] },
-  { id: "lavender", label: "Lavender", colors: ["#c44dff", "#ff6b9d", "#f8f0ff"] },
-  { id: "forest", label: "Forest", colors: ["#2bb39c", "#6bcb77", "#f0faf5"] },
-  { id: "midnight", label: "Midnight", colors: ["#4d4d7a", "#c44dff", "#1a1a2e"] },
-];
 
 export default function CreatePage() {
   const [form, setForm] = useState({
@@ -22,27 +16,33 @@ export default function CreatePage() {
   });
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [errors, setErrors] = useState({});
+  const [submitted, setSubmitted] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(null);
   const [createdWish, setCreatedWish] = useState(null);
   const [copied, setCopied] = useState(false);
 
   function update(field, value) {
     setForm((f) => ({ ...f, [field]: value }));
-  }
-
-  function handlePhotoSelect(e) {
-    const files = Array.from(e.target.files);
-    if (files.length + photos.length > 5) {
-      setError("Maximum 5 photos allowed");
-      return;
+    // Clear field error on change if form was already submitted
+    if (submitted && errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: "" }));
     }
-    setPhotos((prev) => [...prev, ...files]);
-    setError(null);
   }
 
-  function removePhoto(index) {
-    setPhotos((prev) => prev.filter((_, i) => i !== index));
+  function validate(field, value) {
+    switch (field) {
+      case "recipientName":
+        return value.trim() ? "" : "Their name is required";
+      case "month":
+        return value >= 1 && value <= 12 ? "" : "Birth month must be 1-12";
+      case "day":
+        return value >= 1 && value <= 31 ? "" : "Birth day must be 1-31";
+      case "message":
+        return value.trim() ? "" : "Please write a birthday message";
+      default:
+        return "";
+    }
   }
 
   async function uploadPhotos() {
@@ -66,27 +66,27 @@ export default function CreatePage() {
 
   async function generate(e) {
     e.preventDefault();
+    setSubmitted(true);
+    setErrors({});
+
+    // Client-side validation
+    const newErrors = {};
+    newErrors.recipientName = validate("recipientName", form.recipientName);
+    newErrors.month = validate("month", form.month);
+    newErrors.day = validate("day", form.day);
+    newErrors.message = validate("message", form.message);
+
+    // Remove empty errors
+    const hasErrors = Object.values(newErrors).some(Boolean);
+    if (hasErrors) {
+      setErrors(newErrors);
+      return;
+    }
+
     setLoading(true);
-    setError(null);
+    setUploadProgress(null);
 
     try {
-      // Client-side validation
-      if (!form.senderName.trim()) {
-        throw new Error("Your name is required.");
-      }
-      if (!form.recipientName.trim()) {
-        throw new Error("Their name is required.");
-      }
-      if (!form.message.trim()) {
-        throw new Error("Please write a birthday message.");
-      }
-      if (form.month < 1 || form.month > 12) {
-        throw new Error("Birth month must be 1-12.");
-      }
-      if (form.day < 1 || form.day > 31) {
-        throw new Error("Birth day must be 1-31.");
-      }
-
       // Upload photos first if any
       let uploadedPhotos = [];
       if (photos.length > 0) {
@@ -101,7 +101,7 @@ export default function CreatePage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
-          senderName: form.senderName.trim(),
+          senderName: form.senderName.trim() || "",
           recipientName: form.recipientName.trim(),
           message: form.message.trim(),
           photos: uploadedPhotos,
@@ -116,7 +116,7 @@ export default function CreatePage() {
       const wish = await res.json();
       setCreatedWish(wish);
     } catch (err) {
-      setError(err.message);
+      setErrors((prev) => ({ ...prev, global: err.message }));
     } finally {
       setLoading(false);
       setUploadProgress(null);
@@ -153,7 +153,7 @@ export default function CreatePage() {
     return (
       <div className="page">
         <div className="card success">
-          <span className="success__icon">✅</span>
+          <span className="success__icon">&#10003;</span>
           <h1>Wish Created!</h1>
           <p>
             Your birthday wish for <strong>{createdWish.recipientName}</strong> is
@@ -164,10 +164,10 @@ export default function CreatePage() {
           </div>
           <div className="success__actions">
             <button className="success__btn success__btn--primary" onClick={openLink}>
-              Open Link 🔗
+              Open Link
             </button>
             <button className="success__btn success__btn--secondary" onClick={copyLink}>
-              {copied ? "Copied! ✓" : "Copy Link 📋"}
+              {copied ? "Copied!" : "Copy Link"}
             </button>
           </div>
           <button
@@ -177,7 +177,7 @@ export default function CreatePage() {
               setCopied(false);
             }}
           >
-            ← Create another wish
+            Create another wish
           </button>
         </div>
       </div>
@@ -187,7 +187,7 @@ export default function CreatePage() {
   return (
     <div className="page">
       <header className="hero">
-        <span className="hero__eyebrow">🎂 small batch, freshly generated</span>
+        <span className="hero__eyebrow">small batch, freshly generated</span>
         <h1>Birthday Wish Generator</h1>
         <p>Write a heartfelt birthday message and share it as an experience.</p>
       </header>
@@ -196,9 +196,8 @@ export default function CreatePage() {
         <div className="form__section">
           <h2 className="form__section-title">About You</h2>
           <label>
-            Your name
+            Your name (optional)
             <input
-              required
               value={form.senderName}
               onChange={(e) => update("senderName", e.target.value)}
               placeholder="e.g. Priya"
@@ -211,11 +210,14 @@ export default function CreatePage() {
           <label>
             Their name
             <input
-              required
               value={form.recipientName}
               onChange={(e) => update("recipientName", e.target.value)}
               placeholder="e.g. Rahul"
+              className={errors.recipientName ? "form__input--error" : ""}
             />
+            {errors.recipientName && (
+              <span className="form__field-error">{errors.recipientName}</span>
+            )}
           </label>
 
           <label>
@@ -241,7 +243,11 @@ export default function CreatePage() {
                 max="12"
                 value={form.month}
                 onChange={(e) => update("month", parseInt(e.target.value))}
+                className={errors.month ? "form__input--error" : ""}
               />
+              {errors.month && (
+                <span className="form__field-error">{errors.month}</span>
+              )}
             </label>
             <label>
               Birth day
@@ -251,7 +257,11 @@ export default function CreatePage() {
                 max="31"
                 value={form.day}
                 onChange={(e) => update("day", parseInt(e.target.value))}
+                className={errors.day ? "form__input--error" : ""}
               />
+              {errors.day && (
+                <span className="form__field-error">{errors.day}</span>
+              )}
             </label>
           </div>
         </div>
@@ -261,13 +271,16 @@ export default function CreatePage() {
           <label>
             Write your birthday wish
             <textarea
-              required
               value={form.message}
               onChange={(e) => update("message", e.target.value)}
               placeholder="Write something heartfelt, funny, or meaningful..."
               maxLength={1000}
               rows={5}
+              className={errors.message ? "form__input--error" : ""}
             />
+            {errors.message && (
+              <span className="form__field-error">{errors.message}</span>
+            )}
             <span className="form__char-count">
               {form.message.length}/1000
             </span>
@@ -276,73 +289,19 @@ export default function CreatePage() {
 
         <div className="form__section">
           <h2 className="form__section-title">Photos (optional)</h2>
-          <div className="form__photo-upload">
-            <input
-              type="file"
-              accept="image/jpeg,image/png,image/webp,image/gif"
-              multiple
-              onChange={handlePhotoSelect}
-              id="photo-input"
-              className="form__photo-input"
-            />
-            <label htmlFor="photo-input" className="form__photo-label">
-              {photos.length === 0
-                ? "Click to add photos (max 5)"
-                : `Add more photos (${photos.length}/5)`}
-            </label>
-          </div>
-
-          {photos.length > 0 && (
-            <div className="form__photo-preview">
-              {photos.map((photo, index) => (
-                <div key={index} className="form__photo-thumb">
-                  <img
-                    src={URL.createObjectURL(photo)}
-                    alt={`Photo ${index + 1}`}
-                  />
-                  <button
-                    type="button"
-                    className="form__photo-remove"
-                    onClick={() => removePhoto(index)}
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
+          <PhotoUploader photos={photos} onPhotosChange={setPhotos} maxFiles={5} />
         </div>
 
         <div className="form__section">
           <h2 className="form__section-title">Theme</h2>
-          <div className="form__themes">
-            {THEMES.map((t) => (
-              <button
-                key={t.id}
-                type="button"
-                className={`form__theme-btn ${form.theme === t.id ? "form__theme-btn--active" : ""}`}
-                onClick={() => update("theme", t.id)}
-              >
-                <span className="form__theme-preview">
-                  {t.colors.map((c, i) => (
-                    <span
-                      key={i}
-                      className="form__theme-swatch"
-                      style={{ background: c }}
-                    />
-                  ))}
-                </span>
-                <span className="form__theme-label">{t.label}</span>
-              </button>
-            ))}
-          </div>
+          <ThemeSelector value={form.theme} onChange={(id) => update("theme", id)} />
         </div>
 
-        {error && <p className="error">{error}</p>}
+        {errors.global && <p className="error">{errors.global}</p>}
         {uploadProgress && <p className="upload-progress">{uploadProgress}</p>}
 
         <button type="submit" disabled={loading}>
-          {loading ? uploadProgress || "Creating..." : "Create Wish 🎁"}
+          {loading ? uploadProgress || "Creating..." : "Create Wish"}
         </button>
       </form>
     </div>
