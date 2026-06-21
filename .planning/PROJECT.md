@@ -149,5 +149,22 @@ Themes are auto-enhanced with accents from the birthday person's birthstone colo
 - Tone selector (funny/sincere/poetic/roast) — generator writes their own tone
 - Real-time notifications — not needed without accounts
 
+## Evolution
+
+This document evolves at phase transitions and milestone boundaries.
+
+**After each phase transition** (via `/gsd-transition`):
+1. Requirements invalidated? → Move to Out of Scope with reason
+2. Requirements validated? → Move to Validated with phase reference
+3. New requirements emerged? → Add to Active
+4. Decisions to log? → Add to Key Decisions
+5. "What This Is" still accurate? → Update if drifted
+
+**After each milestone** (via `/gsd-complete-milestone`):
+1. Full review of all sections
+2. Core Value check — still the right priority?
+3. Audit Out of Scope — reasons still valid?
+4. Update Context with current state
+
 ---
-*Last updated: 2026-06-19 after initialization*
+*Last updated: 2026-06-20 after roadmap creation*

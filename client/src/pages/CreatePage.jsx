@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 const RELATIONSHIPS = ["friend", "family", "coworker", "partner"];
 
@@ -12,7 +11,6 @@ const THEMES = [
 ];
 
 export default function CreatePage() {
-  const navigate = useNavigate();
   const [form, setForm] = useState({
     senderName: "",
     recipientName: "",
@@ -26,6 +24,8 @@ export default function CreatePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(null);
+  const [createdWish, setCreatedWish] = useState(null);
+  const [copied, setCopied] = useState(false);
 
   function update(field, value) {
     setForm((f) => ({ ...f, [field]: value }));
@@ -114,13 +114,74 @@ export default function CreatePage() {
       }
 
       const wish = await res.json();
-      navigate(`/wish/${wish.id}`);
+      setCreatedWish(wish);
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
       setUploadProgress(null);
     }
+  }
+
+  function getWishUrl() {
+    return `${window.location.origin}/wish/${createdWish.id}`;
+  }
+
+  async function copyLink() {
+    try {
+      await navigator.clipboard.writeText(getWishUrl());
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // fallback
+      const input = document.createElement("input");
+      input.value = getWishUrl();
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand("copy");
+      document.body.removeChild(input);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  }
+
+  function openLink() {
+    window.open(getWishUrl(), "_blank");
+  }
+
+  if (createdWish) {
+    return (
+      <div className="page">
+        <div className="card success">
+          <span className="success__icon">✅</span>
+          <h1>Wish Created!</h1>
+          <p>
+            Your birthday wish for <strong>{createdWish.recipientName}</strong> is
+            ready to share.
+          </p>
+          <div className="success__link">
+            <code>{getWishUrl()}</code>
+          </div>
+          <div className="success__actions">
+            <button className="success__btn success__btn--primary" onClick={openLink}>
+              Open Link 🔗
+            </button>
+            <button className="success__btn success__btn--secondary" onClick={copyLink}>
+              {copied ? "Copied! ✓" : "Copy Link 📋"}
+            </button>
+          </div>
+          <button
+            className="success__back"
+            onClick={() => {
+              setCreatedWish(null);
+              setCopied(false);
+            }}
+          >
+            ← Create another wish
+          </button>
+        </div>
+      </div>
+    );
   }
 
   return (

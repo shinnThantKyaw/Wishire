@@ -1071,6 +1071,107 @@ textarea:focus {
 }
 
 /* ===========================
+   Success Screen
+   =========================== */
+
+.success {
+  text-align: center;
+  padding: 48px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.success__icon {
+  font-size: 3rem;
+}
+
+.success h1 {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 800;
+  font-size: 2rem;
+  margin: 0;
+  color: var(--mint);
+}
+
+.success p {
+  margin: 0;
+  opacity: 0.8;
+  font-size: 1.05rem;
+}
+
+.success__link {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 16px;
+  width: 100%;
+  max-width: 400px;
+  overflow: hidden;
+}
+
+.success__link code {
+  font-size: 0.85rem;
+  word-break: break-all;
+  color: var(--ink);
+  opacity: 0.8;
+}
+
+.success__actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.success__btn {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 12px 24px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.2s;
+}
+
+.success__btn:hover {
+  transform: translateY(-1px);
+}
+
+.success__btn--primary {
+  background: var(--coral);
+  color: white;
+}
+
+.success__btn--secondary {
+  background: var(--card);
+  border: 2px solid var(--mint);
+  color: var(--mint);
+}
+
+.success__btn--secondary:hover {
+  background: var(--mint);
+  color: white;
+}
+
+.success__back {
+  background: none;
+  border: none;
+  color: var(--mint);
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 8px;
+  margin-top: 8px;
+}
+
+.success__back:hover {
+  text-decoration: underline;
+}
+
+/* ===========================
    Responsive — Tablet (≤768px)
    =========================== */
 
@@ -1276,5 +1377,23 @@ textarea:focus {
   .error-boundary__actions {
     flex-direction: column;
     gap: 12px;
+  }
+
+  .success {
+    padding: 32px 20px;
+  }
+
+  .success h1 {
+    font-size: 1.6rem;
+  }
+
+  .success__actions {
+    flex-direction: column;
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .success__btn {
+    width: 100%;
   }
 }
