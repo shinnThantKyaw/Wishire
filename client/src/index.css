@@ -928,6 +928,58 @@ textarea:focus {
 }
 
 /* ===========================
+   Theme Selector
+   =========================== */
+
+.theme-selector {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 10px;
+}
+
+.theme-selector__btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 8px;
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.theme-selector__btn:hover {
+  border-color: var(--mint);
+  transform: translateY(-1px);
+}
+
+.theme-selector__btn--active {
+  border-color: var(--coral);
+  background: rgba(255, 111, 89, 0.05);
+}
+
+.theme-selector__circles {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 6px;
+}
+
+.theme-selector__circle {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.theme-selector__name {
+  font-family: "Baloo 2", cursive;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* ===========================
    Photo Uploader (react-dropzone)
    =========================== */
 
@@ -1107,6 +1159,10 @@ textarea:focus {
   .form__themes {
     grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
     gap: 8px;
+  }
+
+  .theme-selector {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
   }
 
   .form__theme-btn {
