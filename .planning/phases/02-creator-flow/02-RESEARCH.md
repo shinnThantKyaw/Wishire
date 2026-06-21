@@ -486,22 +486,25 @@ These pitfalls are referenced in `PITFALLS.md` and already handled in the existi
 
 All claims were verified against the existing codebase, npm registry, or Context7 documentation. No user confirmation needed.
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Should the `form-creator-flow` skill file be created in this phase or deferred?**
+1. **Should the `form-creator-flow` skill file be created in this phase or deferred?** **(RESOLVED)**
    - What we know: D-14 says create it, but the skill file does not exist yet (`.claude/skills/form-creator-flow/SKILL.md`).
    - What's unclear: Whether to create it as a documentation task in this phase or defer to a polish phase.
    - Recommendation: Create it in this phase. It documents the patterns implemented here (drag-drop, thumbnails, theme circles, success card, validation) and will be needed by Phase 3+ code that may touch form components.
+   - **Resolution:** Accepted. Create it in this phase per D-14. Plan 02-02 Task 2 includes creating the skill file.
 
-2. **How to handle "Someone special" fallback for anonymous sender?**
+2. **How to handle "Someone special" fallback for anonymous sender?** **(RESOLVED)**
    - What we know: D-13 says sender name is optional. The wish model stores `senderName` as a required string.
    - What's unclear: What string to store/display when sender is anonymous.
    - Recommendation: Store empty string, display "Someone special" on the recipient page. This is a display concern for Phase 3.
+   - **Resolution:** Accepted. Store empty string in the database. Display fallback "Someone special" is a Phase 3 concern (recipient view).
 
-3. **Should file name and size be shown alongside thumbnails?**
+3. **Should file name and size be shown alongside thumbnails?** **(RESOLVED)**
    - What we know: D-05 says thumbnails with file names and remove buttons.
    - What's unclear: Whether to also show file size (e.g., "photo.jpg (2.1 MB)") for user confidence.
-   - Recommendation: Show file name truncated and file size. Low effort, high UX value.
+   - Recommendation: ~~Show file name truncated and file size. Low effort, high UX value.~~
+   - **Resolution:** Not needed. The UI-SPEC.md (line 184) explicitly specifies "File name display: NOT shown per D-05 (thumbnails only with remove buttons)." The UI-SPEC supersedes the research recommendation. Thumbnails only with remove buttons; no file name or file size display.
 
 ## Environment Availability
 
