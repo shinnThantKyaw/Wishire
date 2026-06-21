@@ -3,8 +3,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import useReducedMotion from "../../hooks/useReducedMotion";
 import GiftBox from "./GiftBox";
 import SentenceRevealer from "./SentenceRevealer";
+import PhotoSlideshow from "./PhotoSlideshow";
 import ConfettiFinale from "./ConfettiFinale";
-import PhotoGallery from "./PhotoGallery";
+import ReplayButton from "./ReplayButton";
 import FlairChips from "./FlairChips";
 
 // Status constants (mirror from WishPage)
@@ -34,13 +35,16 @@ const senderVariants = {
   },
 };
 
-const happyBirthdayVariants = {
-  initial: { opacity: 0, scale: 0.5 },
-  animate: {
-    opacity: 1,
-    scale: 1,
-    transition: { type: "spring", stiffness: 200, damping: 15, delay: 0.3 },
-  },
+const phaseVariants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 0.4 } },
+  exit: { opacity: 0, transition: { duration: 0.3 } },
+};
+
+const instantVariants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 0 } },
+  exit: { opacity: 0, transition: { duration: 0 } },
 };
 
 const replayVariants = {
@@ -52,18 +56,12 @@ const replayVariants = {
   },
 };
 
-const instantVariants = {
-  initial: { opacity: 0 },
-  animate: { opacity: 1, transition: { duration: 0 } },
-  exit: { opacity: 0, transition: { duration: 0 } },
-};
-
 /**
- * ExperienceOrchestrator — AnimatePresence router for the wish experience.
- * Renders components based on the state machine status from WishPage.
+ * ExperienceOrchestrator -- AnimatePresence router for the wish experience.
+ * Renders the correct component per state machine status from WishPage.
  *
  * Props:
- *   wish: object — full wish data
+ *   wish: object -- full wish data
  *   sentences: string[]
  *   state: { status, sentenceIndex, playCount, photoIndex, isTyping, isMusicPlaying }
  *   dispatch: (action) => void
@@ -84,17 +82,17 @@ export default function ExperienceOrchestrator({
 }) {
   const reducedMotion = useReducedMotion();
 
-  const { status, sentenceIndex, playCount, photoIndex } = state;
+  const { status, sentenceIndex, playCount } = state;
   const isLastSentence = sentenceIndex === sentences.length - 1;
   const hasPhotos = wish.photos && wish.photos.length > 0;
 
   // Pick motion or instant variants based on user preference
   const senderV = reducedMotion ? instantVariants : senderVariants;
-  const birthdayV = reducedMotion ? instantVariants : happyBirthdayVariants;
+  const phaseV = reducedMotion ? instantVariants : phaseVariants;
   const replayV = reducedMotion ? instantVariants : replayVariants;
 
-  // Sentence tap handler
-  const handleSentenceTap = useCallback(() => {
+  // Sentence revealed handler -- advance to next or finish
+  const handleSentenceRevealed = useCallback(() => {
     if (isLastSentence) {
       dispatch({ type: "ALL_SENTENCES_DONE", hasPhotos });
     } else {
@@ -102,20 +100,26 @@ export default function ExperienceOrchestrator({
     }
   }, [isLastSentence, hasPhotos, dispatch]);
 
+  // Sentence skip handler
+  const handleSentenceSkip = useCallback(() => {
+    dispatch({ type: "SKIP_TYPING" });
+  }, [dispatch]);
+
+  // Photo slideshow complete handler
+  const handlePhotosComplete = useCallback(() => {
+    dispatch({ type: "START_FINALE" });
+  }, [dispatch]);
+
   // Confetti complete handler
   const handleConfettiComplete = useCallback(() => {
-    if (hasPhotos) {
-      dispatch({ type: "PHOTOS_DONE" });
-    } else {
-      dispatch({ type: "FINALE_DONE" });
-    }
-  }, [hasPhotos, dispatch]);
+    dispatch({ type: "FINALE_DONE" });
+  }, [dispatch]);
 
   return (
     <div className="experience">
       {/* Rule 1 + Rule 2: single AnimatePresence mode="wait" with playCount keys */}
       <AnimatePresence mode="wait">
-        {/* GIFT_BOX phase — sender intro + gift box */}
+        {/* GIFT_BOX phase -- sender intro + gift box */}
         {status === STATUS.GIFT_BOX && (
           <motion.div
             key={`gift-box-${playCount}`}
@@ -126,7 +130,10 @@ export default function ExperienceOrchestrator({
             exit="exit"
           >
             <p className="experience__from-label">A birthday wish from</p>
-            <h2 className="experience__sender-name" style={{ color: theme.primary }}>
+            <h2
+              className="experience__sender-name"
+              style={{ color: theme.primary }}
+            >
               {wish.senderName}
             </h2>
             <GiftBox
@@ -140,123 +147,94 @@ export default function ExperienceOrchestrator({
           </motion.div>
         )}
 
-        {/* UNWRAPPING phase — split animation playing */}
+        {/* UNWRAPPING phase -- split animation playing (handled by GiftBox) */}
         {status === STATUS.UNWRAPPING && (
           <motion.div
             key={`unwrapping-${playCount}`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            {/* GiftBox handles its own animation and calls onOpened */}
-          </motion.div>
+            variants={phaseV}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+          />
         )}
 
-        {/* REVEALING phase — sentence by sentence */}
+        {/* REVEALING phase -- sentence by sentence typewriter */}
         {status === STATUS.REVEALING && (
           <motion.div
-            key={`sentences-${playCount}`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            key={`sentence-${sentenceIndex}-${playCount}`}
+            variants={phaseV}
+            initial="initial"
+            animate="animate"
+            exit="exit"
           >
             <SentenceRevealer
-              sentences={sentences}
-              currentIndex={sentenceIndex}
-              onTap={handleSentenceTap}
-              isLast={isLastSentence}
+              sentence={sentences[sentenceIndex]}
+              sentenceIndex={sentenceIndex}
               playCount={playCount}
+              isLast={isLastSentence}
+              onRevealed={handleSentenceRevealed}
+              onSkip={handleSentenceSkip}
               reducedMotion={reducedMotion}
             />
           </motion.div>
         )}
 
-        {/* FINALE phase — confetti + Happy Birthday! */}
+        {/* PHOTOS phase -- auto-advancing slideshow */}
+        {status === STATUS.PHOTOS && (
+          <motion.div
+            key={`photos-${playCount}`}
+            className="experience__photos-phase"
+            variants={phaseV}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+          >
+            <PhotoSlideshow
+              photos={wish.photos}
+              playCount={playCount}
+              onComplete={handlePhotosComplete}
+              recipientName={wish.recipientName}
+              reducedMotion={reducedMotion}
+            />
+          </motion.div>
+        )}
+
+        {/* FINALE phase -- confetti + Happy Birthday! */}
         {status === STATUS.FINALE && (
           <motion.div
             key={`finale-${playCount}`}
             className="experience__finale"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            variants={phaseV}
+            initial="initial"
+            animate="animate"
+            exit="exit"
           >
-            <motion.h1
-              className="experience__happy-birthday"
-              variants={birthdayV}
-              initial="initial"
-              animate="animate"
-              style={{ color: theme.primary }}
-            >
-              Happy Birthday, {wish.recipientName}!
-            </motion.h1>
-            {wish.flair && <FlairChips flair={wish.flair} />}
             <ConfettiFinale
+              recipientName={wish.recipientName}
+              theme={theme}
               playCount={playCount}
               onComplete={handleConfettiComplete}
-              themeColors={[theme.primary, theme.secondary]}
+              reducedMotion={reducedMotion}
             />
-          </motion.div>
-        )}
-
-        {/* PHOTOS phase — gallery + replay */}
-        {status === STATUS.PHOTOS && (
-          <motion.div
-            key={`photos-${playCount}`}
-            className="experience__gallery-phase"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-          >
-            <motion.h1
-              className="experience__happy-birthday experience__happy-birthday--small"
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              style={{ color: theme.primary }}
-            >
-              Happy Birthday, {wish.recipientName}!
-            </motion.h1>
-
-            <PhotoGallery
-              photos={wish.photos}
-              recipientName={wish.recipientName}
-            />
-
             {wish.flair && <FlairChips flair={wish.flair} />}
-
-            <motion.button
-              className="experience__replay-btn"
-              variants={replayV}
-              initial="hidden"
-              animate="visible"
-              whileHover={reducedMotion ? undefined : { scale: 1.05 }}
-              whileTap={reducedMotion ? undefined : { scale: 0.95 }}
-              onClick={onReplay}
-            >
-              Experience again
-            </motion.button>
           </motion.div>
         )}
 
-        {/* COMPLETE phase — replay option */}
+        {/* COMPLETE phase -- replay option */}
         {status === STATUS.COMPLETE && (
           <motion.div
             key={`complete-${playCount}`}
             className="experience__gallery-phase"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            variants={phaseV}
+            initial="initial"
+            animate="animate"
           >
             {wish.flair && <FlairChips flair={wish.flair} />}
 
-            <motion.button
-              className="experience__replay-btn"
-              variants={replayV}
-              initial="hidden"
-              animate="visible"
-              whileHover={reducedMotion ? undefined : { scale: 1.05 }}
-              whileTap={reducedMotion ? undefined : { scale: 0.95 }}
-              onClick={onReplay}
-            >
-              Experience again
-            </motion.button>
+            <ReplayButton
+              onReplay={onReplay}
+              reducedMotion={reducedMotion}
+            />
           </motion.div>
         )}
       </AnimatePresence>

@@ -409,6 +409,15 @@ textarea:focus {
   gap: 24px;
 }
 
+.experience__photos-phase {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  max-width: 560px;
+}
+
 .experience__happy-birthday {
   font-family: "Baloo 2", sans-serif;
   font-weight: 800;
