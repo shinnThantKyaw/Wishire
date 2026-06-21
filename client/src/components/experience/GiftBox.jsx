@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 
 // --- Module-level variants (Rule 3) ---
@@ -107,6 +107,7 @@ export default function GiftBox({
 }) {
   const [opened, setOpened] = useState(false);
   const [showParticles, setShowParticles] = useState(false);
+  const openedFiredRef = useRef(false);
 
   const primary = theme?.primary || "#ff6f59";
   const secondary = theme?.secondary || "#ffb84d";
@@ -123,6 +124,20 @@ export default function GiftBox({
     ? { hidden: { opacity: 0 }, visible: { opacity: 0.7, transition: { duration: 0 } } }
     : tapHintVariants;
 
+  // Fire onOpened at most once (animation callback or fallback timeout)
+  const fireOpened = useCallback(() => {
+    if (openedFiredRef.current) return;
+    openedFiredRef.current = true;
+    onOpened?.();
+  }, [onOpened]);
+
+  // Fallback timeout: advance state even if onAnimationComplete doesn't fire
+  useEffect(() => {
+    if (!opened) return;
+    const timer = setTimeout(fireOpened, 1100); // 1s animation + 100ms buffer
+    return () => clearTimeout(timer);
+  }, [opened, fireOpened]);
+
   // Handle tap — triggers music + SFX + starts split animation
   const handleTap = useCallback(() => {
     if (opened) return;
@@ -133,9 +148,9 @@ export default function GiftBox({
 
     // For reduced motion, call onOpened immediately (no animation to wait for)
     if (reducedMotion) {
-      onOpened?.();
+      fireOpened();
     }
-  }, [opened, onOpen, onOpened, reducedMotion]);
+  }, [opened, onOpen, fireOpened, reducedMotion]);
 
   // Particles data
   const particles = showParticles ? generateParticles(primary, secondary) : [];
@@ -168,7 +183,7 @@ export default function GiftBox({
       />
 
       {/* Gift box body */}
-      <div className="gift-box__body">
+      <div className="gift-box__body" style={{ perspective: "400px" }}>
         {/* Lid — animates up on open */}
         <motion.div
           className="gift-box__lid"
@@ -178,7 +193,7 @@ export default function GiftBox({
           // Rule 4: use onAnimationComplete for state transitions
           onAnimationComplete={() => {
             if (opened) {
-              onOpened?.();
+              fireOpened();
             }
           }}
           style={{ backgroundColor: primary }}
