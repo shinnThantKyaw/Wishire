@@ -1190,6 +1190,136 @@ textarea:focus {
 }
 
 /* ===========================
+   Success State
+   =========================== */
+
+.success-state {
+  text-align: center;
+  padding: 48px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.success-state__heading {
+  font-family: "Baloo 2", cursive;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--mint);
+  margin: 0;
+}
+
+.success-state__body {
+  font-size: 1.05rem;
+  opacity: 0.8;
+}
+
+.success-state__preview {
+  width: 100%;
+  max-width: 320px;
+  min-height: 120px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.success-state__preview-name {
+  font-family: "Baloo 2", cursive;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.success-state__preview-message {
+  font-size: 0.9rem;
+  color: var(--ink);
+  opacity: 0.7;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.success-state__preview-swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.success-state__link-box {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 16px;
+  max-width: 400px;
+}
+
+.success-state__link-box code {
+  font-size: 0.85rem;
+  word-break: break-all;
+}
+
+.success-state__actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.success-state__btn {
+  border-radius: 999px;
+  padding: 12px 24px;
+  font-family: "Baloo 2", cursive;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  font-size: 1rem;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.success-state__btn:hover {
+  transform: translateY(-1px);
+}
+
+.success-state__btn--primary {
+  background: var(--coral);
+  color: white;
+}
+
+.success-state__btn--secondary {
+  background: var(--card);
+  color: var(--mint);
+  border: 2px solid var(--mint);
+}
+
+.success-state__btn--secondary:hover {
+  background: var(--mint);
+  color: white;
+}
+
+.success-state__back {
+  background: none;
+  border: none;
+  color: var(--mint);
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.success-state__back:hover {
+  text-decoration: underline;
+}
+
+/* ===========================
    Responsive — Tablet (≤768px)
    =========================== */
 
@@ -1412,6 +1542,15 @@ textarea:focus {
   }
 
   .success__btn {
+    width: 100%;
+  }
+
+  .success-state__actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .success-state__btn {
     width: 100%;
   }
 }

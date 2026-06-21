@@ -1,6 +1,7 @@
 import { useState } from "react";
 import PhotoUploader from "../components/create/PhotoUploader.jsx";
 import ThemeSelector from "../components/create/ThemeSelector.jsx";
+import SuccessState from "../components/create/SuccessState.jsx";
 
 const RELATIONSHIPS = ["friend", "family", "coworker", "partner"];
 
@@ -20,7 +21,6 @@ export default function CreatePage() {
   const [submitted, setSubmitted] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(null);
   const [createdWish, setCreatedWish] = useState(null);
-  const [copied, setCopied] = useState(false);
 
   function update(field, value) {
     setForm((f) => ({ ...f, [field]: value }));
@@ -123,63 +123,13 @@ export default function CreatePage() {
     }
   }
 
-  function getWishUrl() {
-    return `${window.location.origin}/wish/${createdWish.id}`;
-  }
-
-  async function copyLink() {
-    try {
-      await navigator.clipboard.writeText(getWishUrl());
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      // fallback
-      const input = document.createElement("input");
-      input.value = getWishUrl();
-      document.body.appendChild(input);
-      input.select();
-      document.execCommand("copy");
-      document.body.removeChild(input);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
-  }
-
-  function openLink() {
-    window.open(getWishUrl(), "_blank");
-  }
-
   if (createdWish) {
     return (
       <div className="page">
-        <div className="card success">
-          <span className="success__icon">&#10003;</span>
-          <h1>Wish Created!</h1>
-          <p>
-            Your birthday wish for <strong>{createdWish.recipientName}</strong> is
-            ready to share.
-          </p>
-          <div className="success__link">
-            <code>{getWishUrl()}</code>
-          </div>
-          <div className="success__actions">
-            <button className="success__btn success__btn--primary" onClick={openLink}>
-              Open Link
-            </button>
-            <button className="success__btn success__btn--secondary" onClick={copyLink}>
-              {copied ? "Copied!" : "Copy Link"}
-            </button>
-          </div>
-          <button
-            className="success__back"
-            onClick={() => {
-              setCreatedWish(null);
-              setCopied(false);
-            }}
-          >
-            Create another wish
-          </button>
-        </div>
+        <SuccessState
+          wish={createdWish}
+          onReset={() => setCreatedWish(null)}
+        />
       </div>
     );
   }
