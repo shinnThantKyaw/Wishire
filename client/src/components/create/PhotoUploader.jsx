@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
+import { ImagePlus, X } from "lucide-react";
 
 export default function PhotoUploader({
   photos,
@@ -79,6 +80,7 @@ export default function PhotoUploader({
         })}
       >
         <input {...getInputProps()} />
+        <ImagePlus size={28} style={{ opacity: 0.5 }} />
         {isDragActive
           ? "Drop photos here..."
           : photos.length === 0
@@ -117,7 +119,7 @@ export default function PhotoUploader({
                 onClick={() => removePhoto(index)}
                 aria-label={`Remove photo ${index + 1}`}
               >
-                x
+                <X size={14} />
               </button>
             </div>
           ))}

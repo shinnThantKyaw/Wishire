@@ -1,15 +1,23 @@
 import { useState } from "react";
+import { User, Heart, Cake, MessageSquare, Camera, Palette, Sparkles, Loader2 } from "lucide-react";
 import PhotoUploader from "../components/create/PhotoUploader.jsx";
 import ThemeSelector from "../components/create/ThemeSelector.jsx";
 import SuccessState from "../components/create/SuccessState.jsx";
 
-const RELATIONSHIPS = ["friend", "family", "coworker", "partner"];
+const RELATIONSHIPS = [
+  { id: "friend", emoji: "🤝", label: "Friend" },
+  { id: "family", emoji: "🏠", label: "Family" },
+  { id: "coworker", emoji: "💼", label: "Coworker" },
+  { id: "partner", emoji: "💕", label: "Partner" },
+  { id: "custom", emoji: "✏️", label: "Other" },
+];
 
 export default function CreatePage() {
   const [form, setForm] = useState({
     senderName: "",
     recipientName: "",
     relationship: "friend",
+    customRelationship: "",
     month: 6,
     day: 15,
     message: "",
@@ -96,6 +104,10 @@ export default function CreatePage() {
 
       // Create wish
       setUploadProgress("Creating wish...");
+      const resolvedRelationship =
+        form.relationship === "custom"
+          ? form.customRelationship.trim()
+          : form.relationship;
       const res = await fetch("/api/wish", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -103,6 +115,7 @@ export default function CreatePage() {
           ...form,
           senderName: form.senderName.trim() || "",
           recipientName: form.recipientName.trim(),
+          relationship: resolvedRelationship,
           message: form.message.trim(),
           photos: uploadedPhotos,
         }),
@@ -134,6 +147,7 @@ export default function CreatePage() {
               senderName: "",
               recipientName: "",
               relationship: "friend",
+              customRelationship: "",
               month: 6,
               day: 15,
               message: "",
@@ -158,27 +172,33 @@ export default function CreatePage() {
 
       <form className="card form" onSubmit={generate}>
         <div className="form__section">
-          <h2 className="form__section-title">About You</h2>
+          <h2 className="form__section-title"><User size={18} /> About You</h2>
           <label>
             Your name (optional)
-            <input
-              value={form.senderName}
-              onChange={(e) => update("senderName", e.target.value)}
-              placeholder="e.g. Priya"
-            />
+            <div className="form__input-wrap">
+              <User size={16} className="form__icon" />
+              <input
+                value={form.senderName}
+                onChange={(e) => update("senderName", e.target.value)}
+                placeholder="e.g. Priya"
+              />
+            </div>
           </label>
         </div>
 
-        <div className="form__section">
-          <h2 className="form__section-title">About Them</h2>
+        <div className="form__section form__section--spacious">
+          <h2 className="form__section-title"><Heart size={18} /> About Them</h2>
           <label>
             Their name
-            <input
-              value={form.recipientName}
-              onChange={(e) => update("recipientName", e.target.value)}
-              placeholder="e.g. Rahul"
-              className={errors.recipientName ? "form__input--error" : ""}
-            />
+            <div className="form__input-wrap">
+              <Heart size={16} className="form__icon" />
+              <input
+                value={form.recipientName}
+                onChange={(e) => update("recipientName", e.target.value)}
+                placeholder="e.g. Rahul"
+                className={errors.recipientName ? "form__input--error" : ""}
+              />
+            </div>
             {errors.recipientName && (
               <span className="form__field-error">{errors.recipientName}</span>
             )}
@@ -186,43 +206,68 @@ export default function CreatePage() {
 
           <label>
             Relationship
-            <select
-              value={form.relationship}
-              onChange={(e) => update("relationship", e.target.value)}
-            >
+            <div className="relationship-picker">
               {RELATIONSHIPS.map((r) => (
-                <option key={r} value={r}>
-                  {r}
-                </option>
+                <button
+                  key={r.id}
+                  type="button"
+                  className={
+                    "relationship-picker__btn" +
+                    (form.relationship === r.id ? " relationship-picker__btn--active" : "")
+                  }
+                  onClick={() => update("relationship", r.id)}
+                >
+                  <span className="relationship-picker__emoji">{r.emoji}</span>
+                  <span className="relationship-picker__label">{r.label}</span>
+                </button>
               ))}
-            </select>
+            </div>
+            {form.relationship === "custom" && (
+              <div className="form__custom-rel">
+                <span className="form__custom-rel-label">Your relationship</span>
+                <div className="form__input-wrap">
+                  <Heart size={16} className="form__icon" />
+                  <input
+                    value={form.customRelationship}
+                    onChange={(e) => update("customRelationship", e.target.value)}
+                    placeholder="e.g. Bestie, Neighbor, Coach..."
+                  />
+                </div>
+              </div>
+            )}
           </label>
 
           <div className="form__row">
             <label>
               Birth month
-              <input
-                type="number"
-                min="1"
-                max="12"
-                value={form.month}
-                onChange={(e) => update("month", parseInt(e.target.value))}
-                className={errors.month ? "form__input--error" : ""}
-              />
+              <div className="form__input-wrap">
+                <Cake size={16} className="form__icon" />
+                <input
+                  type="number"
+                  min="1"
+                  max="12"
+                  value={form.month}
+                  onChange={(e) => update("month", parseInt(e.target.value))}
+                  className={errors.month ? "form__input--error" : ""}
+                />
+              </div>
               {errors.month && (
                 <span className="form__field-error">{errors.month}</span>
               )}
             </label>
             <label>
               Birth day
-              <input
-                type="number"
-                min="1"
-                max="31"
-                value={form.day}
-                onChange={(e) => update("day", parseInt(e.target.value))}
-                className={errors.day ? "form__input--error" : ""}
-              />
+              <div className="form__input-wrap">
+                <Cake size={16} className="form__icon" />
+                <input
+                  type="number"
+                  min="1"
+                  max="31"
+                  value={form.day}
+                  onChange={(e) => update("day", parseInt(e.target.value))}
+                  className={errors.day ? "form__input--error" : ""}
+                />
+              </div>
               {errors.day && (
                 <span className="form__field-error">{errors.day}</span>
               )}
@@ -231,17 +276,20 @@ export default function CreatePage() {
         </div>
 
         <div className="form__section">
-          <h2 className="form__section-title">Your Message</h2>
+          <h2 className="form__section-title"><MessageSquare size={18} /> Your Message</h2>
           <label>
             Write your birthday wish
-            <textarea
-              value={form.message}
-              onChange={(e) => update("message", e.target.value)}
-              placeholder="Write something heartfelt, funny, or meaningful..."
-              maxLength={1000}
-              rows={5}
-              className={errors.message ? "form__input--error" : ""}
-            />
+            <div className="form__textarea-wrap">
+              <MessageSquare size={16} className="form__icon" />
+              <textarea
+                value={form.message}
+                onChange={(e) => update("message", e.target.value)}
+                placeholder="Write something heartfelt, funny, or meaningful..."
+                maxLength={1000}
+                rows={5}
+                className={errors.message ? "form__input--error" : ""}
+              />
+            </div>
             {errors.message && (
               <span className="form__field-error">{errors.message}</span>
             )}
@@ -252,19 +300,19 @@ export default function CreatePage() {
         </div>
 
         <div className="form__section">
-          <h2 className="form__section-title">Photos (optional)</h2>
+          <h2 className="form__section-title"><Camera size={18} /> Photos (optional)</h2>
           <PhotoUploader photos={photos} onPhotosChange={setPhotos} maxFiles={5} />
         </div>
 
         <div className="form__section">
-          <h2 className="form__section-title">Theme</h2>
+          <h2 className="form__section-title"><Palette size={18} /> Theme</h2>
           <ThemeSelector value={form.theme} onChange={(id) => update("theme", id)} />
         </div>
 
         {errors.global && <p className="error">{errors.global}</p>}
-        {uploadProgress && <p className="upload-progress">{uploadProgress}</p>}
 
-        <button type="submit" disabled={loading}>
+        <button type="submit" disabled={loading} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
+          {loading ? <Loader2 size={18} className="spin" /> : <Sparkles size={18} />}
           {loading ? uploadProgress || "Creating..." : "Create Wish"}
         </button>
       </form>

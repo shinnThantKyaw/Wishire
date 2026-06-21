@@ -61,19 +61,19 @@ export default function SuccessState({ wish, onReset }) {
         <strong>{wish.recipientName}</strong> is ready to share.
       </p>
 
-      <div
-        className="success-state__preview"
-        style={{ borderColor: themePrimary }}
-      >
-        <span className="success-state__preview-name">
-          {wish.recipientName}
-        </span>
-        <span className="success-state__preview-message">{firstLine}</span>
-        <span
-          className="success-state__preview-swatch"
-          style={{ backgroundColor: themePrimary }}
-        />
-      </div>
+      {/*<div*/}
+      {/*  className="success-state__preview"*/}
+      {/*  style={{ borderColor: themePrimary }}*/}
+      {/*>*/}
+      {/*  <span className="success-state__preview-name">*/}
+      {/*    {wish.recipientName}*/}
+      {/*  </span>*/}
+      {/*  <span className="success-state__preview-message">{firstLine}</span>*/}
+      {/*  <span*/}
+      {/*    className="success-state__preview-swatch"*/}
+      {/*    style={{ backgroundColor: themePrimary }}*/}
+      {/*  />*/}
+      {/*</div>*/}
 
       <div className="success-state__link-box">
         <code>{getWishUrl()}</code>

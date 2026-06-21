@@ -1,9 +1,16 @@
 export const THEMES = [
-  { id: "sunrise", label: "Sunrise", primary: "#ff6f59", secondary: "#ffb84d", surface: "#fff8ef" },
-  { id: "ocean", label: "Ocean", primary: "#4d96ff", secondary: "#6bcb77", surface: "#e8f4f8" },
-  { id: "lavender", label: "Lavender", primary: "#c44dff", secondary: "#ff6b9d", surface: "#f8f0ff" },
-  { id: "forest", label: "Forest", primary: "#2bb39c", secondary: "#6bcb77", surface: "#f0faf5" },
-  { id: "midnight", label: "Midnight", primary: "#4d4d7a", secondary: "#c44dff", surface: "#1a1a2e" },
+  { id: "sunrise",   label: "Sunrise",   primary: "#f97316", secondary: "#fbbf24", surface: "#fff7ed" },
+  { id: "ocean",     label: "Ocean",     primary: "#0ea5e9", secondary: "#38bdf8", surface: "#f0f9ff" },
+  { id: "lavender",  label: "Lavender",  primary: "#a855f7", secondary: "#d946ef", surface: "#faf5ff" },
+  { id: "forest",    label: "Forest",    primary: "#10b981", secondary: "#34d399", surface: "#ecfdf5" },
+  { id: "rose",      label: "Rose",      primary: "#f43f5e", secondary: "#fb7185", surface: "#fff1f2" },
+  { id: "midnight",  label: "Midnight",  primary: "#6366f1", secondary: "#818cf8", surface: "#eef2ff" },
+  { id: "amber",     label: "Amber",     primary: "#d97706", secondary: "#f59e0b", surface: "#fffbeb" },
+  { id: "teal",      label: "Teal",      primary: "#14b8a6", secondary: "#2dd4bf", surface: "#f0fdfa" },
+  { id: "fuchsia",   label: "Fuchsia",   primary: "#c026d3", secondary: "#e879f9", surface: "#fdf4ff" },
+  { id: "sky",       label: "Sky",       primary: "#0284c7", secondary: "#38bdf8", surface: "#f0f9ff" },
+  { id: "emerald",   label: "Emerald",   primary: "#059669", secondary: "#34d399", surface: "#ecfdf5" },
+  { id: "slate",     label: "Slate",     primary: "#475569", secondary: "#94a3b8", surface: "#f8fafc" },
 ];
 
 export default function ThemeSelector({ value, onChange }) {
@@ -31,7 +38,7 @@ export default function ThemeSelector({ value, onChange }) {
             />
             <span
               className="theme-selector__circle"
-              style={{ backgroundColor: t.surface }}
+              style={{ backgroundColor: t.surface, border: "1px solid #e5e7eb" }}
             />
           </div>
           <span className="theme-selector__name">{t.label}</span>
