@@ -128,7 +128,21 @@ export default function CreatePage() {
       <div className="page">
         <SuccessState
           wish={createdWish}
-          onReset={() => setCreatedWish(null)}
+          onReset={() => {
+            setCreatedWish(null);
+            setForm({
+              senderName: "",
+              recipientName: "",
+              relationship: "friend",
+              month: 6,
+              day: 15,
+              message: "",
+              theme: "sunrise",
+            });
+            setPhotos([]);
+            setErrors({});
+            setSubmitted(false);
+          }}
         />
       </div>
     );
