@@ -928,6 +928,97 @@ textarea:focus {
 }
 
 /* ===========================
+   Photo Uploader (react-dropzone)
+   =========================== */
+
+.photo-uploader {
+  margin-bottom: 12px;
+}
+
+.photo-uploader__dropzone {
+  border: 2px dashed var(--border);
+  background: var(--cream);
+  border-radius: 12px;
+  min-height: 80px;
+  padding: 12px 18px;
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.2s;
+}
+
+.photo-uploader__dropzone--active {
+  border-color: var(--mint);
+}
+
+.photo-uploader__counter {
+  display: inline-block;
+  margin-left: 8px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+.photo-uploader__grid {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.photo-uploader__thumb {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.photo-uploader__thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-uploader__remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--coral);
+  color: white;
+  border: none;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  min-width: 44px;
+  min-height: 44px;
+  z-index: 1;
+  /* Visual size is 20px, but touch target is 44px */
+  width: 44px;
+  height: 44px;
+}
+
+.photo-uploader__helper {
+  font-size: 0.8rem;
+  color: var(--ink);
+  opacity: 0.6;
+  margin-top: 4px;
+  display: block;
+}
+
+.photo-uploader__error {
+  color: #c0392b;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+/* ===========================
    Responsive — Tablet (≤768px)
    =========================== */
 
@@ -1023,6 +1114,11 @@ textarea:focus {
   }
 
   .form__photo-thumb {
+    width: 64px;
+    height: 64px;
+  }
+
+  .photo-uploader__thumb {
     width: 64px;
     height: 64px;
   }
