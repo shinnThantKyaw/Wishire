@@ -38,8 +38,8 @@ Generator form + photo upload — complete wish creation experience. This covers
 
 ### Skills & Infrastructure
 - **D-14:** Create new skill `form-creator-flow` capturing: drag-drop pattern, thumbnail previews, theme color circles, success state card, form validation patterns.
-- **D-15:** Current MCPs sufficient: `birthday-facts` for zodiac lookup, `context7` for documentation.
-- **D-16:** Subagents to use: Security Reviewer (audit photo upload against `photo-upload-security`), UI Implementer (build form components).
+- **D-15 [informational]:** Current MCPs sufficient: `birthday-facts` for zodiac lookup, `context7` for documentation.
+- **D-16 [informational]:** Subagents to use: Security Reviewer (audit photo upload against `photo-upload-security`), UI Implementer (build form components).
 
 ### Claude's Discretion
 - File locations for new components (following existing `client/src/components/` structure)
