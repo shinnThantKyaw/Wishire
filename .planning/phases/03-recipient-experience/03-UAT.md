@@ -8,12 +8,13 @@ updated: 2026-06-21T04:35:00.000Z
 
 ## Current Test
 
-number: 1
-name: Gift box visual quality and animation
+number: 2
+name: Typewriter sentence reveal
 expected: |
-  Gift box renders with theme colors (lid = primary, body = secondary).
-  Glow effect visible. "Tap to open" hint pulses.
-  Split animation is smooth (~1s), lid lifts up with particles bursting.
+  After box opens, first sentence appears character by character (50ms/char).
+  Blinking cursor visible during typing. "Skip" button visible while typing.
+  Clicking Skip instantly shows full sentence. Chime SFX plays on completion.
+  "Tap to continue" hint appears after sentence is fully revealed.
 awaiting: user response
 
 ## Tests
@@ -24,7 +25,7 @@ expected: |
   Glow radial gradient visible behind box. "Tap to open" hint pulses gently.
   On tap: lid splits up (y:-60, rotateX:-45, ~1s), 18 particles burst from center.
   "From [Name]" visible on box body before opening.
-result: [pending]
+result: pass
 
 ### 2. Typewriter sentence reveal
 expected: |
@@ -32,7 +33,9 @@ expected: |
   Blinking cursor visible during typing. "Skip" button visible while typing.
   Clicking Skip instantly shows full sentence. Chime SFX plays on completion.
   "Tap to continue" hint appears after sentence is fully revealed.
-result: [pending]
+result: issue
+reported: "no typewriter after box opens, there is blank and plain screen"
+severity: blocker
 
 ### 3. Audio behavior
 expected: |
@@ -83,10 +86,19 @@ result: [pending]
 ## Summary
 
 total: 8
-passed: 0
-issues: 0
-pending: 8
+passed: 1
+issues: 1
+pending: 6
 skipped: 0
 blocked: 0
 
 ## Gaps
+
+- truth: "After box opens, first sentence appears character by character (50ms/char)"
+  status: diagnosed
+  reason: "User reported: no typewriter after box opens, blank screen. Root cause: lid onAnimationComplete not firing reliably with 3D rotateX transform. Fix: added 1.1s fallback timeout + perspective + fireOpened guard."
+  severity: blocker
+  test: 2
+  artifacts:
+    - client/src/components/experience/GiftBox.jsx
+  missing: []
