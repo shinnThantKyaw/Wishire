@@ -1022,6 +1022,178 @@ textarea:focus {
 }
 
 /* ===========================
+   Photo Slideshow
+   =========================== */
+
+.photo-slideshow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.photo-slideshow__frame {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.photo-slideshow__image {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  display: block;
+  border-radius: 12px;
+}
+
+.photo-slideshow__controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.photo-slideshow__btn {
+  min-width: 44px;
+  min-height: 44px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--mint);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: background 0.2s, transform 0.15s;
+}
+
+.photo-slideshow__btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 1);
+  transform: scale(1.05);
+}
+
+.photo-slideshow__btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.photo-slideshow__btn:focus-visible {
+  outline: 2px solid var(--mint);
+  outline-offset: 2px;
+}
+
+.photo-slideshow__counter {
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--ink);
+  opacity: 0.6;
+}
+
+/* ===========================
+   Confetti Finale
+   =========================== */
+
+.confetti-finale {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.confetti-finale canvas {
+  pointer-events: none;
+}
+
+.confetti-finale__heading {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 800;
+  font-size: 2.4rem;
+  margin: 0;
+  color: var(--coral);
+  text-align: center;
+}
+
+.confetti-finale__name {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 700;
+  font-size: 1.4rem;
+  margin: 0;
+  color: var(--ink);
+  opacity: 0.8;
+}
+
+/* ===========================
+   Replay Button
+   =========================== */
+
+.replay-btn {
+  background: var(--mint);
+  color: white;
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 14px 32px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.replay-btn:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: 2px;
+}
+
+/* ===========================
+   Sentence Revealer Skip Button
+   =========================== */
+
+.sentence-revealer__skip {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--ink);
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 8px 20px;
+  min-height: 44px;
+  min-width: 44px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s, border-color 0.2s;
+}
+
+.sentence-revealer__skip:hover {
+  opacity: 1;
+  border-color: var(--mint);
+}
+
+.sentence-revealer__skip:focus-visible {
+  outline: 2px solid var(--mint);
+  outline-offset: 2px;
+}
+
+/* Typewriter cursor */
+.sentence-revealer__cursor {
+  font-weight: 400;
+  color: var(--coral);
+  margin-left: 1px;
+}
+
+/* ===========================
    Error Boundary
    =========================== */
 
@@ -1526,6 +1698,18 @@ textarea:focus {
   .photo-gallery__item img {
     height: 150px;
   }
+
+  .photo-slideshow__image {
+    height: 260px;
+  }
+
+  .confetti-finale__heading {
+    font-size: 2rem;
+  }
+
+  .confetti-finale__name {
+    font-size: 1.2rem;
+  }
 }
 
 /* ===========================
@@ -1647,6 +1831,30 @@ textarea:focus {
 
   .photo-gallery__item img {
     height: 130px;
+  }
+
+  .photo-slideshow__image {
+    height: 220px;
+  }
+
+  .photo-slideshow__btn {
+    min-width: 40px;
+    min-height: 40px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .confetti-finale__heading {
+    font-size: 1.6rem;
+  }
+
+  .confetti-finale__name {
+    font-size: 1.1rem;
+  }
+
+  .replay-btn {
+    font-size: 1rem;
+    padding: 12px 28px;
   }
 
   .reaction-bar__emojis {
