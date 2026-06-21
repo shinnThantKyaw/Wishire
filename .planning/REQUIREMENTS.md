@@ -9,12 +9,12 @@
 
 - [x] **WISH-01**: Generator can write a free-text wish message and submit with name, relationship, birth date, photos, and theme
 - [x] **WISH-02**: System generates a unique shareable link for each wish (UUID-based, unguessable)
-- [ ] **WISH-03**: Generator can preview the wish, copy the link, and open it in a new tab
+- [x] **WISH-03**: Generator can preview the wish, copy the link, and open it in a new tab
 
 ### Photo Upload
 
-- [ ] **PHOTO-01**: Generator can upload 1-5 photos, max 5MB each, with drag-and-drop support
-- [ ] **PHOTO-02**: Photos stored on server filesystem with UUID filenames, paths in SQLite
+- [x] **PHOTO-01**: Generator can upload 1-5 photos, max 5MB each, with drag-and-drop support
+- [x] **PHOTO-02**: Photos stored on server filesystem with UUID filenames, paths in SQLite
 
 ### Recipient Experience
 
@@ -36,7 +36,7 @@
 
 ### Themes
 
-- [ ] **THEME-01**: Generator selects from visual themes that change colors, backgrounds, animations
+- [x] **THEME-01**: Generator selects from visual themes that change colors, backgrounds, animations
 - [ ] **THEME-02**: Themes auto-incorporate flair data (birthstone color, zodiac symbol)
 
 ## v2 Requirements
@@ -79,9 +79,9 @@
 |-------------|-------|--------|
 | WISH-01 | Phase 1 | Complete |
 | WISH-02 | Phase 1 | Complete |
-| WISH-03 | Phase 2 | Pending |
-| PHOTO-01 | Phase 2 | Pending |
-| PHOTO-02 | Phase 2 | Pending |
+| WISH-03 | Phase 2 | Complete |
+| PHOTO-01 | Phase 2 | Complete |
+| PHOTO-02 | Phase 2 | Complete |
 | PAGE-01 | Phase 3 | Pending |
 | PAGE-02 | Phase 3 | Pending |
 | PAGE-03 | Phase 3 | Pending |
@@ -94,7 +94,7 @@
 | PAGE-10 | Phase 5 | Pending |
 | TRACK-01 | Phase 5 | Pending |
 | TRACK-02 | Phase 5 | Pending |
-| THEME-01 | Phase 2 | Pending |
+| THEME-01 | Phase 2 | Complete |
 | THEME-02 | Phase 5 | Pending |
 
 **Coverage:**
