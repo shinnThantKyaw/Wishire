@@ -1,91 +1,198 @@
-import { useState, useEffect } from "react";
+import { useState, useReducer, useEffect, useCallback, useRef } from "react";
 import { useParams } from "react-router-dom";
-import ExperienceOrchestrator from "../components/experience/ExperienceOrchestrator";
+import { Howl } from "howler";
+import { THEMES } from "../components/create/ThemeSelector.jsx";
+import ExperienceOrchestrator from "../components/experience/ExperienceOrchestrator.jsx";
+import AudioController from "../components/experience/AudioController.jsx";
+import ErrorState from "../components/experience/ErrorState.jsx";
 
-// Theme CSS custom property maps
-const THEME_STYLES = {
-  sunrise: {
-    "--coral": "#ff6f59",
-    "--gold": "#ffb84d",
-    "--mint": "#2bb39c",
-    "--cream": "#fff8ef",
-  },
-  ocean: {
-    "--coral": "#4d96ff",
-    "--gold": "#6bcb77",
-    "--mint": "#2196f3",
-    "--cream": "#e8f4f8",
-  },
-  lavender: {
-    "--coral": "#c44dff",
-    "--gold": "#ff6b9d",
-    "--mint": "#9c27b0",
-    "--cream": "#f8f0ff",
-  },
-  forest: {
-    "--coral": "#2bb39c",
-    "--gold": "#6bcb77",
-    "--mint": "#1b7a5a",
-    "--cream": "#f0faf5",
-  },
-  midnight: {
-    "--coral": "#c44dff",
-    "--gold": "#6b7fb7",
-    "--mint": "#7c4dff",
-    "--cream": "#1a1a2e",
-    "--ink": "#e0e0e0",
-    "--card": "#252540",
-    "--border": "#3a3a5c",
-  },
+// State machine phases
+const STATUS = {
+  IDLE: "IDLE",
+  GIFT_BOX: "GIFT_BOX",
+  UNWRAPPING: "UNWRAPPING",
+  REVEALING: "REVEALING",
+  PHOTOS: "PHOTOS",
+  FINALE: "FINALE",
+  COMPLETE: "COMPLETE",
 };
+
+// Initial state for the reducer
+const initialState = {
+  status: STATUS.IDLE,
+  sentenceIndex: 0,
+  playCount: 0,
+  photoIndex: 0,
+  isTyping: false,
+  isMusicPlaying: false,
+};
+
+// State machine reducer
+function reducer(state, action) {
+  switch (action.type) {
+    case "OPEN_BOX":
+      return { ...state, status: STATUS.UNWRAPPING };
+    case "BOX_OPENED":
+      return { ...state, status: STATUS.REVEALING };
+    case "NEXT_SENTENCE":
+      return {
+        ...state,
+        sentenceIndex: state.sentenceIndex + 1,
+        isTyping: true,
+      };
+    case "SKIP_TYPING":
+      return { ...state, isTyping: false };
+    case "ALL_SENTENCES_DONE":
+      if (action.hasPhotos) {
+        return { ...state, status: STATUS.PHOTOS, photoIndex: 0 };
+      }
+      return { ...state, status: STATUS.FINALE };
+    case "NEXT_PHOTO":
+      return { ...state, photoIndex: state.photoIndex + 1 };
+    case "PREV_PHOTO":
+      return { ...state, photoIndex: Math.max(0, state.photoIndex - 1) };
+    case "PHOTOS_DONE":
+      return { ...state, status: STATUS.FINALE };
+    case "START_FINALE":
+      return { ...state, status: STATUS.FINALE };
+    case "FINALE_DONE":
+      return { ...state, status: STATUS.COMPLETE };
+    case "REPLAY":
+      return {
+        ...initialState,
+        playCount: state.playCount + 1,
+        isMusicPlaying: true,
+      };
+    case "SET_MUSIC_PLAYING":
+      return { ...state, isMusicPlaying: action.value };
+    case "SET_DATA_LOADED":
+      return { ...state, status: STATUS.GIFT_BOX };
+    default:
+      return state;
+  }
+}
 
 export default function WishPage() {
   const { id } = useParams();
-  const [wish, setWish] = useState(null);
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const [wishData, setWishData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const musicRef = useRef(null);
+  const sfxWhooshRef = useRef(null);
 
+  // Fetch wish data on mount
   useEffect(() => {
+    let cancelled = false;
+
     async function fetchWish() {
       try {
         const res = await fetch(`/api/wish/${id}`);
         if (!res.ok) {
-          throw new Error("Wish not found");
+          if (res.status === 404) {
+            throw new Error("not_found");
+          }
+          throw new Error("network");
         }
         const data = await res.json();
-        setWish(data);
-
-        // Apply theme CSS custom properties
-        const themeVars = THEME_STYLES[data.theme] || THEME_STYLES.sunrise;
-        Object.entries(themeVars).forEach(([prop, val]) => {
-          document.documentElement.style.setProperty(prop, val);
-        });
-
-        // Merge flair birthstone color into theme
-        if (data.flair?.birthstoneColor) {
-          document.documentElement.style.setProperty(
-            "--birthstone",
-            data.flair.birthstoneColor
-          );
+        if (!cancelled) {
+          setWishData(data);
+          setLoading(false);
+          dispatch({ type: "SET_DATA_LOADED" });
         }
       } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+        if (!cancelled) {
+          setError(err.message === "not_found" ? "not_found" : "network");
+          setLoading(false);
+        }
       }
     }
 
     fetchWish();
-
-    // Reset theme on unmount
     return () => {
-      const defaults = THEME_STYLES.sunrise;
-      Object.entries(defaults).forEach(([prop, val]) => {
-        document.documentElement.style.setProperty(prop, val);
-      });
+      cancelled = true;
     };
   }, [id]);
 
+  // Initialize Howl instances (eager creation, deferred play — Rule 8)
+  useEffect(() => {
+    musicRef.current = new Howl({
+      src: ["/assets/audio/happy-birthday.mp3"],
+      html5: true,
+      volume: 0.5,
+      loop: true,
+      onloaderror: () => {
+        // Graceful fallback — experience works without music
+        musicRef.current = null;
+      },
+    });
+
+    sfxWhooshRef.current = new Howl({
+      src: ["/assets/audio/whoosh.mp3"],
+      volume: 0.6,
+      onloaderror: () => {
+        sfxWhooshRef.current = null;
+      },
+    });
+
+    return () => {
+      if (musicRef.current) {
+        musicRef.current.unload();
+        musicRef.current = null;
+      }
+      if (sfxWhooshRef.current) {
+        sfxWhooshRef.current.unload();
+        sfxWhooshRef.current = null;
+      }
+    };
+  }, []);
+
+  // Handle gift box tap — starts music (Pitfall 8: user gesture unlocks AudioContext)
+  const handleGiftBoxOpen = useCallback(() => {
+    // Play background music
+    if (musicRef.current) {
+      musicRef.current.play();
+      dispatch({ type: "SET_MUSIC_PLAYING", value: true });
+    }
+    // Play whoosh SFX
+    if (sfxWhooshRef.current) {
+      sfxWhooshRef.current.play();
+    }
+    dispatch({ type: "OPEN_BOX" });
+  }, []);
+
+  // Handle box animation complete
+  const handleBoxOpened = useCallback(() => {
+    dispatch({ type: "BOX_OPENED" });
+  }, []);
+
+  // Handle music toggle (pause/resume)
+  const handleMusicToggle = useCallback(() => {
+    if (!musicRef.current) return;
+
+    if (state.isMusicPlaying) {
+      musicRef.current.pause();
+      dispatch({ type: "SET_MUSIC_PLAYING", value: false });
+    } else {
+      musicRef.current.play();
+      dispatch({ type: "SET_MUSIC_PLAYING", value: true });
+    }
+  }, [state.isMusicPlaying]);
+
+  // Handle replay — reset music
+  const handleReplay = useCallback(() => {
+    if (musicRef.current) {
+      musicRef.current.seek(0);
+      musicRef.current.play();
+    }
+    dispatch({ type: "REPLAY" });
+  }, []);
+
+  // Get theme data
+  const themeId = wishData?.theme || "sunrise";
+  const theme = THEMES.find((t) => t.id === themeId) || THEMES[0];
+
+  // Loading state — skeleton shimmer
   if (loading) {
     return (
       <div className="page wish-page">
@@ -100,22 +207,47 @@ export default function WishPage() {
     );
   }
 
+  // Error state
   if (error) {
     return (
       <div className="page wish-page">
-        <div className="wish-error">
-          <h2>Oops!</h2>
-          <p>{error}</p>
-        </div>
+        <ErrorState
+          error={error}
+          onRetry={() => window.location.reload()}
+        />
       </div>
     );
   }
 
-  if (!wish) return null;
+  if (!wishData) return null;
+
+  // Prepare sentences
+  const sentences = wishData.sentences || (wishData.message ? [wishData.message] : []);
 
   return (
-    <div className="page wish-page">
-      <ExperienceOrchestrator wish={wish} />
+    <div
+      className="page wish-page"
+      style={{ backgroundColor: theme.surface }}
+    >
+      {/* Audio controller — visible during entire experience */}
+      {state.status !== STATUS.IDLE && (
+        <AudioController
+          isPlaying={state.isMusicPlaying}
+          onToggle={handleMusicToggle}
+        />
+      )}
+
+      {/* Experience orchestrator */}
+      <ExperienceOrchestrator
+        wish={wishData}
+        sentences={sentences}
+        state={state}
+        dispatch={dispatch}
+        theme={theme}
+        onGiftBoxOpen={handleGiftBoxOpen}
+        onBoxOpened={handleBoxOpened}
+        onReplay={handleReplay}
+      />
     </div>
   );
 }

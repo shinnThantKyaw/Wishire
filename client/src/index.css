@@ -868,6 +868,133 @@ textarea:focus {
 }
 
 /* ===========================
+   Error State (WishPage)
+   =========================== */
+
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.error-state__icon {
+  font-size: 3rem;
+}
+
+.error-state__title {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 800;
+  font-size: 1.6rem;
+  margin: 0;
+  color: var(--coral);
+}
+
+.error-state__message {
+  margin: 0;
+  opacity: 0.75;
+  max-width: 320px;
+  line-height: 1.5;
+}
+
+.error-state__retry {
+  background: var(--coral);
+  color: white;
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 12px 24px;
+  min-height: 44px;
+  min-width: 120px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.error-state__retry:hover {
+  transform: translateY(-1px);
+}
+
+.error-state__retry:focus-visible {
+  outline: 2px solid var(--mint);
+  outline-offset: 2px;
+}
+
+/* ===========================
+   Audio Controller
+   =========================== */
+
+.audio-controller {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 100;
+}
+
+.audio-controller__btn {
+  min-width: 44px;
+  min-height: 44px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--mint);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transition: background 0.2s, transform 0.15s;
+}
+
+.audio-controller__btn:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: scale(1.05);
+}
+
+.audio-controller__btn:focus-visible {
+  outline: 2px solid var(--mint);
+  outline-offset: 2px;
+}
+
+/* ===========================
+   Gift Box Particles
+   =========================== */
+
+.gift-box__particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.gift-box__particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  animation: particle-burst 0.8s ease-out forwards;
+}
+
+@keyframes particle-burst {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(0);
+    opacity: 0;
+  }
+}
+
+/* ===========================
    Error Boundary
    =========================== */
 
