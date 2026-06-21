@@ -519,6 +519,33 @@ textarea:focus {
   opacity: 0.6;
 }
 
+.gift-box__sender {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.gift-box__from-label {
+  font-size: 0.7rem;
+  font-weight: 400;
+  opacity: 0.7;
+  color: var(--ink);
+}
+
+.gift-box__name {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
 .gift-box__bow {
   position: absolute;
   top: -16px;
