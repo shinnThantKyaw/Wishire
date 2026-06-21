@@ -96,6 +96,16 @@ Plans:
 - Pitfall 2: Framer Motion AnimatePresence keys (include playCount in keys for replay)
 - Pitfall 8: Mobile audio autoplay blocking (tie audio to gift box tap gesture)
 
+**Plans:** 1/2 plans complete
+Plans:
+**Wave 1**
+
+- [x] 03-01-PLAN.md — WishPage state machine, GiftBox split animation, AudioController, ErrorState
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 03-02-PLAN.md — Sentence revealer integration, photo slideshow, confetti finale, replay
+
 ---
 
 ### Phase 4: Finale
@@ -138,4 +148,4 @@ Plans:
 
 ---
 *Created: 2026-06-20*
-*Last updated: 2026-06-21 after Phase 2 planning*
+*Last updated: 2026-06-21 after Phase 3 Plan 01 execution*
