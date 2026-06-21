@@ -147,17 +147,6 @@ export default function ExperienceOrchestrator({
           </motion.div>
         )}
 
-        {/* UNWRAPPING phase -- split animation playing (handled by GiftBox) */}
-        {status === STATUS.UNWRAPPING && (
-          <motion.div
-            key={`unwrapping-${playCount}`}
-            variants={phaseV}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-          />
-        )}
-
         {/* REVEALING phase -- sentence by sentence typewriter */}
         {status === STATUS.REVEALING && (
           <motion.div

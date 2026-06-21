@@ -158,12 +158,13 @@ export default function WishPage() {
     if (sfxWhooshRef.current) {
       sfxWhooshRef.current.play();
     }
-    dispatch({ type: "OPEN_BOX" });
-  }, []);
-
-  // Handle box animation complete
-  const handleBoxOpened = useCallback(() => {
-    dispatch({ type: "BOX_OPENED" });
+    // Advance directly to REVEALING after the lid animation (~1s)
+    // We skip UNWRAPPING because AnimatePresence would unmount GiftBox,
+    // killing its internal timeout. WishPage stays mounted so the
+    // timeout survives.
+    setTimeout(() => {
+      dispatch({ type: "BOX_OPENED" });
+    }, 1200);
   }, []);
 
   // Handle music toggle (pause/resume)

@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 
 // --- Module-level variants (Rule 3) ---
@@ -107,7 +107,6 @@ export default function GiftBox({
 }) {
   const [opened, setOpened] = useState(false);
   const [showParticles, setShowParticles] = useState(false);
-  const openedFiredRef = useRef(false);
 
   const primary = theme?.primary || "#ff6f59";
   const secondary = theme?.secondary || "#ffb84d";
@@ -124,33 +123,14 @@ export default function GiftBox({
     ? { hidden: { opacity: 0 }, visible: { opacity: 0.7, transition: { duration: 0 } } }
     : tapHintVariants;
 
-  // Fire onOpened at most once (animation callback or fallback timeout)
-  const fireOpened = useCallback(() => {
-    if (openedFiredRef.current) return;
-    openedFiredRef.current = true;
-    onOpened?.();
-  }, [onOpened]);
-
-  // Fallback timeout: advance state even if onAnimationComplete doesn't fire
-  useEffect(() => {
-    if (!opened) return;
-    const timer = setTimeout(fireOpened, 1100); // 1s animation + 100ms buffer
-    return () => clearTimeout(timer);
-  }, [opened, fireOpened]);
-
   // Handle tap — triggers music + SFX + starts split animation
   const handleTap = useCallback(() => {
     if (opened) return;
     setOpened(true);
     setShowParticles(true);
-    // Call onOpen to trigger music + SFX + dispatch OPEN_BOX
+    // Call onOpen to trigger music + SFX + schedule state transition (in WishPage)
     onOpen?.();
-
-    // For reduced motion, call onOpened immediately (no animation to wait for)
-    if (reducedMotion) {
-      fireOpened();
-    }
-  }, [opened, onOpen, fireOpened, reducedMotion]);
+  }, [opened, onOpen]);
 
   // Particles data
   const particles = showParticles ? generateParticles(primary, secondary) : [];
@@ -184,18 +164,12 @@ export default function GiftBox({
 
       {/* Gift box body */}
       <div className="gift-box__body" style={{ perspective: "400px" }}>
-        {/* Lid — animates up on open */}
+        {/* Lid — animates up on open (visual only; WishPage manages state transition) */}
         <motion.div
           className="gift-box__lid"
           variants={lidV}
           initial="closed"
           animate={opened ? "open" : "closed"}
-          // Rule 4: use onAnimationComplete for state transitions
-          onAnimationComplete={() => {
-            if (opened) {
-              fireOpened();
-            }
-          }}
           style={{ backgroundColor: primary }}
         />
         <div className="gift-box__bow" />
