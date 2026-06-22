@@ -25,12 +25,12 @@ export async function createWish(data) {
   } = data;
 
   // Validate
-  if (!recipientName || !message) {
-    throw new ValidationError("recipientName and message are required");
+  if (!senderName || !recipientName || !message) {
+    throw new ValidationError("senderName, recipientName, and message are required");
   }
 
-  if (message.length > 1000) {
-    throw new ValidationError("Message must be 1000 characters or less");
+  if (message.length > 10000) {
+    throw new ValidationError("Message must be 10000 characters or less");
   }
 
   if (photos.length > 5) {

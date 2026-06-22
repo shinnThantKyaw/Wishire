@@ -344,7 +344,7 @@ export default function CreatePage() {
                 value={form.message}
                 onChange={(e) => update("message", e.target.value)}
                 placeholder="Write something heartfelt, funny, or meaningful..."
-                maxLength={1000}
+                maxLength={10000}
                 rows={5}
                 className={errors.message ? "form__input--error" : ""}
               />
@@ -353,7 +353,7 @@ export default function CreatePage() {
               <span className="form__field-error">{errors.message}</span>
             )}
             <span className="form__char-count">
-              {form.message.length}/1000
+              {form.message.length}/10000
             </span>
           </label>
         </div>
