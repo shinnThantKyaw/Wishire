@@ -228,7 +228,8 @@ export default function CreatePage() {
       {/* ── Form ── */}
       <form className="create-card form" onSubmit={generate}>
         <div className="form__section form__section--about-you">
-          <h2 className="form__section-title"><User size={18} /> About You</h2>
+          <h2 className="form__section-title"><span className="form__section-icon"><User size={16} /></span> About You</h2>
+          <p className="form__section-helper">✨ Your message starts here</p>
           <label>
             Your name (optional)
             <div className="form__input-wrap">
@@ -243,7 +244,8 @@ export default function CreatePage() {
         </div>
 
         <div className="form__section form__section--about-them form__section--spacious">
-          <h2 className="form__section-title"><Heart size={18} /> About Them</h2>
+          <h2 className="form__section-title"><span className="form__section-icon"><Heart size={16} /></span> About Them</h2>
+          <p className="form__section-helper">🎂 Let's make them smile</p>
           <label>
             Their name
             <div className="form__input-wrap">
@@ -332,7 +334,8 @@ export default function CreatePage() {
         </div>
 
         <div className="form__section form__section--message">
-          <h2 className="form__section-title"><MessageSquare size={18} /> Your Message</h2>
+          <h2 className="form__section-title"><span className="form__section-icon"><MessageSquare size={16} /></span> Your Message</h2>
+          <p className="form__section-helper">💌 From your heart to theirs</p>
           <label>
             Write your birthday wish
             <div className="form__textarea-wrap">
@@ -356,12 +359,14 @@ export default function CreatePage() {
         </div>
 
         <div className="form__section form__section--photos">
-          <h2 className="form__section-title"><Camera size={18} /> Photos (optional)</h2>
+          <h2 className="form__section-title"><span className="form__section-icon"><Camera size={16} /></span> Photos (optional)</h2>
+          <p className="form__section-helper">📸 Add memories they'll treasure</p>
           <PhotoUploader photos={photos} onPhotosChange={setPhotos} maxFiles={5} />
         </div>
 
         <div className="form__section form__section--theme">
-          <h2 className="form__section-title"><Palette size={18} /> Theme</h2>
+          <h2 className="form__section-title"><span className="form__section-icon"><Palette size={16} /></span> Theme</h2>
+          <p className="form__section-helper">🎨 Set the mood for their surprise</p>
           <ThemeSelector value={form.theme} onChange={(id) => update("theme", id)} />
         </div>
 
