@@ -1,8 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { User, Heart, Cake, MessageSquare, Camera, Palette, Sparkles, Loader2 } from "lucide-react";
 import PhotoUploader from "../components/create/PhotoUploader.jsx";
 import ThemeSelector from "../components/create/ThemeSelector.jsx";
-import SuccessState from "../components/create/SuccessState.jsx";
 
 const RELATIONSHIPS = [
   { id: "friend", emoji: "🤝", label: "Friend" },
@@ -26,6 +26,7 @@ const FEATURES = [
 ];
 
 export default function CreatePage() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     senderName: "",
     recipientName: "",
@@ -41,7 +42,6 @@ export default function CreatePage() {
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(null);
-  const [createdWish, setCreatedWish] = useState(null);
 
   function update(field, value) {
     setForm((f) => ({ ...f, [field]: value }));
@@ -135,39 +135,13 @@ export default function CreatePage() {
       }
 
       const wish = await res.json();
-      setCreatedWish(wish);
+      navigate(`/success/${wish.id}`);
     } catch (err) {
       setErrors((prev) => ({ ...prev, global: err.message }));
     } finally {
       setLoading(false);
       setUploadProgress(null);
     }
-  }
-
-  if (createdWish) {
-    return (
-      <div className="page">
-        <SuccessState
-          wish={createdWish}
-          onReset={() => {
-            setCreatedWish(null);
-            setForm({
-              senderName: "",
-              recipientName: "",
-              relationship: "friend",
-              customRelationship: "",
-              month: 6,
-              day: 15,
-              message: "",
-              theme: "lavender",
-            });
-            setPhotos([]);
-            setErrors({});
-            setSubmitted(false);
-          }}
-        />
-      </div>
-    );
   }
 
   return (
