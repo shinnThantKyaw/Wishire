@@ -25,7 +25,6 @@
 
 body {
   margin: 0;
-  background: #EED8FA;
   min-height: 100vh;
   color: var(--ink);
   font-family: "Nunito", sans-serif;
@@ -686,7 +685,7 @@ body {
 
 /* Background */
 .create-bg {
-  position: absolute;
+  position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
@@ -3014,7 +3013,7 @@ button:disabled {
 
 /* Background */
 .success-bg {
-  position: absolute;
+  position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
@@ -3476,7 +3475,7 @@ button:disabled {
   position: relative;
   z-index: 2;
   width: 100%;
-  margin: 40px 0 0;
+  margin: 0;
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.7s ease, transform 0.7s ease;

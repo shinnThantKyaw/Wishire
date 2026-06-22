@@ -145,8 +145,8 @@ export default function CreatePage() {
   }
 
   return (
-    <div className="page page--create">
-      {/* Background decorations */}
+    <>
+      {/* Background decorations — outside animated container for fixed positioning */}
       <div className="create-bg" aria-hidden="true">
         <div className="create-bg__gradient" />
         <div className="create-bg__orb create-bg__orb--1" />
@@ -165,6 +165,7 @@ export default function CreatePage() {
         <span className="create-bg__deco create-bg__deco--11">🌸</span>
         <span className="create-bg__deco create-bg__deco--12">🌟</span>
       </div>
+    <div className="page page--create">
 
       {/* ── Hero ── */}
       <div className="create-hero">
@@ -352,5 +353,6 @@ export default function CreatePage() {
         </button>
       </form>
     </div>
+    </>
   );
 }

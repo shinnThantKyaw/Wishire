@@ -28,12 +28,11 @@ export default function Footer() {
 
   return (
     <div ref={ref} className={`footer-wrap${visible ? " footer-wrap--visible" : ""}`}>
-      {/* Magic tagline — above the card */}
-      <p className="footer__tagline-hero">
-        🎂 Every birthday deserves a little magic ✨💜
-      </p>
-
       <footer className="footer">
+        {/* Magic tagline */}
+        <p className="footer__tagline-hero">
+          🎂 Every birthday deserves a little magic ✨💜
+        </p>
         {/* Edge sparkles */}
         <span className="footer__sparkle footer__sparkle--tl" aria-hidden="true">✨</span>
         <span className="footer__sparkle footer__sparkle--tr" aria-hidden="true">💜</span>
