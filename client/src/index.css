@@ -3475,8 +3475,8 @@ button:disabled {
 .footer-wrap {
   position: relative;
   z-index: 2;
-  max-width: 960px;
-  margin: 40px auto 0;
+  width: 100%;
+  margin: 40px 0 0;
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.7s ease, transform 0.7s ease;
@@ -3499,16 +3499,10 @@ button:disabled {
 
 .footer {
   position: relative;
-  padding: 24px 44px;
-  border-radius: 32px 32px 0 0;
-  background: rgba(255,255,255,0.55);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(233,160,249,0.15);
-  border-bottom: none;
-  box-shadow:
-    0 8px 40px rgba(100,70,150,0.06),
-    0 1px 4px rgba(100,70,150,0.04);
+  padding: 18px 50px;
+  border-radius: 36px 36px 0 0;
+  background: #ffffff;
+  border-top: 1px solid rgba(233,160,249,0.15);
   overflow: hidden;
 }
 
@@ -3859,7 +3853,6 @@ button:disabled {
 
   .footer {
     padding: 28px 20px;
-    border-radius: 24px 24px 0 0;
   }
 
   .footer__inner {
