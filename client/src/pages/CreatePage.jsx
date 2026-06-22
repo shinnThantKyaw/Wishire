@@ -12,6 +12,19 @@ const RELATIONSHIPS = [
   { id: "custom", emoji: "✏️", label: "Other" },
 ];
 
+const JOURNEY = [
+  { icon: "👤", label: "About You" },
+  { icon: "💖", label: "About Them" },
+  { icon: "🎨", label: "Customize" },
+  { icon: "✨", label: "Generate" },
+];
+
+const FEATURES = [
+  { emoji: "✨", label: "Photos" },
+  { emoji: "🎵", label: "Music" },
+  { emoji: "🎁", label: "Surprises" },
+];
+
 export default function CreatePage() {
   const [form, setForm] = useState({
     senderName: "",
@@ -21,7 +34,7 @@ export default function CreatePage() {
     month: 6,
     day: 15,
     message: "",
-    theme: "sunrise",
+    theme: "lavender",
   });
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -32,7 +45,6 @@ export default function CreatePage() {
 
   function update(field, value) {
     setForm((f) => ({ ...f, [field]: value }));
-    // Clear field error on change if form was already submitted
     if (submitted && errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: "" }));
     }
@@ -77,14 +89,12 @@ export default function CreatePage() {
     setSubmitted(true);
     setErrors({});
 
-    // Client-side validation
     const newErrors = {};
     newErrors.recipientName = validate("recipientName", form.recipientName);
     newErrors.month = validate("month", form.month);
     newErrors.day = validate("day", form.day);
     newErrors.message = validate("message", form.message);
 
-    // Remove empty errors
     const hasErrors = Object.values(newErrors).some(Boolean);
     if (hasErrors) {
       setErrors(newErrors);
@@ -95,14 +105,12 @@ export default function CreatePage() {
     setUploadProgress(null);
 
     try {
-      // Upload photos first if any
       let uploadedPhotos = [];
       if (photos.length > 0) {
         setUploadProgress("Uploading photos...");
         uploadedPhotos = await uploadPhotos();
       }
 
-      // Create wish
       setUploadProgress("Creating wish...");
       const resolvedRelationship =
         form.relationship === "custom"
@@ -151,7 +159,7 @@ export default function CreatePage() {
               month: 6,
               day: 15,
               message: "",
-              theme: "sunrise",
+              theme: "lavender",
             });
             setPhotos([]);
             setErrors({});
@@ -163,15 +171,63 @@ export default function CreatePage() {
   }
 
   return (
-    <div className="page">
-      <header className="hero">
-        <span className="hero__eyebrow">small batch, freshly generated</span>
-        <h1>Birthday Wish Generator</h1>
-        <p>Write a heartfelt birthday message and share it as an experience.</p>
-      </header>
+    <div className="page page--create">
+      {/* Background decorations */}
+      <div className="create-bg" aria-hidden="true">
+        <div className="create-bg__gradient" />
+        <div className="create-bg__orb create-bg__orb--1" />
+        <div className="create-bg__orb create-bg__orb--2" />
+        <div className="create-bg__orb create-bg__orb--3" />
+        <span className="create-bg__deco create-bg__deco--1">✨</span>
+        <span className="create-bg__deco create-bg__deco--2">💜</span>
+        <span className="create-bg__deco create-bg__deco--3">🌟</span>
+        <span className="create-bg__deco create-bg__deco--4">🌸</span>
+        <span className="create-bg__deco create-bg__deco--5">✨</span>
+        <span className="create-bg__deco create-bg__deco--6">💜</span>
+        <span className="create-bg__deco create-bg__deco--7">🌸</span>
+        <span className="create-bg__deco create-bg__deco--8">🌟</span>
+        <span className="create-bg__deco create-bg__deco--9">✨</span>
+        <span className="create-bg__deco create-bg__deco--10">💜</span>
+        <span className="create-bg__deco create-bg__deco--11">🌸</span>
+        <span className="create-bg__deco create-bg__deco--12">🌟</span>
+      </div>
 
-      <form className="card form" onSubmit={generate}>
-        <div className="form__section">
+      {/* ── Hero ── */}
+      <div className="create-hero">
+        <img
+          src="/assets/images/Icon.png"
+          alt="Wishire"
+          className="create-hero__logo"
+        />
+        <h1 className="create-hero__title">Create a Birthday Surprise</h1>
+        <p className="create-hero__subtitle">
+          Turn your words, photos, and memories into a magical birthday experience.
+        </p>
+
+        {/* Progress journey */}
+        <div className="create-journey">
+          {JOURNEY.map((step, i) => (
+            <div key={step.label} className="create-journey__step">
+              <span className="create-journey__icon">{step.icon}</span>
+              <span className="create-journey__label">{step.label}</span>
+              {i < JOURNEY.length - 1 && <div className="create-journey__arrow" />}
+            </div>
+          ))}
+        </div>
+
+        {/* Feature chips */}
+        <div className="create-features">
+          {FEATURES.map((f) => (
+            <span key={f.label} className="create-features__chip">
+              {f.emoji} {f.label}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Form ── */}
+      <form className="create-card form" onSubmit={generate}>
+        <div className="form__section form__section--about-you">
           <h2 className="form__section-title"><User size={18} /> About You</h2>
           <label>
             Your name (optional)
@@ -186,7 +242,7 @@ export default function CreatePage() {
           </label>
         </div>
 
-        <div className="form__section form__section--spacious">
+        <div className="form__section form__section--about-them form__section--spacious">
           <h2 className="form__section-title"><Heart size={18} /> About Them</h2>
           <label>
             Their name
@@ -275,7 +331,7 @@ export default function CreatePage() {
           </div>
         </div>
 
-        <div className="form__section">
+        <div className="form__section form__section--message">
           <h2 className="form__section-title"><MessageSquare size={18} /> Your Message</h2>
           <label>
             Write your birthday wish
@@ -299,21 +355,21 @@ export default function CreatePage() {
           </label>
         </div>
 
-        <div className="form__section">
+        <div className="form__section form__section--photos">
           <h2 className="form__section-title"><Camera size={18} /> Photos (optional)</h2>
           <PhotoUploader photos={photos} onPhotosChange={setPhotos} maxFiles={5} />
         </div>
 
-        <div className="form__section">
+        <div className="form__section form__section--theme">
           <h2 className="form__section-title"><Palette size={18} /> Theme</h2>
           <ThemeSelector value={form.theme} onChange={(id) => update("theme", id)} />
         </div>
 
         {errors.global && <p className="error">{errors.global}</p>}
 
-        <button type="submit" disabled={loading} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
+        <button className="create-submit" type="submit" disabled={loading}>
           {loading ? <Loader2 size={18} className="spin" /> : <Sparkles size={18} />}
-          {loading ? uploadProgress || "Creating..." : "Create Wish"}
+          {loading ? uploadProgress || "Creating..." : "Create Wish ✨"}
         </button>
       </form>
     </div>
