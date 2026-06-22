@@ -632,6 +632,10 @@ body {
   .cta-premium__arrow       { transition: none; }
   .how                      { animation: none; }
   .how__preview-card        { transition: none; }
+  .footer-wrap              { opacity: 1; transform: none; transition: none; }
+  .footer__sign             { animation: none; }
+  .footer__heart            { animation: none; }
+  .footer__sparkle          { animation: none; }
 }
 
 /* ── Page Home ── */
@@ -2603,101 +2607,257 @@ textarea:focus {
 }
 
 /* ===========================
-   Footer
+   Footer — Signature Card
    =========================== */
 
-.footer {
-  text-align: center;
-  padding: 32px 20px 24px;
-  margin-top: 40px;
-  border-top: 1px solid var(--border);
+.footer-wrap {
+  max-width: 960px;
+  margin: 40px auto 0;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
-.footer__brand {
+.footer-wrap--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.footer__tagline-hero {
+  text-align: center;
+  font-family: "Nunito", sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #8B6DAF;
+  margin: 0 0 14px;
+  letter-spacing: 0.01em;
+}
+
+.footer {
+  position: relative;
+  padding: 24px 44px;
+  border-radius: 32px 32px 0 0;
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(233,160,249,0.15);
+  border-bottom: none;
+  box-shadow:
+    0 8px 40px rgba(100,70,150,0.06),
+    0 1px 4px rgba(100,70,150,0.04);
+  overflow: hidden;
+}
+
+/* Edge sparkles */
+.footer__sparkle {
+  position: absolute;
+  font-size: 14px;
+  opacity: 0.18;
+  pointer-events: none;
+  animation: footer-sparkle-spin 12s linear infinite;
+}
+
+.footer__sparkle--tl { top: 14px;  left: 18px; }
+.footer__sparkle--tr { top: 14px;  right: 18px; animation-delay: -3s; }
+.footer__sparkle--bl { bottom: 14px; left: 18px; animation-delay: -6s; }
+.footer__sparkle--br { bottom: 14px; right: 18px; animation-delay: -9s; }
+
+@keyframes footer-sparkle-spin {
+  0%   { transform: rotate(0deg) scale(1); }
+  50%  { transform: rotate(180deg) scale(1.15); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+/* Three-column layout */
+.footer__inner {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 12px;
+  justify-content: space-between;
+  gap: 40px;
 }
 
-.footer__logo {
-  width: 28px;
-  height: 28px;
-  object-fit: contain;
-}
-
-.footer__brand-text {
+/* Left — App branding */
+.footer__left {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0;
+  gap: 4px;
 }
 
-.footer__name {
+.footer__logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 6px;
+  animation: footer-sign-float 3s ease-in-out infinite;
+  filter: drop-shadow(0 3px 10px rgba(190,131,229,0.20));
+  transition: filter 0.3s ease;
+}
+
+.footer__logo:hover {
+  filter: drop-shadow(0 5px 16px rgba(190,131,229,0.35));
+}
+
+@keyframes footer-sign-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+
+.footer__app-name {
   font-family: "Baloo 2", sans-serif;
-  font-weight: 700;
-  font-size: 1rem;
-  background: linear-gradient(135deg, #BE83E5 0%, #d97bba 60%, #f472b6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.footer__tagline {
-  font-family: "Nunito", sans-serif;
-  font-size: 0.75rem;
-  color: #9b7fc4;
-  opacity: 0.7;
-}
-
-.footer__credit {
-  font-family: "Nunito", sans-serif;
+  font-weight: 800;
   font-size: 0.85rem;
-  color: #7a6b94;
-  margin: 0 0 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #8B6DAF;
+  margin: 0;
 }
 
-.footer__heart {
-  display: inline-block;
-  animation: footer-heart 1.5s ease-in-out infinite;
-}
-
-@keyframes footer-heart {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.2); }
-}
-
-.footer__links {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
+.footer__app-desc {
   font-family: "Nunito", sans-serif;
   font-size: 0.8rem;
-  color: #9b7fc4;
+  font-weight: 600;
+  color: #7a6b94;
+  margin: 0 0 8px;
+  line-height: 1.4;
 }
 
 .footer__github {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  color: #7a6b94;
+  gap: 5px;
+  color: #8B6DAF;
   text-decoration: none;
-  font-weight: 600;
-  transition: color 0.2s;
+  font-family: "Nunito", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(190,131,229,0.20);
+  background: rgba(233,160,249,0.06);
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
 }
 
 .footer__github:hover {
-  color: var(--gradient-start);
+  background: rgba(233,160,249,0.12);
+  border-color: rgba(190,131,229,0.35);
+  color: #6B3FA0;
 }
 
-.footer__sep {
-  opacity: 0.4;
+/* Middle — Quote */
+.footer__quote-side {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.footer__quote-block {
+  position: relative;
+  padding: 20px 24px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(233,160,249,0.08), rgba(217,124,246,0.04));
+  border: 1px solid rgba(233,160,249,0.12);
+  text-align: center;
+}
+
+.footer__quote-mark {
+  position: absolute;
+  top: 6px;
+  left: 14px;
+  font-family: "Georgia", serif;
+  font-size: 2.2rem;
+  line-height: 1;
+  color: rgba(190,131,229,0.18);
+  pointer-events: none;
+}
+
+.footer__quote-mark-end {
+  position: absolute;
+  bottom: 4px;
+  right: 14px;
+  font-family: "Georgia", serif;
+  font-size: 2.2rem;
+  line-height: 1;
+  color: rgba(190,131,229,0.18);
+  pointer-events: none;
+}
+
+.footer__quote {
+  font-family: "Nunito", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1.55;
+  color: #5a3e7a;
+  margin: 0;
+}
+
+.footer__quote-tail {
+  font-size: 0.85rem;
+  opacity: 0.35;
+}
+
+/* Right — Creator signature */
+.footer__right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  text-align: right;
+}
+
+.footer__sign {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  margin-bottom: 6px;
+  animation: footer-sign-float 3s ease-in-out infinite;
+  filter: drop-shadow(0 4px 12px rgba(190,131,229,0.25));
+  transition: filter 0.3s ease;
+}
+
+.footer__sign:hover {
+  filter: drop-shadow(0 6px 20px rgba(190,131,229,0.40));
+}
+
+.footer__made {
+  font-family: "Nunito", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #8B6DAF;
+  margin: 0;
+}
+
+.footer__heart {
+  display: inline-block;
+  animation: footer-heart 1.8s ease-in-out infinite;
+}
+
+@keyframes footer-heart {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.25); }
+}
+
+.footer__creator {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 800;
+  font-size: 1.2rem;
+  margin: 0;
+  background: linear-gradient(135deg, #BE83E5 0%, #D97CF6 60%, #f472b6 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: title-shimmer 5s ease-in-out infinite;
 }
 
 .footer__copy {
-  opacity: 0.6;
+  font-family: "Nunito", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #9B7FC4;
+  margin: 6px 0 0;
+  opacity: 0.7;
 }
 
 /* ===========================
@@ -2829,13 +2989,33 @@ textarea:focus {
     padding: 8px 12px 48px;
   }
 
-  .footer {
-    padding: 24px 16px 20px;
-    margin-top: 32px;
+  .footer-wrap {
+    margin: 32px 12px 0;
   }
 
-  .footer__credit {
-    font-size: 0.8rem;
+  .footer {
+    padding: 28px 20px;
+    border-radius: 24px 24px 0 0;
+  }
+
+  .footer__inner {
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    text-align: center;
+  }
+
+  .footer__left {
+    align-items: center;
+  }
+
+  .footer__quote-side {
+    width: 100%;
+  }
+
+  .footer__right {
+    align-items: center;
+    text-align: center;
   }
 
   .how {
