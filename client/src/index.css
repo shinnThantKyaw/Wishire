@@ -25,7 +25,7 @@
 
 body {
   margin: 0;
-  background: #F6F0FC;
+  background: #EED8FA;
   min-height: 100vh;
   color: var(--ink);
   font-family: "Nunito", sans-serif;
@@ -68,7 +68,7 @@ body {
 .how__subtitle {
   font-family: "Nunito", sans-serif;
   font-size: 0.92rem;
-  color: #6B5A80;
+  color: #4A3560;
   margin: 0;
   font-weight: 600;
 }
@@ -117,7 +117,7 @@ body {
 .how__step-desc {
   font-family: "Nunito", sans-serif;
   font-size: 0.78rem;
-  color: #7a6b94;
+  color: #5a3e7a;
   line-height: 1.35;
   display: flex;
   flex-direction: column;
@@ -193,7 +193,7 @@ body {
 .how__preview-desc {
   font-family: "Nunito", sans-serif;
   font-size: 0.72rem;
-  color: #7a6b94;
+  color: #5a3e7a;
   line-height: 1.3;
 }
 
@@ -307,7 +307,7 @@ body {
   font-family: "Nunito", sans-serif;
   font-size: 0.95rem;
   font-weight: 700;
-  color: #8B6DAF;
+  color: #6B4D8F;
   margin: 0;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -326,7 +326,7 @@ body {
 
 .hero__title-line {
   display: block;
-  color: #3D2458;
+  color: #2D1840;
 }
 
 .hero__title-line--accent {
@@ -348,7 +348,7 @@ body {
   font-family: "Nunito", sans-serif;
   font-size: 1.05rem;
   line-height: 1.65;
-  color: #6B5A80;
+  color: #4A3560;
   max-width: 440px;
   margin: 0;
 }
@@ -404,14 +404,15 @@ body {
   overflow: hidden;
 }
 
-/* Layer 1 — Soft purple atmosphere */
+/* Layer 1 — Bright purple atmosphere */
 .hero-bg__gradient {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 60% 50% at 20% 30%, rgba(233,160,249,0.12) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 40% at 80% 70%, rgba(215,138,244,0.10) 0%, transparent 55%),
-    linear-gradient(180deg, #F8F0FE 0%, #F3EAFB 50%, #FAF5FF 100%);
+    radial-gradient(ellipse 70% 55% at 20% 25%, rgba(233,160,249,0.28) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 45% at 80% 70%, rgba(217,124,246,0.22) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 35% at 50% 45%, rgba(255,185,231,0.12) 0%, transparent 55%),
+    linear-gradient(170deg, #E8CCFA 0%, #EDD8FB 30%, #F2E4FD 60%, #F8F0FE 100%);
   background-size: 200% 200%;
   animation: hero-gradient-drift 30s ease-in-out infinite alternate;
 }
@@ -489,8 +490,8 @@ body {
   font-size: 1.2rem;
   cursor: pointer;
   box-shadow:
-    0 12px 40px rgba(233,160,249,0.35),
-    0 4px 12px rgba(217,124,246,0.2);
+    0 12px 40px rgba(233,160,249,0.45),
+    0 4px 16px rgba(217,124,246,0.30);
   transition:
     transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
     box-shadow 0.3s ease,

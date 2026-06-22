@@ -8,20 +8,28 @@ import useMouseParallax from "../../hooks/useMouseParallax";
    ─────────────────────────────────────── */
 
 const DECORATIONS = [
-  { emoji: "✨", size: 20, x: 4,  y: 15, opacity: 0.22, blur: false, dur: 16, delay: 0,    drift: 18,  rot: 15,  depth: 0.5 },
-  { emoji: "⭐", size: 18, x: 92, y: 20, opacity: 0.18, blur: true,  dur: 20, delay: -3,   drift: -14, rot: -10, depth: 0.8 },
-  { emoji: "💜", size: 18, x: 8,  y: 55, opacity: 0.20, blur: false, dur: 18, delay: -6,   drift: 12,  rot: 8,   depth: 0.6 },
-  { emoji: "🌸", size: 22, x: 88, y: 60, opacity: 0.17, blur: true,  dur: 22, delay: -1,   drift: -16, rot: -12, depth: 1.0 },
-  { emoji: "💜", size: 20, x: 6,  y: 82, opacity: 0.19, blur: false, dur: 19, delay: -8,   drift: 15,  rot: 10,  depth: 0.7 },
-  { emoji: "⭐", size: 22, x: 90, y: 78, opacity: 0.22, blur: false, dur: 17, delay: -4,   drift: -12, rot: 18,  depth: 0.4 },
-  { emoji: "✨", size: 16, x: 15, y: 30, opacity: 0.15, blur: true,  dur: 24, delay: -10,  drift: 10,  rot: 0,   depth: 1.2 },
-  { emoji: "🌸", size: 18, x: 85, y: 40, opacity: 0.16, blur: false, dur: 21, delay: -5,   drift: -10, rot: -6,  depth: 0.9 },
-  { emoji: "✨", size: 24, x: 12, y: 72, opacity: 0.24, blur: false, dur: 15, delay: -2,   drift: 14,  rot: 5,   depth: 0.3 },
-  { emoji: "🌸", size: 16, x: 94, y: 12, opacity: 0.18, blur: true,  dur: 23, delay: -12,  drift: -8,  rot: 0,   depth: 1.1 },
-  { emoji: "⭐", size: 16, x: 5,  y: 42, opacity: 0.15, blur: false, dur: 20, delay: -7,   drift: 10,  rot: -8,  depth: 0.8 },
-  { emoji: "✨", size: 18, x: 92, y: 88, opacity: 0.19, blur: false, dur: 18, delay: -9,   drift: -12, rot: 12,  depth: 0.6 },
-  { emoji: "💜", size: 14, x: 3,  y: 35, opacity: 0.14, blur: false, dur: 25, delay: -14,  drift: 8,   rot: 6,   depth: 1.3 },
-  { emoji: "🌸", size: 14, x: 96, y: 50, opacity: 0.13, blur: true,  dur: 26, delay: -16,  drift: -6,  rot: -4,  depth: 1.4 },
+  // Edge decorations
+  { emoji: "✨", size: 22, x: 4,  y: 15, opacity: 0.32, blur: false, dur: 16, delay: 0,    drift: 18,  rot: 15,  depth: 0.5 },
+  { emoji: "⭐", size: 20, x: 92, y: 20, opacity: 0.26, blur: true,  dur: 20, delay: -3,   drift: -14, rot: -10, depth: 0.8 },
+  { emoji: "💜", size: 20, x: 8,  y: 55, opacity: 0.30, blur: false, dur: 18, delay: -6,   drift: 12,  rot: 8,   depth: 0.6 },
+  { emoji: "🌸", size: 24, x: 88, y: 60, opacity: 0.26, blur: true,  dur: 22, delay: -1,   drift: -16, rot: -12, depth: 1.0 },
+  { emoji: "💜", size: 22, x: 6,  y: 82, opacity: 0.28, blur: false, dur: 19, delay: -8,   drift: 15,  rot: 10,  depth: 0.7 },
+  { emoji: "⭐", size: 24, x: 90, y: 78, opacity: 0.32, blur: false, dur: 17, delay: -4,   drift: -12, rot: 18,  depth: 0.4 },
+  { emoji: "✨", size: 18, x: 15, y: 30, opacity: 0.22, blur: true,  dur: 24, delay: -10,  drift: 10,  rot: 0,   depth: 1.2 },
+  { emoji: "🌸", size: 20, x: 85, y: 40, opacity: 0.24, blur: false, dur: 21, delay: -5,   drift: -10, rot: -6,  depth: 0.9 },
+  { emoji: "✨", size: 26, x: 12, y: 72, opacity: 0.34, blur: false, dur: 15, delay: -2,   drift: 14,  rot: 5,   depth: 0.3 },
+  { emoji: "🌸", size: 18, x: 94, y: 12, opacity: 0.26, blur: true,  dur: 23, delay: -12,  drift: -8,  rot: 0,   depth: 1.1 },
+  { emoji: "⭐", size: 18, x: 5,  y: 42, opacity: 0.24, blur: false, dur: 20, delay: -7,   drift: 10,  rot: -8,  depth: 0.8 },
+  { emoji: "✨", size: 20, x: 92, y: 88, opacity: 0.28, blur: false, dur: 18, delay: -9,   drift: -12, rot: 12,  depth: 0.6 },
+  { emoji: "💜", size: 16, x: 3,  y: 35, opacity: 0.22, blur: false, dur: 25, delay: -14,  drift: 8,   rot: 6,   depth: 1.3 },
+  { emoji: "🌸", size: 16, x: 96, y: 50, opacity: 0.20, blur: true,  dur: 26, delay: -16,  drift: -6,  rot: -4,  depth: 1.4 },
+  // Near-center decorations
+  { emoji: "✨", size: 16, x: 35, y: 25, opacity: 0.16, blur: false, dur: 22, delay: -5,   drift: 8,   rot: 5,   depth: 1.5 },
+  { emoji: "💜", size: 14, x: 65, y: 35, opacity: 0.14, blur: false, dur: 24, delay: -9,   drift: -6,  rot: -4,  depth: 1.6 },
+  { emoji: "🌸", size: 16, x: 40, y: 70, opacity: 0.15, blur: false, dur: 20, delay: -12,  drift: 10,  rot: 6,   depth: 1.4 },
+  { emoji: "⭐", size: 14, x: 58, y: 20, opacity: 0.13, blur: false, dur: 19, delay: -7,   drift: -8,  rot: 5,   depth: 1.5 },
+  { emoji: "✨", size: 18, x: 30, y: 50, opacity: 0.17, blur: false, dur: 21, delay: -3,   drift: 12,  rot: -6,  depth: 1.3 },
+  { emoji: "💜", size: 14, x: 70, y: 60, opacity: 0.14, blur: false, dur: 23, delay: -11,  drift: -10, rot: 8,   depth: 1.4 },
 ];
 
 /* ───────────────────────────────────────
@@ -29,9 +37,9 @@ const DECORATIONS = [
    ─────────────────────────────────────── */
 
 const GLOW_ORBS = [
-  { color: "rgba(233,160,249,0.12)", x: "15%", y: "20%", size: 120, dur: 10 },
-  { color: "rgba(215,138,244,0.10)", x: "80%", y: "30%", size: 100, dur: 12 },
-  { color: "rgba(233,160,249,0.08)", x: "50%", y: "80%", size: 140, dur: 8  },
+  { color: "rgba(233,160,249,0.24)", x: "15%", y: "20%", size: 180, dur: 10 },
+  { color: "rgba(217,124,246,0.18)", x: "80%", y: "30%", size: 140, dur: 12 },
+  { color: "rgba(255,185,231,0.15)", x: "50%", y: "80%", size: 200, dur: 8  },
 ];
 
 export default function HeroBackground() {
