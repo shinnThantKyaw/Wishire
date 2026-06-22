@@ -3473,6 +3473,8 @@ button:disabled {
    =========================== */
 
 .footer-wrap {
+  position: relative;
+  z-index: 2;
   max-width: 960px;
   margin: 40px auto 0;
   opacity: 0;

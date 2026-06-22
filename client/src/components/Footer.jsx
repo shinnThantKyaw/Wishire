@@ -8,12 +8,22 @@ export default function Footer() {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
+    // Fallback: ensure footer becomes visible even if observer doesn't fire
+    const timer = setTimeout(() => setVisible(true), 2000);
+
     const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          obs.disconnect();
+          clearTimeout(timer);
+        }
+      },
       { threshold: 0.2 }
     );
     obs.observe(el);
-    return () => obs.disconnect();
+    return () => { obs.disconnect(); clearTimeout(timer); };
   }, []);
 
   return (
