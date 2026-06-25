@@ -2161,56 +2161,6 @@ button:disabled {
    Sentence Revealer
    =========================== */
 
-.sentence-revealer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-  padding: 40px 20px;
-  cursor: pointer;
-  min-height: 200px;
-  justify-content: center;
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-.sentence-revealer__text {
-  font-size: 1.3rem;
-  line-height: 1.8;
-  margin: 0;
-  color: var(--ink);
-  text-align: center;
-}
-
-.sentence-revealer__text--final {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--coral);
-}
-
-.sentence-revealer__hint {
-  font-size: 0.85rem;
-  color: var(--mint);
-  opacity: 0.7;
-}
-
-.sentence-revealer__progress {
-  display: flex;
-  gap: 8px;
-  margin-top: 16px;
-}
-
-.sentence-revealer__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--border);
-  transition: background 0.3s;
-}
-
-.sentence-revealer__dot--active {
-  background: var(--coral);
-}
 
 /* ===========================
    Photo Gallery
@@ -2402,39 +2352,6 @@ button:disabled {
 /* ===========================
    Sentence Revealer Skip Button
    =========================== */
-
-.sentence-revealer__skip {
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  color: var(--ink);
-  font-family: "Nunito", sans-serif;
-  font-weight: 700;
-  font-size: 0.85rem;
-  padding: 8px 20px;
-  min-height: 44px;
-  min-width: 44px;
-  cursor: pointer;
-  opacity: 0.6;
-  transition: opacity 0.2s, border-color 0.2s;
-}
-
-.sentence-revealer__skip:hover {
-  opacity: 1;
-  border-color: var(--mint);
-}
-
-.sentence-revealer__skip:focus-visible {
-  outline: 2px solid var(--mint);
-  outline-offset: 2px;
-}
-
-/* Typewriter cursor */
-.sentence-revealer__cursor {
-  font-weight: 400;
-  color: var(--coral);
-  margin-left: 1px;
-}
 
 /* ===========================
    Wish Experience (Single Page)
@@ -3866,17 +3783,6 @@ button:disabled {
     font-size: 1.5rem;
   }
 
-  .sentence-revealer {
-    padding: 32px 16px;
-  }
-
-  .sentence-revealer__text {
-    font-size: 1.15rem;
-  }
-
-  .sentence-revealer__text--final {
-    font-size: 1.3rem;
-  }
 
 
   .photo-slideshow__image {
@@ -4134,19 +4040,6 @@ button:disabled {
     gap: 24px;
   }
 
-  .sentence-revealer {
-    padding: 24px 12px;
-    min-height: 160px;
-    gap: 16px;
-  }
-
-  .sentence-revealer__text {
-    font-size: 1.05rem;
-  }
-
-  .sentence-revealer__text--final {
-    font-size: 1.15rem;
-  }
 
   .gift-box {
     padding: 50px;

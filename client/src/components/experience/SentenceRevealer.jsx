@@ -51,16 +51,6 @@ const cursorVariants = {
 
 /**
  * SentenceRevealer -- typewriter text reveal with skip button and chime SFX.
- *
- * Props:
- *   sentence: string -- current sentence to reveal
- *   sentenceIndex: number -- index for key generation and progress dots
- *   totalSentences: number -- total sentence count for progress dots
- *   playCount: number -- replay counter for key generation
- *   isLast: boolean -- whether this is the last sentence
- *   onRevealed: () => void -- called when sentence fully revealed
- *   onSkip: () => void -- called when skip button pressed
- *   reducedMotion: boolean -- instant reveal if true
  */
 export default function SentenceRevealer({
   sentence,
@@ -77,24 +67,17 @@ export default function SentenceRevealer({
   const chimeRef = useRef(null);
   const intervalRef = useRef(null);
 
-  // Initialize chime SFX
   useEffect(() => {
     chimeRef.current = new Howl({
       src: ["/assets/audio/chime.mp3"],
       volume: 0.4,
-      onloaderror: () => {
-        chimeRef.current = null;
-      },
+      onloaderror: () => { chimeRef.current = null; },
     });
-    return () => {
-      chimeRef.current = null;
-    };
+    return () => { chimeRef.current = null; };
   }, []);
 
-  // Typewriter effect or instant reveal
   useEffect(() => {
     if (!sentence) return;
-
     if (reducedMotion) {
       setDisplayed(sentence);
       setIsComplete(true);
@@ -112,65 +95,37 @@ export default function SentenceRevealer({
       } else {
         setIsComplete(true);
         clearInterval(intervalRef.current);
-        // Play chime on completion
-        if (chimeRef.current) {
-          chimeRef.current.play();
-        }
+        if (chimeRef.current) chimeRef.current.play();
       }
     }, 50);
 
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
   }, [sentence, reducedMotion]);
 
-  // Handle skip button
-  const handleSkip = useCallback(
-    (e) => {
-      e.stopPropagation();
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-      setDisplayed(sentence);
-      setIsComplete(true);
-      // Play chime on skip
-      if (chimeRef.current) {
-        chimeRef.current.play();
-      }
-      onSkip?.();
-    },
-    [sentence, onSkip]
-  );
+  const handleSkip = useCallback((e) => {
+    e.stopPropagation();
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    setDisplayed(sentence);
+    setIsComplete(true);
+    if (chimeRef.current) chimeRef.current.play();
+    onSkip?.();
+  }, [sentence, onSkip]);
 
-  // Handle continue tap — fire onRevealed when typing is complete
-  const handleContinue = useCallback(
-    (e) => {
-      e.stopPropagation();
-      if (isComplete) {
-        onRevealed?.();
-      }
-    },
-    [isComplete, onRevealed]
-  );
+  const handleContinue = useCallback((e) => {
+    e.stopPropagation();
+    if (isComplete) onRevealed?.();
+  }, [isComplete, onRevealed]);
 
   const variants = reducedMotion ? instantVariants : sentenceVariants;
   const isTyping = !isComplete && !reducedMotion;
 
   return (
     <div
-      className="sentence-revealer"
+      className="flex flex-col items-center gap-6 px-5 py-10 cursor-default min-h-[200px] justify-center max-w-[500px] mx-auto"
       onClick={isComplete ? handleContinue : undefined}
       role={isComplete ? "button" : undefined}
       tabIndex={isComplete ? 0 : undefined}
-      onKeyDown={
-        isComplete
-          ? (e) => {
-              if (e.key === "Enter" || e.key === " ") handleContinue(e);
-            }
-          : undefined
-      }
+      onKeyDown={isComplete ? (e) => { if (e.key === "Enter" || e.key === " ") handleContinue(e); } : undefined}
       aria-label={isComplete ? (isLast ? "Continue" : "Next sentence") : undefined}
       style={isComplete ? { cursor: "pointer" } : undefined}
     >
@@ -182,13 +137,11 @@ export default function SentenceRevealer({
           animate="animate"
           exit="exit"
         >
-          <p
-            className={`sentence-revealer__text ${isLast ? "sentence-revealer__text--final" : ""}`}
-          >
+          <p className={`text-lg leading-[1.8] m-0 text-ink ${isLast ? "text-xl font-bold" : ""}`}>
             {displayed}
             {isTyping && (
               <motion.span
-                className="sentence-revealer__cursor"
+                className="inline-block ml-0.5 text-coral"
                 variants={cursorVariants}
                 animate="blink"
                 aria-hidden="true"
@@ -200,10 +153,9 @@ export default function SentenceRevealer({
         </motion.div>
       </AnimatePresence>
 
-      {/* Skip button -- only visible while typing */}
       {isTyping && (
         <button
-          className="sentence-revealer__skip"
+          className="bg-transparent border border-border rounded-full px-4 py-2 text-xs font-bold text-ink/50 cursor-pointer hover:text-ink/80 hover:border-ink/30 transition-colors"
           onClick={handleSkip}
           aria-label="Skip typewriter animation"
         >
@@ -211,10 +163,9 @@ export default function SentenceRevealer({
         </button>
       )}
 
-      {/* Tap to continue hint -- after typing complete, any sentence */}
       {isComplete && !reducedMotion && (
         <motion.span
-          className="sentence-revealer__hint"
+          className="text-xs font-bold text-ink/50"
           variants={hintVariants}
           initial="hidden"
           animate="visible"
@@ -223,12 +174,11 @@ export default function SentenceRevealer({
         </motion.span>
       )}
 
-      {/* Progress dots — one per sentence, current highlighted */}
-      <div className="sentence-revealer__progress" aria-hidden="true">
+      <div className="flex gap-2 justify-center" aria-hidden="true">
         {Array.from({ length: totalSentences }, (_, i) => (
           <span
             key={i}
-            className={`sentence-revealer__dot ${i === sentenceIndex ? "sentence-revealer__dot--active" : ""}`}
+            className={`w-2 h-2 rounded-full transition-colors ${i === sentenceIndex ? "bg-coral" : "bg-border"}`}
           />
         ))}
       </div>
