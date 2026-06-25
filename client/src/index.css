@@ -641,11 +641,16 @@ body {
   .footer__sign             { animation: none; }
   .footer__heart            { animation: none; }
   .footer__sparkle          { animation: none; }
+  .toast                    { animation: none; }
+  .toast__progress-bar      { animation: none; transform: scaleX(0); }
   .success-content          { animation: none; }
   .success-content *        { animation: none !important; }
   .success-bg__deco         { animation: none; }
   .success-bg__orb          { animation: none; }
   .success-confetti         { display: none; }
+  .sparkle                  { animation: none; opacity: 0; }
+  .gift-anticipation__title { animation: none; background-size: 100%; }
+  .gift-anticipation__ambient-glow { animation: none; opacity: 0.15; }
 }
 
 /* ── Page Home ── */
@@ -1390,7 +1395,8 @@ button:disabled {
 /* Wish page */
 .wish-page {
   text-align: center;
-  padding-top: 80px;
+  max-width: none;
+  padding: 0;
 }
 
 .wish-loading,
@@ -1583,21 +1589,37 @@ button:disabled {
    Gift Box
    =========================== */
 
+/* ===========================
+   Gift Box (Hero)
+   =========================== */
+
 .gift-box {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
-  padding: 40px;
+  padding: 60px;
   position: relative;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .gift-box__glow {
   position: absolute;
-  width: 200px;
-  height: 200px;
+  width: 320px;
+  height: 320px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 184, 77, 0.3) 0%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  filter: blur(40px);
+}
+
+.gift-box__ring {
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  border: 2px solid;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -1606,98 +1628,72 @@ button:disabled {
 
 .gift-box__body {
   position: relative;
-  width: 120px;
-  height: 100px;
+  width: 180px;
+  height: 150px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 1;
 }
 
 .gift-box__lid {
-  width: 130px;
-  height: 30px;
-  background: var(--coral);
-  border-radius: 6px 6px 0 0;
+  width: 200px;
+  height: 36px;
+  border-radius: 10px 10px 0 0;
   position: relative;
-  z-index: 2;
+  z-index: 3;
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.08);
 }
 
-.gift-box__ribbon {
-  width: 120px;
-  height: 100px;
-  background: var(--gold);
-  border-radius: 0 0 8px 8px;
+.gift-box__body-face {
+  width: 180px;
+  height: 150px;
+  border-radius: 0 0 12px 12px;
   position: relative;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
 }
 
-.gift-box__ribbon::before {
-  content: "";
+/* Vertical ribbon */
+.gift-box__ribbon-v {
   position: absolute;
-  top: 0;
+  top: 36px;
   left: 50%;
   transform: translateX(-50%);
-  width: 16px;
-  height: 100%;
-  background: var(--coral);
-  opacity: 0.6;
-}
-
-.gift-box__ribbon::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  width: 100%;
-  height: 16px;
-  background: var(--coral);
-  opacity: 0.6;
-}
-
-.gift-box__sender {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  z-index: 4;
+  width: 24px;
+  height: 150px;
+  border-radius: 0 0 4px 4px;
+  z-index: 2;
   pointer-events: none;
 }
 
-.gift-box__from-label {
-  font-size: 0.7rem;
-  font-weight: 400;
-  opacity: 0.7;
-  color: var(--ink);
-}
-
-.gift-box__name {
-  font-family: "Baloo 2", sans-serif;
-  font-weight: 700;
-  font-size: 0.85rem;
-  white-space: nowrap;
+/* Horizontal ribbon */
+.gift-box__ribbon-h {
+  position: absolute;
+  top: 36px;
+  left: 0;
+  width: 180px;
+  height: 24px;
+  top: calc(36px + 63px);
+  z-index: 2;
+  pointer-events: none;
 }
 
 .gift-box__bow {
   position: absolute;
-  top: -16px;
+  top: -20px;
   left: 50%;
   transform: translateX(-50%);
-  width: 40px;
-  height: 20px;
-  z-index: 3;
+  width: 52px;
+  height: 26px;
+  z-index: 4;
 }
 
 .gift-box__bow::before,
 .gift-box__bow::after {
   content: "";
   position: absolute;
-  width: 20px;
-  height: 20px;
-  background: var(--coral);
+  width: 26px;
+  height: 26px;
   border-radius: 50% 50% 0 50%;
   top: 0;
 }
@@ -1712,12 +1708,236 @@ button:disabled {
   transform: rotate(30deg) scaleX(-1);
 }
 
-.gift-box__hint {
-  font-family: "Baloo 2", sans-serif;
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: var(--mint);
+.gift-box__particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 5;
+}
+
+.gift-box__particle {
+  position: absolute;
+  border-radius: 50%;
+  top: 40%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  animation: particle-burst 1s ease-out forwards;
+}
+
+/* ===========================
+   Floating Sparkles
+   =========================== */
+
+.sparkles-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sparkle {
+  position: absolute;
+  bottom: -20px;
+  font-size: var(--sparkle-size, 0.8rem);
+  opacity: 0;
+  animation: float-up var(--sparkle-dur, 5s) var(--sparkle-delay, 0s) ease-out infinite;
+}
+
+@keyframes float-up {
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0);
+  }
+  10% {
+    opacity: 0.8;
+  }
+  80% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100vh) translateX(var(--sparkle-sway, 0px));
+  }
+}
+
+/* ===========================
+   Gift Anticipation (Page 1)
+   =========================== */
+
+/* ===========================
+   Gift Anticipation (Page 1) — Redesigned
+   =========================== */
+
+.gift-anticipation {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 40px 24px 60px;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* ── Background atmosphere ── */
+.gift-anticipation__atmosphere {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.gift-anticipation__ambient-glow {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--anticipation-primary, #a855f7) 0%, transparent 70%);
+  opacity: 0.2;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  filter: blur(80px);
+}
+
+.gift-anticipation__ambient-glow--secondary {
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, var(--anticipation-secondary, #d946ef) 0%, transparent 70%);
+  opacity: 0.12;
+  top: 60%;
+  left: 30%;
+  filter: blur(60px);
+}
+
+/* ── Content ── */
+.gift-anticipation__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+  position: relative;
+  z-index: 1;
+  max-width: 480px;
+  width: 100%;
+}
+
+/* ── 1. Headline ── */
+.gift-anticipation__headline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.gift-anticipation__title {
+  font-family: "Baloo 2", cursive;
+  font-size: 2.6rem;
+  font-weight: 800;
   margin: 0;
+  line-height: 1.15;
+  background: linear-gradient(
+    135deg,
+    var(--anticipation-primary, #a855f7) 0%,
+    var(--anticipation-secondary, #d946ef) 60%,
+    #f0abfc 100%
+  );
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: title-shimmer 5s ease-in-out infinite;
+}
+
+.gift-anticipation__subtitle {
+  font-family: "Nunito", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0;
+  opacity: 0.55;
+  letter-spacing: 0.01em;
+}
+
+/* ── 2. Box stage ── */
+.gift-anticipation__box-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.gift-anticipation__box-breathing {
+  /* Breathing animation via framer-motion variants */
+}
+
+/* ── 3. Sender attribution ── */
+.gift-anticipation__sender {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.gift-anticipation__sender-label {
+  font-family: "Nunito", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink);
+  opacity: 0.5;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.gift-anticipation__sender-name {
+  font-family: "Baloo 2", cursive;
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin: 0;
+  background: linear-gradient(
+    135deg,
+    var(--anticipation-primary, #a855f7) 0%,
+    var(--anticipation-secondary, #d946ef) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── 4. Metadata chips ── */
+.gift-anticipation__meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.gift-anticipation__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: "Nunito", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ink);
+  opacity: 0.65;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(4px);
+  white-space: nowrap;
 }
 
 /* ===========================
@@ -2127,27 +2347,6 @@ button:disabled {
   outline-offset: 2px;
 }
 
-/* ===========================
-   Gift Box Particles
-   =========================== */
-
-.gift-box__particles {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: visible;
-}
-
-.gift-box__particle {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  top: 50%;
-  left: 50%;
-  animation: particle-burst 0.8s ease-out forwards;
-}
-
 @keyframes particle-burst {
   0% {
     transform: translate(-50%, -50%) scale(1);
@@ -2336,27 +2535,100 @@ button:disabled {
    =========================== */
 
 .wish-experience {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 32px;
-  padding: 24px 16px 60px;
+  padding: 40px 20px 60px;
   max-width: 560px;
   margin: 0 auto;
+  z-index: 1;
+}
+
+.wish-experience__header-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
 .wish-experience__header {
   font-family: "Baloo 2", sans-serif;
   font-weight: 800;
-  font-size: 2.4rem;
+  font-size: 2.2rem;
   margin: 0;
   text-align: center;
+  line-height: 1.3;
+}
+
+.wish-experience__flair-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.wish-experience__flair-line {
+  font-family: "Nunito", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0;
+  opacity: 0.8;
+}
+
+.wish-experience__made-with-love {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.wish-experience__made-label {
+  font-family: "Nunito", sans-serif;
+  font-size: 0.9rem;
+  opacity: 0.6;
+  margin: 0;
+}
+
+.wish-experience__made-name {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.wish-experience__made-rel {
+  font-family: "Nunito", sans-serif;
+  font-size: 0.85rem;
+  opacity: 0.5;
+  margin: 0;
+  font-style: italic;
 }
 
 .wish-experience__section {
   width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.wish-experience__section-title {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--ink);
+  margin: 0;
+  text-align: center;
+}
+
+.wish-experience__section-divider {
+  width: 200px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
 }
 
 .wish-experience__footer {
@@ -2364,6 +2636,48 @@ button:disabled {
   font-size: 1.1rem;
   font-weight: 600;
   opacity: 0.7;
+  margin: 0;
+  text-align: center;
+}
+
+/* Thank you footer */
+.wish-experience__thankyou {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.wish-experience__thankyou-main {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--ink);
+  margin: 0;
+}
+
+.wish-experience__thankyou-text {
+  font-family: "Nunito", sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--ink);
+  opacity: 0.8;
+  margin: 0;
+}
+
+.wish-experience__thankyou-birthday {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 800;
+  font-size: 1.4rem;
+  margin: 0;
+}
+
+/* Powered by */
+.wish-experience__powered {
+  font-family: "Nunito", sans-serif;
+  font-size: 0.8rem;
+  opacity: 0.4;
   margin: 0;
   text-align: center;
 }
@@ -3498,7 +3812,7 @@ button:disabled {
 
 .footer {
   position: relative;
-  padding: 18px 50px;
+  padding: 10px 50px;
   border-radius: 36px 36px 0 0;
   background: #ffffff;
   border-top: 1px solid rgba(233,160,249,0.15);
@@ -3610,7 +3924,7 @@ button:disabled {
 
 .footer__quote-block {
   position: relative;
-  padding: 20px 24px;
+  padding: 12px 24px;
   border-radius: 18px;
   background: linear-gradient(135deg, rgba(233,160,249,0.08), rgba(217,124,246,0.04));
   border: 1px solid rgba(233,160,249,0.12);
@@ -3718,10 +4032,120 @@ button:disabled {
 }
 
 /* ===========================
+   Toast Notification (shadcn style)
+   =========================== */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  width: 380px;
+  max-width: calc(100vw - 40px);
+  border-radius: 12px;
+  overflow: hidden;
+  font-family: "Nunito", sans-serif;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+  animation: toast-slide-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toast__body {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+}
+
+.toast--error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.toast--error .toast__icon  { color: #dc2626; }
+.toast--error .toast__msg   { color: #991b1b; }
+.toast--error .toast__close { color: #dc2626; }
+.toast--error .toast__progress-bar { background: #f87171; }
+
+.toast--success {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+}
+
+.toast--success .toast__icon  { color: #16a34a; }
+.toast--success .toast__msg   { color: #15803d; }
+.toast--success .toast__close { color: #16a34a; }
+.toast--success .toast__progress-bar { background: #4ade80; }
+
+.toast__icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.toast__msg {
+  flex: 1;
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.toast__close {
+  background: none;
+  border: none;
+  font-size: 0.85rem;
+  cursor: pointer;
+  opacity: 0.4;
+  padding: 0;
+  line-height: 1;
+  transition: opacity 0.15s;
+  flex-shrink: 0;
+}
+
+.toast__close:hover {
+  opacity: 1;
+}
+
+/* Progress bar track */
+.toast__progress-track {
+  height: 3px;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* Progress bar — shrinks from 100% → 0% over 4s */
+.toast__progress-bar {
+  height: 100%;
+  width: 100%;
+  transform-origin: left;
+  animation: toast-countdown 4s linear forwards;
+}
+
+@keyframes toast-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes toast-countdown {
+  from { transform: scaleX(1); }
+  to   { transform: scaleX(0); }
+}
+
+/* ===========================
    Responsive — Tablet (≤768px)
    =========================== */
 
 @media (max-width: 768px) {
+  .toast {
+    top: 12px;
+    right: 12px;
+    left: 12px;
+    width: auto;
+  }
+
   .page {
     padding: 12px 16px 60px;
   }
@@ -3835,6 +4259,30 @@ button:disabled {
   .wish-experience__actions {
     gap: 10px;
   }
+
+  .gift-anticipation__title {
+    font-size: 2.2rem;
+  }
+
+  .gift-anticipation__sender-name {
+    font-size: 1.5rem;
+  }
+
+  .wish-experience__header {
+    font-size: 1.9rem;
+  }
+
+  .wish-experience__flair-line {
+    font-size: 0.95rem;
+  }
+
+  .wish-experience__thankyou-main {
+    font-size: 1.15rem;
+  }
+
+  .wish-experience__thankyou-birthday {
+    font-size: 1.2rem;
+  }
 }
 
 /* ===========================
@@ -3851,7 +4299,7 @@ button:disabled {
   }
 
   .footer {
-    padding: 28px 20px;
+    padding: 12px 20px;
   }
 
   .footer__inner {
@@ -4077,24 +4525,45 @@ button:disabled {
     font-size: 1.15rem;
   }
 
+  .gift-box {
+    padding: 40px;
+  }
+
   .gift-box__body {
-    width: 100px;
-    height: 84px;
+    width: 140px;
+    height: 116px;
   }
 
   .gift-box__lid {
-    width: 110px;
-    height: 26px;
+    width: 160px;
+    height: 30px;
   }
 
-  .gift-box__ribbon {
-    width: 100px;
-    height: 84px;
+  .gift-box__body-face {
+    width: 140px;
+    height: 116px;
+  }
+
+  .gift-box__ribbon-v {
+    width: 18px;
+    height: 116px;
+    top: 30px;
+  }
+
+  .gift-box__ribbon-h {
+    width: 140px;
+    height: 18px;
+    top: calc(30px + 49px);
   }
 
   .gift-box__glow {
-    width: 160px;
-    height: 160px;
+    width: 250px;
+    height: 250px;
+  }
+
+  .gift-box__ring {
+    width: 200px;
+    height: 200px;
   }
 
   .photo-gallery__grid {
@@ -4225,5 +4694,62 @@ button:disabled {
 
   .wish-experience__make-btn {
     width: 100%;
+  }
+
+  .gift-anticipation {
+    padding: 24px 16px 48px;
+  }
+
+  .gift-anticipation__content {
+    gap: 28px;
+  }
+
+  .gift-anticipation__title {
+    font-size: 1.8rem;
+  }
+
+  .gift-anticipation__subtitle {
+    font-size: 0.95rem;
+  }
+
+  .gift-anticipation__sender-name {
+    font-size: 1.35rem;
+  }
+
+  .gift-anticipation__chip {
+    font-size: 0.75rem;
+    padding: 5px 10px;
+  }
+
+  .wish-experience__header {
+    font-size: 1.6rem;
+  }
+
+  .wish-experience__flair-line {
+    font-size: 0.9rem;
+  }
+
+  .wish-experience__section-title {
+    font-size: 1.1rem;
+  }
+
+  .wish-experience__section-divider {
+    width: 150px;
+  }
+
+  .wish-experience__thankyou-main {
+    font-size: 1.1rem;
+  }
+
+  .wish-experience__thankyou-text {
+    font-size: 0.95rem;
+  }
+
+  .wish-experience__thankyou-birthday {
+    font-size: 1.15rem;
+  }
+
+  .wish-experience__powered {
+    font-size: 0.75rem;
   }
 }

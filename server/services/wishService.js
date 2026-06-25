@@ -24,9 +24,16 @@ export async function createWish(data) {
     theme = "sunrise",
   } = data;
 
-  // Validate
-  if (!senderName || !recipientName || !message) {
-    throw new ValidationError("senderName, recipientName, and message are required");
+  // Validate required fields individually
+  const missing = [];
+  if (!senderName) missing.push("senderName");
+  if (!recipientName) missing.push("recipientName");
+  if (!message) missing.push("message");
+  if (missing.length) {
+    throw new ValidationError(
+      `${missing.join(" and ")} ${missing.length === 1 ? "is" : "are"} required`,
+      missing
+    );
   }
 
   if (message.length > 10000) {

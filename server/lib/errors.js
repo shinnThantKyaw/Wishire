@@ -1,9 +1,10 @@
 export class ValidationError extends Error {
-  constructor(message) {
+  constructor(message, fields = []) {
     super(message);
     this.name = "ValidationError";
     this.status = 400;
     this.code = "VALIDATION_ERROR";
+    this.fields = fields; // e.g. ["recipientName", "message"]
   }
 }
 

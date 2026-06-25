@@ -4,50 +4,37 @@ import { motion } from "framer-motion";
 // --- Module-level variants (Rule 3) ---
 
 const giftBoxContainerVariants = {
-  initial: { scale: 0.8, opacity: 0 },
+  initial: { scale: 0.6, opacity: 0 },
   animate: {
     scale: 1,
     opacity: 1,
-    transition: { type: "spring", stiffness: 200, damping: 20 },
+    transition: { type: "spring", stiffness: 150, damping: 18, duration: 0.8 },
   },
 };
 
 const lidVariants = {
   closed: { y: 0, rotateX: 0 },
   open: {
-    y: -60,
-    rotateX: -45,
+    y: -80,
+    rotateX: -50,
     transition: { duration: 1, ease: "easeOut" },
-  },
-};
-
-const bodyVariants = {
-  closed: { scale: 1 },
-  open: {
-    scale: 1.05,
-    transition: { duration: 0.3, delay: 0.5 },
   },
 };
 
 const glowVariants = {
   hidden: { opacity: 0, scale: 0.5 },
   visible: {
-    opacity: [0, 0.8, 0.4],
-    scale: [0.5, 1.5, 1.2],
-    transition: { duration: 0.6, ease: "easeOut" },
+    opacity: [0, 0.6, 0.35],
+    scale: [0.5, 1.4, 1.2],
+    transition: { duration: 0.8, ease: "easeOut" },
   },
 };
 
-const tapHintVariants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: {
-    opacity: [0, 1, 1, 0.6],
-    y: [10, 0, 0, -2],
-    transition: {
-      duration: 2,
-      repeat: Infinity,
-      repeatType: "reverse",
-    },
+const ringVariants = {
+  animate: {
+    opacity: [0.15, 0.35, 0.15],
+    scale: [1, 1.04, 1],
+    transition: { duration: 2.5, repeat: Infinity, ease: "easeInOut" },
   },
 };
 
@@ -55,30 +42,33 @@ const instantVariants = {
   initial: { opacity: 0 },
   animate: { opacity: 1, transition: { duration: 0 } },
   closed: { y: 0 },
-  open: { y: -60, transition: { duration: 0 } },
+  open: { y: -80, transition: { duration: 0 } },
 };
 
 // --- Particle generation ---
 
 function generateParticles(themePrimary, themeSecondary) {
   const particles = [];
-  for (let i = 0; i < 18; i++) {
-    const angle = (Math.PI * 2 * i) / 18 + (Math.random() - 0.5) * 0.4;
-    const distance = 60 + Math.random() * 80;
+  const count = 24;
+  for (let i = 0; i < count; i++) {
+    const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.5;
+    const distance = 80 + Math.random() * 100;
     const tx = Math.cos(angle) * distance;
-    const ty = Math.sin(angle) * distance;
-    const size = 4 + Math.random() * 6;
-    const color = i % 2 === 0 ? themePrimary : themeSecondary;
-    const delay = Math.random() * 0.2;
+    const ty = Math.sin(angle) * distance - 20; // bias upward
+    const size = 5 + Math.random() * 8;
+    const color = i % 3 === 0 ? themePrimary : i % 3 === 1 ? themeSecondary : "#fff";
+    const delay = Math.random() * 0.3;
+    const emoji = i % 7 === 0 ? "✨" : null;
 
     particles.push({
       id: i,
+      emoji,
       style: {
         "--tx": `${tx}px`,
         "--ty": `${ty}px`,
-        width: `${size}px`,
-        height: `${size}px`,
-        backgroundColor: color,
+        width: emoji ? "12px" : `${size}px`,
+        height: emoji ? "12px" : `${size}px`,
+        backgroundColor: emoji ? "transparent" : color,
         animationDelay: `${delay}s`,
       },
     });
@@ -87,13 +77,12 @@ function generateParticles(themePrimary, themeSecondary) {
 }
 
 /**
- * GiftBox — CSS gift box with split animation, particles, and sender name.
+ * GiftBox — Hero gift box with enhanced animations.
  *
  * Props:
- *   senderName: string
+ *   senderName: string — used for aria-label only
  *   theme: { id, primary, secondary, surface }
- *   onOpen: () => void     — called on tap (triggers music + SFX + dispatches OPEN_BOX)
- *   onOpened: () => void   — called after lid split animation completes (dispatches BOX_OPENED)
+ *   onOpen: () => void — called on tap (triggers music + SFX + state transition)
  *   playCount: number
  *   reducedMotion: boolean
  */
@@ -101,15 +90,14 @@ export default function GiftBox({
   senderName,
   theme,
   onOpen,
-  onOpened,
   playCount = 0,
   reducedMotion = false,
 }) {
   const [opened, setOpened] = useState(false);
   const [showParticles, setShowParticles] = useState(false);
 
-  const primary = theme?.primary || "#ff6f59";
-  const secondary = theme?.secondary || "#ffb84d";
+  const primary = theme?.primary || "#a855f7";
+  const secondary = theme?.secondary || "#d946ef";
 
   // Pick variants based on motion preference
   const lidV = reducedMotion ? instantVariants : lidVariants;
@@ -117,22 +105,20 @@ export default function GiftBox({
     ? { initial: { opacity: 0 }, animate: { opacity: 1, transition: { duration: 0 } } }
     : giftBoxContainerVariants;
   const glowV = reducedMotion
-    ? { hidden: { opacity: 0 }, visible: { opacity: 0.4, transition: { duration: 0 } } }
+    ? { hidden: { opacity: 0 }, visible: { opacity: 0.3, transition: { duration: 0 } } }
     : glowVariants;
-  const hintV = reducedMotion
-    ? { hidden: { opacity: 0 }, visible: { opacity: 0.7, transition: { duration: 0 } } }
-    : tapHintVariants;
+  const ringV = reducedMotion
+    ? { animate: { opacity: 0.15 } }
+    : ringVariants;
 
-  // Handle tap — triggers music + SFX + starts split animation
+  // Handle tap
   const handleTap = useCallback(() => {
     if (opened) return;
     setOpened(true);
     setShowParticles(true);
-    // Call onOpen to trigger music + SFX + schedule state transition (in WishPage)
     onOpen?.();
   }, [opened, onOpen]);
 
-  // Particles data
   const particles = showParticles ? generateParticles(primary, secondary) : [];
 
   return (
@@ -142,7 +128,11 @@ export default function GiftBox({
       variants={containerV}
       initial="initial"
       animate="animate"
-      style={{ cursor: opened ? "default" : "pointer" }}
+      style={{
+        cursor: opened ? "default" : "pointer",
+        "--gift-primary": primary,
+        "--gift-secondary": secondary,
+      }}
       onClick={handleTap}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
@@ -153,18 +143,31 @@ export default function GiftBox({
       role="button"
       tabIndex={0}
       aria-label={`Gift box from ${senderName}. Tap to open.`}
+      whileHover={!opened && !reducedMotion ? { scale: 1.04, rotate: 1 } : undefined}
+      whileTap={!opened && !reducedMotion ? { scale: 0.96 } : undefined}
     >
-      {/* Glow effect */}
+      {/* Outer glow — soft radial */}
       <motion.div
         className="gift-box__glow"
         variants={glowV}
         initial="hidden"
         animate="visible"
+        style={{
+          background: `radial-gradient(circle, ${primary}40 0%, ${primary}15 40%, transparent 70%)`,
+        }}
+      />
+
+      {/* Shimmer ring */}
+      <motion.div
+        className="gift-box__ring"
+        variants={ringV}
+        animate="animate"
+        style={{ borderColor: `${primary}30` }}
       />
 
       {/* Gift box body */}
-      <div className="gift-box__body" style={{ perspective: "400px" }}>
-        {/* Lid — animates up on open (visual only; WishPage manages state transition) */}
+      <div className="gift-box__body">
+        {/* Lid */}
         <motion.div
           className="gift-box__lid"
           variants={lidV}
@@ -172,40 +175,21 @@ export default function GiftBox({
           animate={opened ? "open" : "closed"}
           style={{ backgroundColor: primary }}
         />
-        <div className="gift-box__bow" />
-        <div
-          className="gift-box__ribbon"
-          style={{ backgroundColor: secondary }}
-        />
-
-        {/* Sender name on the box body */}
-        {senderName && (
-          <div className="gift-box__sender" style={{ color: primary }}>
-            <span className="gift-box__from-label">From</span>
-            <span className="gift-box__name">{senderName}</span>
-          </div>
-        )}
+        <div className="gift-box__bow" style={{ backgroundColor: primary }} />
+        <div className="gift-box__ribbon-v" style={{ backgroundColor: `${primary}90` }} />
+        <div className="gift-box__ribbon-h" style={{ backgroundColor: `${primary}50` }} />
+        <div className="gift-box__body-face" style={{ backgroundColor: secondary }} />
       </div>
 
       {/* Particle burst */}
       {showParticles && (
         <div className="gift-box__particles" aria-hidden="true">
           {particles.map((p) => (
-            <div key={p.id} className="gift-box__particle" style={p.style} />
+            <div key={p.id} className="gift-box__particle" style={p.style}>
+              {p.emoji}
+            </div>
           ))}
         </div>
-      )}
-
-      {/* Tap to open hint */}
-      {!opened && (
-        <motion.p
-          className="gift-box__hint"
-          variants={hintV}
-          initial="hidden"
-          animate="visible"
-        >
-          Tap to open
-        </motion.p>
       )}
     </motion.div>
   );

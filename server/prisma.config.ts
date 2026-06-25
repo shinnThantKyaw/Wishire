@@ -6,6 +6,6 @@ export default defineConfig({
     path: "prisma/migrations",
   },
   datasource: {
-    url: "file:/mnt/d/Programming/VibeCode-Tour/birthday-wish-generator/server/dev.db",
+    url: "file:./dev.db",
   },
 });

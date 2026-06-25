@@ -37,7 +37,7 @@ export default function ReplayButton({ onReplay, reducedMotion = false }) {
       onClick={onReplay}
       aria-label="Experience this wish again"
     >
-      Experience again
+      🔄 Experience Again
     </motion.button>
   );
 }

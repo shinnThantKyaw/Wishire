@@ -54,7 +54,8 @@ const cursorVariants = {
  *
  * Props:
  *   sentence: string -- current sentence to reveal
- *   sentenceIndex: number -- index for key generation
+ *   sentenceIndex: number -- index for key generation and progress dots
+ *   totalSentences: number -- total sentence count for progress dots
  *   playCount: number -- replay counter for key generation
  *   isLast: boolean -- whether this is the last sentence
  *   onRevealed: () => void -- called when sentence fully revealed
@@ -64,6 +65,7 @@ const cursorVariants = {
 export default function SentenceRevealer({
   sentence,
   sentenceIndex,
+  totalSentences = 1,
   playCount,
   isLast,
   onRevealed,
@@ -142,11 +144,36 @@ export default function SentenceRevealer({
     [sentence, onSkip]
   );
 
+  // Handle continue tap — fire onRevealed when typing is complete
+  const handleContinue = useCallback(
+    (e) => {
+      e.stopPropagation();
+      if (isComplete) {
+        onRevealed?.();
+      }
+    },
+    [isComplete, onRevealed]
+  );
+
   const variants = reducedMotion ? instantVariants : sentenceVariants;
   const isTyping = !isComplete && !reducedMotion;
 
   return (
-    <div className="sentence-revealer">
+    <div
+      className="sentence-revealer"
+      onClick={isComplete ? handleContinue : undefined}
+      role={isComplete ? "button" : undefined}
+      tabIndex={isComplete ? 0 : undefined}
+      onKeyDown={
+        isComplete
+          ? (e) => {
+              if (e.key === "Enter" || e.key === " ") handleContinue(e);
+            }
+          : undefined
+      }
+      aria-label={isComplete ? (isLast ? "Continue" : "Next sentence") : undefined}
+      style={isComplete ? { cursor: "pointer" } : undefined}
+    >
       <AnimatePresence mode="wait">
         <motion.div
           key={`sentence-${sentenceIndex}-${playCount}`}
@@ -184,23 +211,26 @@ export default function SentenceRevealer({
         </button>
       )}
 
-      {/* Tap to continue hint -- only after typing complete, not last sentence */}
-      {isComplete && !isLast && !reducedMotion && (
+      {/* Tap to continue hint -- after typing complete, any sentence */}
+      {isComplete && !reducedMotion && (
         <motion.span
           className="sentence-revealer__hint"
           variants={hintVariants}
           initial="hidden"
           animate="visible"
         >
-          Tap to continue
+          {isLast ? "Tap to see the magic" : "Tap to continue"}
         </motion.span>
       )}
 
-      {/* Progress dots */}
+      {/* Progress dots — one per sentence, current highlighted */}
       <div className="sentence-revealer__progress" aria-hidden="true">
-        <span
-          className={`sentence-revealer__dot sentence-revealer__dot--active`}
-        />
+        {Array.from({ length: totalSentences }, (_, i) => (
+          <span
+            key={i}
+            className={`sentence-revealer__dot ${i === sentenceIndex ? "sentence-revealer__dot--active" : ""}`}
+          />
+        ))}
       </div>
     </div>
   );

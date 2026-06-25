@@ -28,11 +28,11 @@ export default function Footer() {
 
   return (
     <div ref={ref} className={`footer-wrap${visible ? " footer-wrap--visible" : ""}`}>
+      {/* Magic tagline — above the footer */}
+      <p className="footer__tagline-hero">
+        🎂 Every birthday deserves a little magic ✨💜
+      </p>
       <footer className="footer">
-        {/* Magic tagline */}
-        <p className="footer__tagline-hero">
-          🎂 Every birthday deserves a little magic ✨💜
-        </p>
         {/* Edge sparkles */}
         <span className="footer__sparkle footer__sparkle--tl" aria-hidden="true">✨</span>
         <span className="footer__sparkle footer__sparkle--tr" aria-hidden="true">💜</span>
@@ -83,7 +83,7 @@ export default function Footer() {
               className="footer__sign"
             />
             <p className="footer__made">
-              Made with <span className="footer__heart" aria-hidden="true">❤️</span> by
+              Developed with <span className="footer__heart" aria-hidden="true">❤️</span> by
             </p>
             <p className="footer__creator">Shin Thant Kyaw</p>
             <p className="footer__copy">© 2026 Wishire, Birthday Wish Maker</p>

@@ -10,5 +10,9 @@ export function errorHandler(err, req, res, next) {
     response.code = err.code;
   }
 
+  if (err.fields && err.fields.length) {
+    response.fields = err.fields;
+  }
+
   res.status(status).json(response);
 }

@@ -3,18 +3,18 @@ status: testing
 phase: 03-recipient-experience
 source: [03-VERIFICATION.md]
 started: 2026-06-21T04:35:00.000Z
-updated: 2026-06-21T04:35:00.000Z
+updated: 2026-06-21T06:35:00.000Z
 ---
 
 ## Current Test
 
-number: 2
-name: Typewriter sentence reveal
+number: 3
+name: Audio behavior
 expected: |
-  After box opens, first sentence appears character by character (50ms/char).
-  Blinking cursor visible during typing. "Skip" button visible while typing.
-  Clicking Skip instantly shows full sentence. Chime SFX plays on completion.
-  "Tap to continue" hint appears after sentence is fully revealed.
+  Music starts playing on first gift box tap (volume ~50%).
+  Music loops continuously through all experience phases.
+  Pause button (top-right corner) toggles music on/off.
+  Whoosh SFX plays on box open. Chime SFX plays on sentence reveal.
 awaiting: user response
 
 ## Tests
@@ -34,7 +34,7 @@ expected: |
   Clicking Skip instantly shows full sentence. Chime SFX plays on completion.
   "Tap to continue" hint appears after sentence is fully revealed.
 result: issue
-reported: "no typewriter after box opens, there is blank and plain screen"
+reported: "typewriter works but Tap to continue hint did not appear and experience stalls — onRevealed callback was never called, last sentence had no hint"
 severity: blocker
 
 ### 3. Audio behavior
@@ -103,4 +103,13 @@ blocked: 0
     - client/src/pages/WishPage.jsx
     - client/src/components/experience/GiftBox.jsx
     - client/src/components/experience/ExperienceOrchestrator.jsx
+  missing: []
+
+- truth: "Tap to continue hint appears and clicking it advances to next sentence or photos"
+  status: failed
+  reason: "User reported: Tap to continue hint not appear, experience stalls after sentence fully shown. Root cause: onRevealed callback was never called by SentenceRevealer — no click handler existed. Last sentence had no hint at all (condition was !isLast). Fix: added handleContinue callback with click handler on sentence-revealer div, made hint show for all sentences."
+  severity: blocker
+  test: 2
+  artifacts:
+    - client/src/components/experience/SentenceRevealer.jsx
   missing: []

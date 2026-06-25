@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { User, Heart, Cake, MessageSquare, Camera, Palette, Sparkles, Loader2 } from "lucide-react";
 import PhotoUploader from "../components/create/PhotoUploader.jsx";
@@ -42,6 +42,18 @@ export default function CreatePage() {
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(null);
+  const [toast, setToast] = useState(null); // { message, type }
+
+  const showToast = useCallback((message, type = "error") => {
+    setToast({ message, type, _key: Date.now() });
+  }, []);
+
+  // Auto-dismiss toast after 4s
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => setToast(null), 4000);
+    return () => clearTimeout(t);
+  }, [toast]);
 
   function update(field, value) {
     setForm((f) => ({ ...f, [field]: value }));
@@ -52,6 +64,8 @@ export default function CreatePage() {
 
   function validate(field, value) {
     switch (field) {
+      case "senderName":
+        return value.trim() ? "" : "Your name is required";
       case "recipientName":
         return value.trim() ? "" : "Their name is required";
       case "month":
@@ -90,6 +104,7 @@ export default function CreatePage() {
     setErrors({});
 
     const newErrors = {};
+    newErrors.senderName = validate("senderName", form.senderName);
     newErrors.recipientName = validate("recipientName", form.recipientName);
     newErrors.month = validate("month", form.month);
     newErrors.day = validate("day", form.day);
@@ -98,6 +113,10 @@ export default function CreatePage() {
     const hasErrors = Object.values(newErrors).some(Boolean);
     if (hasErrors) {
       setErrors(newErrors);
+      const missing = Object.entries(newErrors)
+        .filter(([, v]) => v)
+        .map(([, v]) => v);
+      showToast(missing.join(". "));
       return;
     }
 
@@ -131,13 +150,26 @@ export default function CreatePage() {
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
+        // If the server returned per-field errors, map them inline + toast
+        if (data.fields && data.fields.length) {
+          const fieldErrors = {};
+          const messages = [];
+          for (const f of data.fields) {
+            if (f === "senderName") { fieldErrors.senderName = "Your name is required"; messages.push("Your name is required"); }
+            if (f === "recipientName") { fieldErrors.recipientName = "Their name is required"; messages.push("Their name is required"); }
+            if (f === "message") { fieldErrors.message = "Please write a birthday message"; messages.push("Please write a birthday message"); }
+          }
+          setErrors(fieldErrors);
+          showToast(messages.join(". "));
+          return;
+        }
         throw new Error(data.error || "Could not create wish. Try again.");
       }
 
       const wish = await res.json();
       navigate(`/success/${wish.id}`);
     } catch (err) {
-      setErrors((prev) => ({ ...prev, global: err.message }));
+      showToast(err.message);
     } finally {
       setLoading(false);
       setUploadProgress(null);
@@ -146,6 +178,20 @@ export default function CreatePage() {
 
   return (
     <>
+      {/* Toast — fixed at top, outside form so scroll doesn't affect it */}
+      {toast && (
+        <div className={`toast toast--${toast.type}`} role="alert">
+          <div className="toast__body">
+            <span className="toast__icon">{toast.type === "error" ? "⚠️" : "✅"}</span>
+            <span className="toast__msg">{toast.message}</span>
+            <button className="toast__close" onClick={() => setToast(null)} aria-label="Dismiss">✕</button>
+          </div>
+          <div className="toast__progress-track">
+            <div className="toast__progress-bar" key={toast._key} />
+          </div>
+        </div>
+      )}
+
       {/* Background decorations — outside animated container for fixed positioning */}
       <div className="create-bg" aria-hidden="true">
         <div className="create-bg__gradient" />
@@ -206,15 +252,19 @@ export default function CreatePage() {
           <h2 className="form__section-title"><span className="form__section-icon"><User size={16} /></span> About You</h2>
           <p className="form__section-helper">✨ Your message starts here</p>
           <label>
-            Your name (optional)
+            Your name
             <div className="form__input-wrap">
               <User size={16} className="form__icon" />
               <input
                 value={form.senderName}
                 onChange={(e) => update("senderName", e.target.value)}
                 placeholder="e.g. Priya"
+                className={errors.senderName ? "form__input--error" : ""}
               />
             </div>
+            {errors.senderName && (
+              <span className="form__field-error">{errors.senderName}</span>
+            )}
           </label>
         </div>
 
@@ -344,8 +394,6 @@ export default function CreatePage() {
           <p className="form__section-helper">🎨 Set the mood for their surprise</p>
           <ThemeSelector value={form.theme} onChange={(id) => update("theme", id)} />
         </div>
-
-        {errors.global && <p className="error">{errors.global}</p>}
 
         <button className="create-submit" type="submit" disabled={loading}>
           {loading ? <Loader2 size={18} className="spin" /> : <Sparkles size={18} />}

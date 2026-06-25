@@ -6,67 +6,35 @@ import ExperienceOrchestrator from "../components/experience/ExperienceOrchestra
 import AudioController from "../components/experience/AudioController.jsx";
 import ErrorState from "../components/experience/ErrorState.jsx";
 
-// State machine phases
+// State machine phases — simplified 2-phase
 const STATUS = {
   IDLE: "IDLE",
   GIFT_BOX: "GIFT_BOX",
-  UNWRAPPING: "UNWRAPPING",
-  REVEALING: "REVEALING",
-  PHOTOS: "PHOTOS",
-  FINALE: "FINALE",
-  COMPLETE: "COMPLETE",
+  MAIN: "MAIN",
 };
 
 // Initial state for the reducer
 const initialState = {
   status: STATUS.IDLE,
-  sentenceIndex: 0,
   playCount: 0,
-  photoIndex: 0,
-  isTyping: false,
   isMusicPlaying: false,
 };
 
 // State machine reducer
 function reducer(state, action) {
   switch (action.type) {
-    case "OPEN_BOX":
-      return { ...state, status: STATUS.UNWRAPPING };
-    case "BOX_OPENED":
-      return { ...state, status: STATUS.REVEALING };
-    case "NEXT_SENTENCE":
-      return {
-        ...state,
-        sentenceIndex: state.sentenceIndex + 1,
-        isTyping: true,
-      };
-    case "SKIP_TYPING":
-      return { ...state, isTyping: false };
-    case "ALL_SENTENCES_DONE":
-      if (action.hasPhotos) {
-        return { ...state, status: STATUS.PHOTOS, photoIndex: 0 };
-      }
-      return { ...state, status: STATUS.FINALE };
-    case "NEXT_PHOTO":
-      return { ...state, photoIndex: state.photoIndex + 1 };
-    case "PREV_PHOTO":
-      return { ...state, photoIndex: Math.max(0, state.photoIndex - 1) };
-    case "PHOTOS_DONE":
-      return { ...state, status: STATUS.FINALE };
-    case "START_FINALE":
-      return { ...state, status: STATUS.FINALE };
-    case "FINALE_DONE":
-      return { ...state, status: STATUS.COMPLETE };
+    case "SET_DATA_LOADED":
+      return { ...state, status: STATUS.GIFT_BOX };
+    case "OPEN":
+      return { ...state, status: STATUS.MAIN, isMusicPlaying: true };
     case "REPLAY":
       return {
         ...initialState,
+        status: STATUS.GIFT_BOX,
         playCount: state.playCount + 1,
-        isMusicPlaying: true,
       };
     case "SET_MUSIC_PLAYING":
       return { ...state, isMusicPlaying: action.value };
-    case "SET_DATA_LOADED":
-      return { ...state, status: STATUS.GIFT_BOX };
     default:
       return state;
   }
@@ -122,15 +90,15 @@ export default function WishPage() {
       volume: 0.5,
       loop: true,
       onloaderror: () => {
-        // Graceful fallback — experience works without music
         musicRef.current = null;
       },
     });
 
     sfxWhooshRef.current = new Howl({
       src: ["/assets/audio/whoosh.mp3"],
-      volume: 0.6,
-      onloaderror: () => {
+      volume: 0.8,
+      onloaderror: (_, msg) => {
+        console.warn("Whoosh SFX failed to load:", msg);
         sfxWhooshRef.current = null;
       },
     });
@@ -147,24 +115,15 @@ export default function WishPage() {
     };
   }, []);
 
-  // Handle gift box tap — starts music (Pitfall 8: user gesture unlocks AudioContext)
+  // Handle gift box tap — starts music + whoosh, transitions to MAIN
   const handleGiftBoxOpen = useCallback(() => {
-    // Play background music
     if (musicRef.current) {
       musicRef.current.play();
-      dispatch({ type: "SET_MUSIC_PLAYING", value: true });
     }
-    // Play whoosh SFX
     if (sfxWhooshRef.current) {
       sfxWhooshRef.current.play();
     }
-    // Advance directly to REVEALING after the lid animation (~1s)
-    // We skip UNWRAPPING because AnimatePresence would unmount GiftBox,
-    // killing its internal timeout. WishPage stays mounted so the
-    // timeout survives.
-    setTimeout(() => {
-      dispatch({ type: "BOX_OPENED" });
-    }, 1200);
+    dispatch({ type: "OPEN" });
   }, []);
 
   // Handle music toggle (pause/resume)
@@ -180,11 +139,11 @@ export default function WishPage() {
     }
   }, [state.isMusicPlaying]);
 
-  // Handle replay — reset music
+  // Handle replay — reset everything back to gift box
   const handleReplay = useCallback(() => {
     if (musicRef.current) {
+      musicRef.current.stop();
       musicRef.current.seek(0);
-      musicRef.current.play();
     }
     dispatch({ type: "REPLAY" });
   }, []);
@@ -238,7 +197,6 @@ export default function WishPage() {
         />
       )}
 
-      {/* Experience orchestrator */}
       <ExperienceOrchestrator
         wish={wishData}
         sentences={sentences}
@@ -246,7 +204,6 @@ export default function WishPage() {
         dispatch={dispatch}
         theme={theme}
         onGiftBoxOpen={handleGiftBoxOpen}
-        onBoxOpened={handleBoxOpened}
         onReplay={handleReplay}
       />
     </div>
