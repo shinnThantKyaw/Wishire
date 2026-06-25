@@ -1397,6 +1397,7 @@ button:disabled {
   text-align: center;
   max-width: none;
   padding: 0;
+  background-color: var(--wish-surface, #faf5ff);
 }
 
 .wish-loading,
@@ -1511,6 +1512,12 @@ button:disabled {
   justify-content: center;
   text-align: center;
   padding: 40px 20px;
+  width: 100%;
+}
+
+/* Direct children of experience must fill full width */
+.experience > * {
+  width: 100%;
 }
 
 .experience__sender {
@@ -1597,27 +1604,27 @@ button:disabled {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 60px;
+  padding: 80px;
   position: relative;
   -webkit-tap-highlight-color: transparent;
 }
 
 .gift-box__glow {
   position: absolute;
-  width: 320px;
-  height: 320px;
+  width: 420px;
+  height: 420px;
   border-radius: 50%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
-  filter: blur(40px);
+  filter: blur(60px);
 }
 
 .gift-box__ring {
   position: absolute;
-  width: 260px;
-  height: 260px;
+  width: 340px;
+  height: 340px;
   border-radius: 50%;
   border: 2px solid;
   top: 50%;
@@ -1628,8 +1635,8 @@ button:disabled {
 
 .gift-box__body {
   position: relative;
-  width: 180px;
-  height: 150px;
+  width: 240px;
+  height: 210px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1637,31 +1644,32 @@ button:disabled {
 }
 
 .gift-box__lid {
-  width: 200px;
-  height: 36px;
+  width: 270px;
+  height: 44px;
   border-radius: 10px 10px 0 0;
   position: relative;
   z-index: 3;
-  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+  transform-origin: bottom center;
 }
 
 .gift-box__body-face {
-  width: 180px;
-  height: 150px;
-  border-radius: 0 0 12px 12px;
+  width: 240px;
+  height: 210px;
+  border-radius: 0 0 14px 14px;
   position: relative;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
 }
 
 /* Vertical ribbon */
 .gift-box__ribbon-v {
   position: absolute;
-  top: 36px;
+  top: 44px;
   left: 50%;
   transform: translateX(-50%);
-  width: 24px;
-  height: 150px;
-  border-radius: 0 0 4px 4px;
+  width: 30px;
+  height: 210px;
+  border-radius: 0 0 5px 5px;
   z-index: 2;
   pointer-events: none;
 }
@@ -1669,43 +1677,44 @@ button:disabled {
 /* Horizontal ribbon */
 .gift-box__ribbon-h {
   position: absolute;
-  top: 36px;
   left: 0;
-  width: 180px;
-  height: 24px;
-  top: calc(36px + 63px);
+  width: 240px;
+  height: 30px;
+  top: calc(44px + 90px);
   z-index: 2;
   pointer-events: none;
 }
 
 .gift-box__bow {
   position: absolute;
-  top: -20px;
+  top: -26px;
   left: 50%;
   transform: translateX(-50%);
-  width: 52px;
-  height: 26px;
+  width: 64px;
+  height: 32px;
   z-index: 4;
+  border-radius: 50% 50% 0 0;
 }
 
 .gift-box__bow::before,
 .gift-box__bow::after {
   content: "";
   position: absolute;
-  width: 26px;
-  height: 26px;
-  border-radius: 50% 50% 0 50%;
-  top: 0;
+  bottom: 0;
+  width: 34px;
+  height: 30px;
+  border-radius: 50% 50% 0 0;
+  background: inherit;
 }
 
 .gift-box__bow::before {
-  left: 0;
-  transform: rotate(-30deg);
+  left: -8px;
+  transform: rotate(-25deg);
 }
 
 .gift-box__bow::after {
-  right: 0;
-  transform: rotate(30deg) scaleX(-1);
+  right: -8px;
+  transform: rotate(25deg);
 }
 
 .gift-box__particles {
@@ -1724,8 +1733,8 @@ button:disabled {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
-  animation: particle-burst 1s ease-out forwards;
+  font-size: 14px;
+  animation: particle-burst 0.8s ease-out forwards;
 }
 
 /* ===========================
@@ -1769,9 +1778,10 @@ button:disabled {
    Gift Anticipation (Page 1)
    =========================== */
 
-/* ===========================
-   Gift Anticipation (Page 1) — Redesigned
-   =========================== */
+/* Hide footer on the wish page — keeps recipient immersed */
+.wish-page ~ .footer-wrap {
+  display: none;
+}
 
 .gift-anticipation {
   position: relative;
@@ -1781,9 +1791,23 @@ button:disabled {
   justify-content: center;
   min-height: 100vh;
   min-height: 100dvh;
-  padding: 40px 24px 60px;
+  padding: 0;
   z-index: 1;
   overflow: hidden;
+  background-color: var(--ga-surface, #faf5ff);
+}
+
+/* Tinted gradient overlay — uses theme primary + secondary at low opacity */
+.gift-anticipation::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 25% 15%, var(--ga-primary, #a855f7) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 85%, var(--ga-secondary, #d946ef) 0%, transparent 55%);
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* ── Background atmosphere ── */
@@ -1797,90 +1821,125 @@ button:disabled {
 
 .gift-anticipation__ambient-glow {
   position: absolute;
-  width: 500px;
-  height: 500px;
+  width: 600px;
+  height: 600px;
   border-radius: 50%;
-  background: radial-gradient(circle, var(--anticipation-primary, #a855f7) 0%, transparent 70%);
-  opacity: 0.2;
-  top: 30%;
+  opacity: 0.18;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
-  filter: blur(80px);
+  filter: blur(100px);
 }
 
 .gift-anticipation__ambient-glow--secondary {
-  width: 350px;
-  height: 350px;
-  background: radial-gradient(circle, var(--anticipation-secondary, #d946ef) 0%, transparent 70%);
-  opacity: 0.12;
-  top: 60%;
-  left: 30%;
-  filter: blur(60px);
+  width: 400px;
+  height: 400px;
+  opacity: 0.1;
+  top: 65%;
+  left: 25%;
+  filter: blur(80px);
 }
 
-/* ── Content ── */
-.gift-anticipation__content {
+/* ── Glass card ── */
+.gift-anticipation__card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 36px;
+  gap: 20px;
   position: relative;
   z-index: 1;
-  max-width: 480px;
+  max-width: 440px;
   width: 100%;
+  padding: 36px 28px 28px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.06),
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
-/* ── 1. Headline ── */
+/* ── Scattered decorative emoji (around card edges) ── */
+.gift-anticipation__deco {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.06));
+}
+
+/* ── Floating hearts (inside card) ── */
+.gift-anticipation__float {
+  position: absolute;
+  font-size: 1.1rem;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Envelope icon ── */
+.gift-anticipation__envelope {
+  font-size: 2rem;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
+}
+
+/* ── Headline ── */
 .gift-anticipation__headline {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
   text-align: center;
 }
 
 .gift-anticipation__title {
   font-family: "Baloo 2", cursive;
-  font-size: 2.6rem;
+  font-size: 1.9rem;
   font-weight: 800;
   margin: 0;
-  line-height: 1.15;
-  background: linear-gradient(
-    135deg,
-    var(--anticipation-primary, #a855f7) 0%,
-    var(--anticipation-secondary, #d946ef) 60%,
-    #f0abfc 100%
-  );
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: title-shimmer 5s ease-in-out infinite;
+  line-height: 1.2;
+  color: var(--ink);
 }
 
 .gift-anticipation__subtitle {
   font-family: "Nunito", sans-serif;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--ink);
   margin: 0;
-  opacity: 0.55;
+  opacity: 0.5;
   letter-spacing: 0.01em;
 }
 
-/* ── 2. Box stage ── */
+/* ── Box stage ── */
 .gift-anticipation__box-stage {
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
+  margin: -8px 0;
 }
 
-.gift-anticipation__box-breathing {
-  /* Breathing animation via framer-motion variants */
+/* ── CTA ── */
+.gift-anticipation__cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: -4px 0;
 }
 
-/* ── 3. Sender attribution ── */
+.gift-anticipation__cta-text {
+  font-family: "Nunito", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  opacity: 0.85;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+}
+
+/* ── Sender ── */
 .gift-anticipation__sender {
   display: flex;
   flex-direction: column;
@@ -1889,54 +1948,48 @@ button:disabled {
   text-align: center;
 }
 
-.gift-anticipation__sender-label {
+.gift-anticipation__sender-heart {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.gift-anticipation__sender-text {
   font-family: "Nunito", sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   font-weight: 600;
   color: var(--ink);
-  opacity: 0.5;
+  opacity: 0.6;
   margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
 }
 
 .gift-anticipation__sender-name {
   font-family: "Baloo 2", cursive;
-  font-size: 1.8rem;
+  font-size: 1.3rem;
   font-weight: 800;
   margin: 0;
-  background: linear-gradient(
-    135deg,
-    var(--anticipation-primary, #a855f7) 0%,
-    var(--anticipation-secondary, #d946ef) 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
-/* ── 4. Metadata chips ── */
+/* ── Metadata chips ── */
 .gift-anticipation__meta {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .gift-anticipation__chip {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   font-family: "Nunito", sans-serif;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 700;
   color: var(--ink);
-  opacity: 0.65;
-  padding: 6px 14px;
+  opacity: 0.55;
+  padding: 5px 12px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.05);
   white-space: nowrap;
 }
 
@@ -4150,6 +4203,10 @@ button:disabled {
     padding: 12px 16px 60px;
   }
 
+  .wish-page {
+    padding: 0;
+  }
+
   .hero__title {
     font-size: 2.2rem;
   }
@@ -4260,12 +4317,17 @@ button:disabled {
     gap: 10px;
   }
 
+  .gift-anticipation__card {
+    padding: 32px 24px 24px;
+    gap: 18px;
+  }
+
   .gift-anticipation__title {
-    font-size: 2.2rem;
+    font-size: 1.7rem;
   }
 
   .gift-anticipation__sender-name {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 
   .wish-experience__header {
@@ -4488,7 +4550,7 @@ button:disabled {
   }
 
   .wish-page {
-    padding-top: 48px;
+    padding: 0;
   }
 
   .experience {
@@ -4526,44 +4588,44 @@ button:disabled {
   }
 
   .gift-box {
-    padding: 40px;
+    padding: 50px;
   }
 
   .gift-box__body {
-    width: 140px;
-    height: 116px;
+    width: 180px;
+    height: 158px;
   }
 
   .gift-box__lid {
-    width: 160px;
-    height: 30px;
+    width: 210px;
+    height: 36px;
   }
 
   .gift-box__body-face {
-    width: 140px;
-    height: 116px;
+    width: 180px;
+    height: 158px;
   }
 
   .gift-box__ribbon-v {
-    width: 18px;
-    height: 116px;
-    top: 30px;
+    width: 22px;
+    height: 158px;
+    top: 36px;
   }
 
   .gift-box__ribbon-h {
-    width: 140px;
-    height: 18px;
-    top: calc(30px + 49px);
+    width: 180px;
+    height: 22px;
+    top: calc(36px + 68px);
   }
 
   .gift-box__glow {
-    width: 250px;
-    height: 250px;
+    width: 320px;
+    height: 320px;
   }
 
   .gift-box__ring {
-    width: 200px;
-    height: 200px;
+    width: 260px;
+    height: 260px;
   }
 
   .photo-gallery__grid {
@@ -4697,28 +4759,42 @@ button:disabled {
   }
 
   .gift-anticipation {
-    padding: 24px 16px 48px;
+    padding: 0;
   }
 
-  .gift-anticipation__content {
-    gap: 28px;
+  .gift-anticipation__card {
+    padding: 28px 20px 22px;
+    border-radius: 24px;
+    gap: 16px;
+  }
+
+  .gift-anticipation__envelope {
+    font-size: 1.6rem;
   }
 
   .gift-anticipation__title {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
   }
 
   .gift-anticipation__subtitle {
-    font-size: 0.95rem;
+    font-size: 0.88rem;
+  }
+
+  .gift-anticipation__cta-text {
+    font-size: 0.9rem;
+  }
+
+  .gift-anticipation__sender-text {
+    font-size: 0.85rem;
   }
 
   .gift-anticipation__sender-name {
-    font-size: 1.35rem;
+    font-size: 1.15rem;
   }
 
   .gift-anticipation__chip {
-    font-size: 0.75rem;
-    padding: 5px 10px;
+    font-size: 0.72rem;
+    padding: 4px 10px;
   }
 
   .wish-experience__header {
