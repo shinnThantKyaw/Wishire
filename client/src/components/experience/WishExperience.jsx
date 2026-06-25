@@ -142,7 +142,7 @@ export default function WishExperience({
       <FloatingSparkles primary={theme.primary} reducedMotion={reducedMotion} />
 
       {/* Confetti canvas (Rule 6: pointer-events: none) */}
-      <canvas ref={canvasRef} style={confettiCanvasStyle} />
+
 
       <motion.div
         className="wish-experience"
@@ -150,7 +150,7 @@ export default function WishExperience({
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-      >
+      ><canvas ref={canvasRef} style={confettiCanvasStyle} />
         {/* 1. Header */}
         <motion.div className="wish-experience__header-block" variants={sV}>
           <h1
@@ -205,6 +205,7 @@ export default function WishExperience({
               onComplete={() => {}}
               recipientName={wish.recipientName}
               reducedMotion={reducedMotion}
+              theme={theme}
             />
             <div className="wish-experience__section-divider" aria-hidden="true" />
           </motion.div>
