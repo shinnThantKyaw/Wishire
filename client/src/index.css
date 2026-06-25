@@ -2226,66 +2226,7 @@ button:disabled {
    Reaction Bar
    =========================== */
 
-.reaction-bar {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-}
 
-.reaction-bar__emojis {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.reaction-bar__emoji {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 8px 14px;
-  font-size: 1.3rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  position: relative;
-}
-
-.reaction-bar__emoji:hover {
-  border-color: var(--coral);
-  background: rgba(255, 111, 89, 0.08);
-}
-
-.reaction-bar__count {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--ink);
-  opacity: 0.7;
-}
-
-.reaction-bar__heart {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  font-size: 1.6rem;
-}
-
-.reaction-bar__heart-icon {
-  display: inline-block;
-}
-
-.reaction-bar__heart-count {
-  font-family: "Baloo 2", sans-serif;
-  font-weight: 800;
-  font-size: 1.1rem;
-  color: var(--coral);
-}
 
 /* ===========================
    Theme Selector (CreatePage)
@@ -4262,14 +4203,6 @@ button:disabled {
 
 
 
-  .reaction-bar__emojis {
-    gap: 6px;
-  }
-
-  .reaction-bar__emoji {
-    padding: 6px 10px;
-    font-size: 1.1rem;
-  }
 
 
 

@@ -51,7 +51,7 @@ export default function ReactionBar({ wishId }) {
         setHeartCount(data.count);
       }
     } catch {
-      // silent fail — optimistic UI handles display
+      // silent fail
     }
   }, [wishId]);
 
@@ -61,7 +61,6 @@ export default function ReactionBar({ wishId }) {
     setShowHeartPop(true);
     setTimeout(() => setShowHeartPop(false), 300);
 
-    // Debounce flush at 800ms
     clearTimeout(flushTimerRef.current);
     flushTimerRef.current = setTimeout(flushHeart, 800);
   }
@@ -85,41 +84,43 @@ export default function ReactionBar({ wishId }) {
 
   return (
     <motion.div
-      className="reaction-bar"
+      className="flex flex-col items-center gap-4"
       variants={barVariants}
       initial="hidden"
       animate="visible"
     >
-      <div className="reaction-bar__emojis">
+      <div className="flex gap-2 flex-wrap justify-center">
         {EMOJIS.map((emoji) => (
           <motion.button
             key={emoji}
-            className="reaction-bar__emoji"
+            className="relative bg-white/80 border border-border rounded-full w-12 h-12 text-xl cursor-pointer flex items-center justify-center shadow-sm hover:bg-white hover:shadow-md transition-shadow"
             variants={emojiVariants}
             whileTap={{ scale: 1.3 }}
             onClick={() => handleEmojiTap(emoji)}
           >
             <span>{emoji}</span>
             {reactions[emoji] > 0 && (
-              <span className="reaction-bar__count">{reactions[emoji]}</span>
+              <span className="absolute -top-1.5 -right-1.5 bg-coral text-white text-[0.65rem] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">
+                {reactions[emoji]}
+              </span>
             )}
           </motion.button>
         ))}
       </div>
 
       <motion.button
-        className="reaction-bar__heart"
+        className="flex flex-col items-center gap-1 bg-none border-none cursor-pointer p-2"
         onClick={handleHeartTap}
         variants={popVariants}
         animate={showHeartPop ? "pop" : undefined}
         whileTap={{ scale: 0.9 }}
       >
-        <span className="reaction-bar__heart-icon">❤️</span>
+        <span className="text-3xl">❤️</span>
         <AnimatePresence>
           {heartCount > 0 && (
             <motion.span
               key={heartCount}
-              className="reaction-bar__heart-count"
+              className="text-coral font-bold text-sm"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
