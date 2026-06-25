@@ -1839,6 +1839,178 @@ button:disabled {
   animation: gift-lid-wiggle 5s ease-in-out infinite;
 }
 
+/* ── Postcard — round elegant tag ── */
+.gift-box__postcard {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 48px;
+  height: 48px;
+  z-index: 4;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  background: radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.98) 0%, rgba(252,250,255,0.88) 60%, rgba(240,230,255,0.78) 100%);
+  border-radius: 50%;
+  box-shadow:
+    0 3px 10px rgba(0, 0, 0, 0.12),
+    0 1px 3px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.gift-box__postcard-text {
+  font-family: "Nunito", sans-serif;
+  font-size: 0.34rem;
+  font-weight: 900;
+  color: var(--ink);
+  opacity: 0.75;
+  line-height: 1.1;
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+
+.gift-box__postcard-sender {
+  font-family: "Baloo 2", cursive;
+  font-size: 0.45rem;
+  font-weight: 800;
+  color: var(--ink);
+  opacity: 1;
+  line-height: 1.05;
+  text-align: center;
+  letter-spacing: 0.01em;
+  max-width: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Decorative corner accents on body face ── */
+.gift-box__body-face::before,
+.gift-box__body-face::after {
+  content: "✦";
+  position: absolute;
+  color: rgba(255, 255, 255, 0.16);
+  font-size: 8px;
+  pointer-events: none;
+}
+.gift-box__body-face::before { bottom: 12px; left: 14px; }
+.gift-box__body-face::after  { bottom: 12px; right: 14px; }
+
+/* ── Lid decorative ornaments ── */
+.gift-box__lid::before,
+.gift-box__lid::after {
+  content: "✧";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.28);
+  font-size: 8px;
+  pointer-events: none;
+}
+.gift-box__lid::before { left: 14px; }
+.gift-box__lid::after  { right: 14px; }
+
+/* ── Sparkle scatter around the box (50+ sparkles across 2 elements + inner) ── */
+.gift-box__sparkle-scatter {
+  position: absolute;
+  inset: -24px;
+  pointer-events: none;
+  z-index: 0;
+}
+.gift-box__sparkle-scatter::before,
+.gift-box__sparkle-scatter::after {
+  content: "✦";
+  position: absolute;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 10px;
+  animation: sparkle-twinkle 3s ease-in-out infinite;
+}
+.gift-box__sparkle-scatter::before { top: 0; left: 6px; animation-delay: 0s; }
+.gift-box__sparkle-scatter::after  { top: 2px; right: 4px; animation-delay: 1.2s; }
+
+.gift-box__sparkle-scatter::before {
+  box-shadow:
+    40px 0px 0 rgba(255,255,255,0.45), 80px -4px 0 rgba(255,255,255,0.4),
+    120px 0px 0 rgba(255,255,255,0.5), 160px 6px 0 rgba(255,255,255,0.35),
+    180px -2px 0 rgba(255,255,255,0.4), 0px 60px 0 rgba(255,255,255,0.45),
+    40px 70px 0 rgba(255,255,255,0.5), 80px 50px 0 rgba(255,255,255,0.35),
+    120px 55px 0 rgba(255,255,255,0.45), 160px 65px 0 rgba(255,255,255,0.5),
+    190px 70px 0 rgba(255,255,255,0.35), 0px 120px 0 rgba(255,255,255,0.4),
+    50px 115px 0 rgba(255,255,255,0.5), 100px 110px 0 rgba(255,255,255,0.35),
+    140px 125px 0 rgba(255,255,255,0.45), 175px 120px 0 rgba(255,255,255,0.4),
+    200px 115px 0 rgba(255,255,255,0.3), 10px 175px 0 rgba(255,255,255,0.45),
+    70px 170px 0 rgba(255,255,255,0.5), 110px 165px 0 rgba(255,255,255,0.4),
+    150px 175px 0 rgba(255,255,255,0.5), 185px 168px 0 rgba(255,255,255,0.35),
+    30px 200px 0 rgba(255,255,255,0.3), 120px 210px 0 rgba(255,255,255,0.4);
+}
+.gift-box__sparkle-scatter::after {
+  box-shadow:
+    20px 30px 0 rgba(255,255,255,0.4), 60px 20px 0 rgba(255,255,255,0.5),
+    100px 30px 0 rgba(255,255,255,0.35), 145px 25px 0 rgba(255,255,255,0.45),
+    175px 40px 0 rgba(255,255,255,0.4), 195px 18px 0 rgba(255,255,255,0.35),
+    10px 90px 0 rgba(255,255,255,0.5), 55px 85px 0 rgba(255,255,255,0.35),
+    95px 82px 0 rgba(255,255,255,0.45), 135px 95px 0 rgba(255,255,255,0.5),
+    170px 85px 0 rgba(255,255,255,0.35), 195px 90px 0 rgba(255,255,255,0.4),
+    25px 145px 0 rgba(255,255,255,0.45), 65px 140px 0 rgba(255,255,255,0.35),
+    105px 150px 0 rgba(255,255,255,0.5), 150px 140px 0 rgba(255,255,255,0.4),
+    190px 150px 0 rgba(255,255,255,0.35), 8px 195px 0 rgba(255,255,255,0.4),
+    50px 190px 0 rgba(255,255,255,0.5), 100px 200px 0 rgba(255,255,255,0.35),
+    145px 195px 0 rgba(255,255,255,0.45), 180px 192px 0 rgba(255,255,255,0.4),
+    205px 200px 0 rgba(255,255,255,0.3);
+}
+/* Inner sparkle layer — alternates "✧" shape */
+.gift-box__sparkle-scatter__inner {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.gift-box__sparkle-scatter__inner::before,
+.gift-box__sparkle-scatter__inner::after {
+  content: "✧";
+  position: absolute;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 8px;
+  animation: sparkle-twinkle 3.5s ease-in-out infinite;
+}
+.gift-box__sparkle-scatter__inner::before { top: 8px; right: 14px; animation-delay: 0.6s; }
+.gift-box__sparkle-scatter__inner::after  { bottom: 4px; left: 14px; animation-delay: 1.8s; }
+
+.gift-box__sparkle-scatter__inner::before {
+  box-shadow:
+    30px 0px 0 rgba(255,255,255,0.35), 70px -4px 0 rgba(255,255,255,0.3),
+    110px 2px 0 rgba(255,255,255,0.4), 155px 0px 0 rgba(255,255,255,0.3),
+    0px 50px 0 rgba(255,255,255,0.4), 40px 55px 0 rgba(255,255,255,0.3),
+    80px 45px 0 rgba(255,255,255,0.35), 125px 50px 0 rgba(255,255,255,0.4),
+    165px 55px 0 rgba(255,255,255,0.3), 10px 100px 0 rgba(255,255,255,0.35),
+    60px 95px 0 rgba(255,255,255,0.4), 100px 105px 0 rgba(255,255,255,0.3),
+    140px 100px 0 rgba(255,255,255,0.35), 175px 95px 0 rgba(255,255,255,0.3),
+    20px 150px 0 rgba(255,255,255,0.35), 80px 145px 0 rgba(255,255,255,0.4),
+    120px 155px 0 rgba(255,255,255,0.3), 160px 148px 0 rgba(255,255,255,0.35),
+    40px 190px 0 rgba(255,255,255,0.3), 130px 195px 0 rgba(255,255,255,0.35);
+}
+.gift-box__sparkle-scatter__inner::after {
+  box-shadow:
+    15px 18px 0 rgba(255,255,255,0.35), 55px 10px 0 rgba(255,255,255,0.4),
+    95px 15px 0 rgba(255,255,255,0.3), 148px 20px 0 rgba(255,255,255,0.35),
+    10px 72px 0 rgba(255,255,255,0.35), 50px 68px 0 rgba(255,255,255,0.4),
+    90px 75px 0 rgba(255,255,255,0.3), 130px 70px 0 rgba(255,255,255,0.35),
+    170px 72px 0 rgba(255,255,255,0.3), 20px 125px 0 rgba(255,255,255,0.35),
+    65px 120px 0 rgba(255,255,255,0.4), 110px 128px 0 rgba(255,255,255,0.3),
+    155px 122px 0 rgba(255,255,255,0.35), 10px 178px 0 rgba(255,255,255,0.3),
+    50px 172px 0 rgba(255,255,255,0.35), 95px 180px 0 rgba(255,255,255,0.3),
+    145px 175px 0 rgba(255,255,255,0.35), 180px 178px 0 rgba(255,255,255,0.3);
+}
+
+@keyframes sparkle-twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50%      { opacity: 0.8; transform: scale(1.3); }
+}
+
+/* ── Dot constellation on body face ── */
 .gift-box__body-face {
   width: 180px;
   height: 156px;
@@ -1848,12 +2020,36 @@ button:disabled {
     0 20px 60px rgba(0, 0, 0, 0.25),
     0 8px 24px rgba(0, 0, 0, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.15);
-  background-image: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.12) 0%,
-    transparent 40%,
-    rgba(0, 0, 0, 0.08) 100%
-  );
+  background-image:
+    radial-gradient(circle at 18px 24px, rgba(255,255,255,0.07) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 38px 60px, rgba(255,255,255,0.05) 1px, transparent 1px),
+    radial-gradient(circle at 60px 18px, rgba(255,255,255,0.06) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 100px 36px, rgba(255,255,255,0.05) 1px, transparent 1px),
+    radial-gradient(circle at 120px 48px, rgba(255,255,255,0.07) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 140px 22px, rgba(255,255,255,0.04) 1px, transparent 1px),
+    radial-gradient(circle at 32px 108px, rgba(255,255,255,0.05) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 82px 118px, rgba(255,255,255,0.06) 1px, transparent 1px),
+    radial-gradient(circle at 120px 96px, rgba(255,255,255,0.05) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 148px 78px, rgba(255,255,255,0.04) 1px, transparent 1px),
+    radial-gradient(circle at 55px 136px, rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.12) 0%,
+      transparent 40%,
+      rgba(0, 0, 0, 0.08) 100%
+    );
+}
+
+/* ── Shimmer dots along ribbons ── */
+.gift-box__ribbon-h::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  right: 10px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  pointer-events: none;
 }
 
 /* Vertical ribbon — centered, stops at bottom edge */

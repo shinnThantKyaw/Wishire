@@ -169,6 +169,11 @@ export default function GiftBox({
         style={{ borderColor: `${primary}20` }}
       />
 
+      {/* Sparkle scatter around the box — 3 layered pseudo-elements for density */}
+      <div className="gift-box__sparkle-scatter" aria-hidden="true">
+        <div className="gift-box__sparkle-scatter__inner" />
+      </div>
+
       {/* Gift box body */}
       <div className="gift-box__body">
         {/* Lid */}
@@ -198,6 +203,20 @@ export default function GiftBox({
           className="gift-box__ribbon-h"
           style={{ backgroundColor: `${primary}cc` }}
         />
+
+        {/* ── Postcard at ribbon intersection ── */}
+        <div className="gift-box__postcard">
+          <span className="gift-box__postcard-text">
+            Something
+          </span >
+          <span className="gift-box__postcard-text">
+            special
+          </span>
+          <span className="gift-box__postcard-text">
+            for you <span className="gift-box__postcard-heart">❤️</span>
+          </span>
+        </div>
+
         <div
           className="gift-box__body-face"
           style={{
