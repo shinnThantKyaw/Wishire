@@ -27,7 +27,6 @@ export default function ShareButton() {
         setTimeout(() => setCopied(false), 2000);
       }
     } catch {
-      // Fallback: select + copy from a temp input
       const input = document.createElement("input");
       input.value = url;
       document.body.appendChild(input);
@@ -45,7 +44,7 @@ export default function ShareButton() {
 
   return (
     <motion.button
-      className="share-btn"
+      className="bg-gradient-start/10 border border-gradient-start/30 text-gradient-start font-display font-bold text-sm px-5 py-2.5 rounded-full cursor-pointer inline-flex items-center gap-2 hover:bg-gradient-start/20"
       variants={v}
       initial="hidden"
       animate="visible"

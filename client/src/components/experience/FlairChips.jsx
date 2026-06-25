@@ -35,13 +35,18 @@ export default function FlairChips({ flair }) {
 
   return (
     <motion.div
-      className="flair-chips"
+      className="flex gap-2.5 flex-wrap justify-center"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
     >
       {chips.map(({ emoji, label, style }) => (
-        <motion.span key={label} className="flair-chip" variants={chipVariants} style={style}>
+        <motion.span
+          key={label}
+          className="bg-amber-100/80 border border-gold rounded-full px-3.5 py-1.5 text-sm font-bold"
+          variants={chipVariants}
+          style={style}
+        >
           {emoji} {label}
         </motion.span>
       ))}

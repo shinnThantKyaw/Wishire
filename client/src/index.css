@@ -2251,21 +2251,6 @@ button:disabled {
    Flair Chips
    =========================== */
 
-.flair-chips {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.flair-chip {
-  background: rgba(255, 184, 77, 0.18);
-  border: 1px solid var(--gold);
-  border-radius: 999px;
-  padding: 6px 14px;
-  font-size: 0.85rem;
-  font-weight: 700;
-}
 
 /* ===========================
    Reaction Bar
@@ -2401,23 +2386,6 @@ button:disabled {
    Share Button
    =========================== */
 
-.share-btn {
-  background: var(--card);
-  border: 2px solid var(--mint);
-  border-radius: 999px;
-  color: var(--mint);
-  font-family: "Baloo 2", sans-serif;
-  font-weight: 700;
-  font-size: 0.95rem;
-  padding: 10px 24px;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-}
-
-.share-btn:hover {
-  background: var(--mint);
-  color: white;
-}
 
 /* ===========================
    Error State (WishPage)
@@ -4393,15 +4361,6 @@ button:disabled {
     font-size: 1.1rem;
   }
 
-  .share-btn {
-    padding: 8px 18px;
-    font-size: 0.85rem;
-  }
-
-  .flair-chip {
-    padding: 4px 10px;
-    font-size: 0.8rem;
-  }
 
 
   .success {
