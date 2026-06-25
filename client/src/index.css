@@ -2391,60 +2391,10 @@ button:disabled {
    Loading Skeleton
    =========================== */
 
-.skeleton {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  padding-top: 80px;
-}
-
-.skeleton__avatar {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
+.skeleton-shimmer {
   background: linear-gradient(90deg, var(--border) 25%, rgba(241, 228, 211, 0.5) 50%, var(--border) 75%);
   background-size: 200% 100%;
   animation: skeleton-shimmer 1.5s ease-in-out infinite;
-}
-
-.skeleton__line {
-  height: 16px;
-  border-radius: 8px;
-  background: linear-gradient(90deg, var(--border) 25%, rgba(241, 228, 211, 0.5) 50%, var(--border) 75%);
-  background-size: 200% 100%;
-  animation: skeleton-shimmer 1.5s ease-in-out infinite;
-}
-
-.skeleton__line--short {
-  width: 40%;
-  animation-delay: 0.1s;
-}
-
-.skeleton__line--long {
-  width: 75%;
-  animation-delay: 0.2s;
-}
-
-.skeleton__line--medium {
-  width: 55%;
-  animation-delay: 0.3s;
-}
-
-.skeleton__gift {
-  width: 120px;
-  height: 120px;
-  border-radius: 16px;
-  margin-top: 24px;
-  background: linear-gradient(90deg, var(--border) 25%, rgba(241, 228, 211, 0.5) 50%, var(--border) 75%);
-  background-size: 200% 100%;
-  animation: skeleton-shimmer 1.5s ease-in-out infinite;
-  animation-delay: 0.4s;
-}
-
-@keyframes skeleton-shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
 }
 
 /* ===========================

@@ -165,12 +165,12 @@ export default function WishPage() {
   if (loading) {
     return (
       <div className="page wish-page">
-        <div className="skeleton">
-          <div className="skeleton__avatar" />
-          <div className="skeleton__line skeleton__line--short" />
-          <div className="skeleton__line skeleton__line--long" />
-          <div className="skeleton__line skeleton__line--medium" />
-          <div className="skeleton__gift" />
+        <div className="flex flex-col items-center gap-4 pt-20">
+          <div className="skeleton-shimmer w-16 h-16 rounded-full" />
+          <div className="skeleton-shimmer h-4 rounded-lg w-[40%]" style={{ animationDelay: "0.1s" }} />
+          <div className="skeleton-shimmer h-4 rounded-lg w-[75%]" style={{ animationDelay: "0.2s" }} />
+          <div className="skeleton-shimmer h-4 rounded-lg w-[55%]" style={{ animationDelay: "0.3s" }} />
+          <div className="skeleton-shimmer w-[120px] h-[120px] rounded-2xl mt-6" style={{ animationDelay: "0.4s" }} />
         </div>
       </div>
     );
