@@ -34,7 +34,7 @@ const instantHeadingVariants = {
 const canvasStyle = {
   position: "fixed",
   inset: 0,
-  pointerEvents: "none", // Rule 6: confetti canvas must have pointer-events: none
+  pointerEvents: "none",
   zIndex: 9999,
 };
 
@@ -60,7 +60,6 @@ export default function ConfettiFinale({
   const canvasRef = useRef(null);
   const confettiRef = useRef(null);
 
-  // Rule 7: shared canvas, create once, reuse via ref
   useEffect(() => {
     if (!canvasRef.current) return;
 
@@ -70,7 +69,6 @@ export default function ConfettiFinale({
 
     const colors = [theme?.primary || "#ff6f59", theme?.secondary || "#ffb84d", "#ffd93d", "#6bcb77", "#4d96ff"];
 
-    // First burst
     confettiRef.current({
       particleCount: reducedMotion ? 20 : 200,
       spread: reducedMotion ? 30 : 60,
@@ -79,7 +77,6 @@ export default function ConfettiFinale({
       colors,
     });
 
-    // Second burst after 250ms
     const timer = setTimeout(() => {
       if (confettiRef.current) {
         confettiRef.current({
@@ -94,11 +91,10 @@ export default function ConfettiFinale({
 
     return () => {
       clearTimeout(timer);
-      confetti.reset(); // Clean up stuck particles
+      confetti.reset();
     };
   }, [playCount, theme, reducedMotion]);
 
-  // Auto-complete after duration
   useEffect(() => {
     const timer = setTimeout(() => {
       onComplete?.();
@@ -110,17 +106,15 @@ export default function ConfettiFinale({
 
   return (
     <motion.div
-      className="confetti-finale"
+      className="flex flex-col items-center justify-center gap-3 min-h-[200px]"
       variants={containerVariants}
       initial="initial"
       animate="animate"
     >
-      {/* Confetti canvas -- pointer-events: none via style */}
       <canvas ref={canvasRef} style={canvasStyle} />
 
-      {/* Happy Birthday text */}
       <motion.h1
-        className="confetti-finale__heading"
+        className="font-display font-extrabold text-4xl m-0"
         variants={headingV}
         initial="initial"
         animate="animate"
@@ -129,9 +123,8 @@ export default function ConfettiFinale({
         Happy Birthday!
       </motion.h1>
 
-      {/* Recipient name */}
       <motion.p
-        className="confetti-finale__name"
+        className="font-display font-bold text-xl text-ink m-0"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.8, duration: 0.5 }}

@@ -2452,36 +2452,6 @@ button:disabled {
    Confetti Finale
    =========================== */
 
-.confetti-finale {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  text-align: center;
-  pointer-events: none;
-}
-
-.confetti-finale canvas {
-  pointer-events: none;
-}
-
-.confetti-finale__heading {
-  font-family: "Baloo 2", sans-serif;
-  font-weight: 800;
-  font-size: 2.4rem;
-  margin: 0;
-  color: var(--coral);
-  text-align: center;
-}
-
-.confetti-finale__name {
-  font-family: "Baloo 2", sans-serif;
-  font-weight: 700;
-  font-size: 1.4rem;
-  margin: 0;
-  color: var(--ink);
-  opacity: 0.8;
-}
 
 /* ===========================
    Replay Button
@@ -3972,13 +3942,6 @@ button:disabled {
     height: 260px;
   }
 
-  .confetti-finale__heading {
-    font-size: 2rem;
-  }
-
-  .confetti-finale__name {
-    font-size: 1.2rem;
-  }
 
   .wish-experience {
     gap: 24px;
@@ -4297,13 +4260,6 @@ button:disabled {
     height: 40px;
   }
 
-  .confetti-finale__heading {
-    font-size: 1.6rem;
-  }
-
-  .confetti-finale__name {
-    font-size: 1.1rem;
-  }
 
 
   .reaction-bar__emojis {
