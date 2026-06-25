@@ -139,7 +139,7 @@ export default function WishExperience({
   return (
     <>
       {/* Floating sparkles background */}
-      <FloatingSparkles count={14} reducedMotion={reducedMotion} />
+      <FloatingSparkles primary={theme.primary} reducedMotion={reducedMotion} />
 
       {/* Confetti canvas (Rule 6: pointer-events: none) */}
       <canvas ref={canvasRef} style={confettiCanvasStyle} />

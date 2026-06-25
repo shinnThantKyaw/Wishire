@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import HomePage from "./pages/HomePage.jsx";
 import CreatePage from "./pages/CreatePage.jsx";
 import SuccessPage from "./pages/SuccessPage.jsx";
@@ -8,6 +8,9 @@ import Footer from "./components/Footer.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 
 export default function App() {
+  const { pathname } = useLocation();
+  const showFooter = !pathname.startsWith("/wish/");
+
   return (
     <>
       <ScrollToTop />
@@ -24,7 +27,7 @@ export default function App() {
           }
         />
       </Routes>
-      <Footer />
+      {showFooter && <Footer />}
     </>
   );
 }

@@ -216,3 +216,50 @@ React 18 (Vite) + Express + Prisma/SQLite + MCP server (`get_birthday_flair` too
 3. **Photo upload `sharp` thumbnail** verification on server
 4. **Replace `ambient.mp3`** with a real royalty-free audio track
 5. **Fill in `slides/pitch.md` and `report.md`** for assignment submission
+
+---
+
+## Premium Gift Box Redesign (2026-06-25)
+
+### What changed
+
+Complete redesign of the GiftAnticipation screen (Phase 1 — the page recipients see when they open the wish link). Goal: Apple/Linear/Stripe-level premium feel.
+
+**Files modified:**
+- `client/src/components/experience/GiftAnticipation.jsx` — Complete rewrite
+- `client/src/components/experience/GiftBox.jsx` — Premium 3D redesign
+- `client/src/components/experience/FloatingSparkles.jsx` — Purple-only particle system
+- `client/src/index.css` — All gift-anticipation, gift-box, and sparkle CSS replaced
+
+### Design changes
+
+| Element | Before | After |
+|---------|--------|-------|
+| Background | Light surface (`#faf5ff`) with subtle tinted overlay | Deep purple gradient (`#0d0221` → `#1a0533` → `#2d1b69`) with ambient glow orbs |
+| Card | Frosted glass (semi-transparent white) | Clean white premium card with layered shadows and `border-radius: 32px` |
+| Headline | "{name}, a surprise awaits!" | "Something special is waiting for you" |
+| Subtitle | "{sender} prepared something special" | "Made with love, just for {name}" |
+| CTA | Bouncing "✨ Tap To Open ✨" text | Gradient pill button "🎁 Open Your Gift" with glow pulse, hover/press states |
+| Gift box | Flat box with basic shadows | Premium 3D box with float animation, lid wiggle, deeper shadows, gradient highlights, bow center knot |
+| Floating elements | Mixed emoji (hearts, sparkles, gold) | Purple-only system: sparkle dots, tiny hearts, bokeh orbs |
+| Decorations | Scattered emoji around card edges + floating hearts | Removed (cleaner, more premium) |
+| Metadata chips | Basic pills | Refined frosted badges with letter-spacing |
+
+### New animations
+- `gift-box-float` — gentle 6px vertical float, 4s cycle
+- `gift-lid-wiggle` — subtle 3° lid rotation every 5s
+- `cta-glow-pulse` — expanding glow ring on CTA button, 3s cycle
+- `bokeh-drift` — slow diagonal drift for bokeh orbs
+
+### Visual hierarchy (top to bottom)
+1. **Headline** — warm personal message
+2. **Gift Box** — hero element, largest, floating animation draws eye
+3. **CTA Button** — clear interactive prompt with gradient + glow
+4. **Sender** — "With love from {name}" with gradient text
+5. **Metadata chips** — zodiac, birthstone, birthday date
+
+### Accessibility preserved
+- `role="button"`, `tabIndex`, `aria-label`, `onKeyDown` on GiftBox
+- `prefers-reduced-motion` disables all CSS animations + framer-motion variants
+- All text meets contrast requirements on both dark background and white card
+- CTA button has proper `:hover`, `:focus`, `:active` states

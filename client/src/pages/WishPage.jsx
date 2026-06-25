@@ -49,15 +49,6 @@ export default function WishPage() {
   const musicRef = useRef(null);
   const sfxWhooshRef = useRef(null);
 
-  // Hide footer while wish page is mounted — keeps recipient immersed
-  useEffect(() => {
-    const footer = document.querySelector(".footer-wrap");
-    if (footer) footer.style.display = "none";
-    return () => {
-      if (footer) footer.style.display = "";
-    };
-  }, []);
-
   // Fetch wish data on mount
   useEffect(() => {
     let cancelled = false;
@@ -199,8 +190,8 @@ export default function WishPage() {
       className=" wish-page"
       style={surfaceStyle}
     >
-      {/* Audio controller — visible during entire experience */}
-      {state.status !== STATUS.IDLE && (
+      {/* Audio controller — only after gift box is opened */}
+      {state.status === STATUS.MAIN && (
         <AudioController
           isPlaying={state.isMusicPlaying}
           onToggle={handleMusicToggle}

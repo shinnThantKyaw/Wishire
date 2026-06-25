@@ -811,8 +811,11 @@
   .success-bg__deco         { animation: none; }
   .success-bg__orb          { animation: none; }
   .success-confetti         { display: none; }
-  .sparkle                  { animation: none; opacity: 0; }
-  .gift-anticipation__title { animation: none; background-size: 100%; }
+  .gift-anticipation__deco  { animation: none; opacity: 0; }
+  .gift-box                 { animation: none; }
+  .gift-box__lid            { animation: none; }
+  .gift-anticipation__cta-btn { animation: none; }
+  .gift-anticipation        { animation: none; background-size: 100%; }
   .gift-anticipation__ambient-glow { animation: none; opacity: 0.15; }
 }
 
@@ -1761,8 +1764,19 @@ button:disabled {
    =========================== */
 
 /* ===========================
-   Gift Box (Hero)
+   Gift Box — Premium 3D
    =========================== */
+
+@keyframes gift-box-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+@keyframes gift-lid-wiggle {
+  0%, 85%, 100% { transform: rotateX(0deg); }
+  90%           { transform: rotateX(-3deg); }
+  95%           { transform: rotateX(1deg); }
+}
 
 .gift-box {
   display: flex;
@@ -1771,24 +1785,25 @@ button:disabled {
   padding: 80px;
   position: relative;
   -webkit-tap-highlight-color: transparent;
+  animation: gift-box-float 4s ease-in-out infinite;
 }
 
 .gift-box__glow {
   position: absolute;
-  width: 420px;
-  height: 420px;
+  width: 380px;
+  height: 380px;
   border-radius: 50%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
-  filter: blur(60px);
+  filter: blur(70px);
 }
 
 .gift-box__ring {
   position: absolute;
-  width: 340px;
-  height: 340px;
+  width: 300px;
+  height: 300px;
   border-radius: 50%;
   border: 2px solid;
   top: 50%;
@@ -1799,8 +1814,8 @@ button:disabled {
 
 .gift-box__body {
   position: relative;
-  width: 240px;
-  height: 210px;
+  width: 220px;
+  height: 190px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1808,56 +1823,73 @@ button:disabled {
 }
 
 .gift-box__lid {
-  width: 270px;
-  height: 44px;
-  border-radius: 10px 10px 0 0;
+  width: 248px;
+  height: 42px;
+  border-radius: 12px 12px 4px 4px;
   position: relative;
   z-index: 3;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 -8px 30px rgba(0, 0, 0, 0.15),
+    0 -2px 8px rgba(0, 0, 0, 0.1),
+    inset 0 2px 0 rgba(255, 255, 255, 0.25);
   transform-origin: bottom center;
+  animation: gift-lid-wiggle 5s ease-in-out infinite;
 }
 
 .gift-box__body-face {
-  width: 240px;
-  height: 210px;
-  border-radius: 0 0 14px 14px;
+  width: 220px;
+  height: 190px;
+  border-radius: 0 0 16px 16px;
   position: relative;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.25),
+    0 8px 24px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  background-image: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.12) 0%,
+    transparent 40%,
+    rgba(0, 0, 0, 0.08) 100%
+  );
 }
 
-/* Vertical ribbon */
+/* Vertical ribbon — elegant */
 .gift-box__ribbon-v {
   position: absolute;
-  top: 44px;
+  top: 42px;
   left: 50%;
   transform: translateX(-50%);
-  width: 30px;
-  height: 210px;
-  border-radius: 0 0 5px 5px;
+  width: 22px;
+  height: 190px;
+  border-radius: 0 0 4px 4px;
   z-index: 2;
   pointer-events: none;
+  box-shadow: inset 2px 0 0 rgba(255, 255, 255, 0.2);
 }
 
-/* Horizontal ribbon */
+/* Horizontal ribbon — elegant */
 .gift-box__ribbon-h {
   position: absolute;
   left: 0;
-  width: 240px;
-  height: 30px;
-  top: calc(44px + 90px);
+  width: 220px;
+  height: 22px;
+  top: calc(42px + 84px);
   z-index: 2;
   pointer-events: none;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.2);
 }
 
+/* Bow — refined loops with depth */
 .gift-box__bow {
   position: absolute;
-  top: -26px;
+  top: -24px;
   left: 50%;
   transform: translateX(-50%);
-  width: 64px;
-  height: 32px;
+  width: 56px;
+  height: 28px;
   z-index: 4;
   border-radius: 50% 50% 0 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .gift-box__bow::before,
@@ -1865,20 +1897,34 @@ button:disabled {
   content: "";
   position: absolute;
   bottom: 0;
-  width: 34px;
-  height: 30px;
+  width: 30px;
+  height: 26px;
   border-radius: 50% 50% 0 0;
   background: inherit;
+  box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .gift-box__bow::before {
-  left: -8px;
+  left: -6px;
   transform: rotate(-25deg);
 }
 
 .gift-box__bow::after {
-  right: -8px;
+  right: -6px;
   transform: rotate(25deg);
+}
+
+/* Bow center knot */
+.gift-box__bow-knot {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  z-index: 5;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .gift-box__particles {
@@ -1902,7 +1948,7 @@ button:disabled {
 }
 
 /* ===========================
-   Floating Sparkles
+   Floating Sparkles — Purple-Only System
    =========================== */
 
 .sparkles-container {
@@ -1913,39 +1959,9 @@ button:disabled {
   z-index: 0;
 }
 
-.sparkle {
-  position: absolute;
-  bottom: -20px;
-  font-size: var(--sparkle-size, 0.8rem);
-  opacity: 0;
-  animation: float-up var(--sparkle-dur, 5s) var(--sparkle-delay, 0s) ease-out infinite;
-}
-
-@keyframes float-up {
-  0% {
-    opacity: 0;
-    transform: translateY(0) translateX(0);
-  }
-  10% {
-    opacity: 0.8;
-  }
-  80% {
-    opacity: 0.6;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-100vh) translateX(var(--sparkle-sway, 0px));
-  }
-}
-
 /* ===========================
-   Gift Anticipation (Page 1)
+   Gift Anticipation — Premium
    =========================== */
-
-/* Hide footer on the wish page — keeps recipient immersed */
-.wish-page ~ .footer-wrap {
-  display: none;
-}
 
 .gift-anticipation {
   position: relative;
@@ -1955,23 +1971,11 @@ button:disabled {
   justify-content: center;
   min-height: 100vh;
   min-height: 100dvh;
-  padding: 0;
+  padding: 24px 16px;
   z-index: 1;
   overflow: hidden;
-  background-color: var(--ga-surface, #faf5ff);
-}
-
-/* Tinted gradient overlay — uses theme primary + secondary at low opacity */
-.gift-anticipation::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse at 25% 15%, var(--ga-primary, #a855f7) 0%, transparent 55%),
-    radial-gradient(ellipse at 75% 85%, var(--ga-secondary, #d946ef) 0%, transparent 55%);
-  opacity: 0.12;
-  pointer-events: none;
-  z-index: 0;
+  /* background and background-size are set via inline style (theme-dynamic) */
+  animation: hero-gradient-drift 30s ease-in-out infinite alternate;
 }
 
 /* ── Background atmosphere ── */
@@ -1985,95 +1989,83 @@ button:disabled {
 
 .gift-anticipation__ambient-glow {
   position: absolute;
-  width: 600px;
-  height: 600px;
+  width: 400px;
+  height: 400px;
   border-radius: 50%;
-  opacity: 0.18;
-  top: 40%;
+  opacity: 0.3;
+  top: 35%;
   left: 50%;
   transform: translate(-50%, -50%);
-  filter: blur(100px);
+  filter: blur(60px);
 }
 
 .gift-anticipation__ambient-glow--secondary {
-  width: 400px;
-  height: 400px;
-  opacity: 0.1;
-  top: 65%;
-  left: 25%;
-  filter: blur(80px);
+  width: 300px;
+  height: 300px;
+  opacity: 0.2;
+  top: 70%;
+  left: 20%;
+  filter: blur(50px);
 }
 
-/* ── Glass card ── */
+/* ── Floating emoji decorations (match landing page) ── */
+.gift-anticipation__deco {
+  position: absolute;
+  line-height: 1;
+  pointer-events: none;
+  will-change: transform;
+  animation: hero-deco-float var(--deco-dur, 16s) var(--deco-delay, 0s) ease-in-out infinite;
+}
+
+/* ── Premium card — clean white surface ── */
 .gift-anticipation__card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 24px;
   position: relative;
   z-index: 1;
-  max-width: 440px;
+  max-width: 420px;
   width: 100%;
-  padding: 36px 28px 28px;
-  border-radius: 28px;
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(24px) saturate(1.4);
-  -webkit-backdrop-filter: blur(24px) saturate(1.4);
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  padding: 48px 36px 40px;
+  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.06),
-    0 2px 8px rgba(0, 0, 0, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    0 32px 64px rgba(0, 0, 0, 0.25),
+    0 16px 32px rgba(0, 0, 0, 0.15),
+    0 2px 8px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
-/* ── Scattered decorative emoji (around card edges) ── */
-.gift-anticipation__deco {
-  position: absolute;
-  pointer-events: none;
-  z-index: 0;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.06));
-}
-
-/* ── Floating hearts (inside card) ── */
-.gift-anticipation__float {
-  position: absolute;
-  font-size: 1.1rem;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ── Envelope icon ── */
-.gift-anticipation__envelope {
-  font-size: 2rem;
-  line-height: 1;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
-}
-
-/* ── Headline ── */
+/* ── Headline — clean, elegant ── */
 .gift-anticipation__headline {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   text-align: center;
 }
 
 .gift-anticipation__title {
   font-family: "Baloo 2", cursive;
-  font-size: 1.9rem;
-  font-weight: 800;
+  font-size: 1.75rem;
+  font-weight: 700;
   margin: 0;
-  line-height: 1.2;
+  line-height: 1.3;
   color: var(--ink);
+  letter-spacing: -0.01em;
 }
 
 .gift-anticipation__subtitle {
   font-family: "Nunito", sans-serif;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--ink);
   margin: 0;
-  opacity: 0.5;
+  opacity: 0.45;
   letter-spacing: 0.01em;
 }
 
@@ -2083,57 +2075,91 @@ button:disabled {
   flex-direction: column;
   align-items: center;
   position: relative;
-  margin: -8px 0;
+  margin: 0;
 }
 
-/* ── CTA ── */
+/* ── CTA — Premium gradient button ── */
+@keyframes cta-glow-pulse {
+  0%, 100% { box-shadow: 0 4px 20px var(--cta-glow, rgba(168, 85, 247, 0.3)), 0 0 0 0 var(--cta-glow, rgba(168, 85, 247, 0.1)); }
+  50%      { box-shadow: 0 4px 28px var(--cta-glow, rgba(168, 85, 247, 0.4)), 0 0 0 6px transparent; }
+}
+
 .gift-anticipation__cta {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: -4px 0;
 }
 
+.gift-anticipation__cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 36px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-family: "Nunito", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: #fff;
+  background: linear-gradient(135deg, var(--ga-primary, #a855f7), var(--ga-secondary, #d946ef));
+  box-shadow: 0 4px 20px var(--cta-glow, rgba(168, 85, 247, 0.3));
+  animation: cta-glow-pulse 3s ease-in-out infinite;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.gift-anticipation__cta-btn:hover {
+  transform: scale(1.04);
+  box-shadow: 0 6px 28px var(--cta-glow, rgba(168, 85, 247, 0.4));
+}
+
+.gift-anticipation__cta-btn:active {
+  transform: scale(0.97);
+}
+
+.gift-anticipation__cta-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+/* Legacy text CTA (fallback) */
 .gift-anticipation__cta-text {
   font-family: "Nunito", sans-serif;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: 0.04em;
-  opacity: 0.85;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+  opacity: 0.7;
 }
 
-/* ── Sender ── */
+/* ── Sender — refined ── */
 .gift-anticipation__sender {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   text-align: center;
-}
-
-.gift-anticipation__sender-heart {
-  font-size: 1rem;
-  line-height: 1;
 }
 
 .gift-anticipation__sender-text {
   font-family: "Nunito", sans-serif;
-  font-size: 0.92rem;
+  font-size: 0.82rem;
   font-weight: 600;
   color: var(--ink);
-  opacity: 0.6;
+  opacity: 0.4;
   margin: 0;
+  letter-spacing: 0.02em;
 }
 
 .gift-anticipation__sender-name {
   font-family: "Baloo 2", cursive;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 800;
   margin: 0;
 }
 
-/* ── Metadata chips ── */
+/* ── Metadata chips — elegant frosted badges ── */
 .gift-anticipation__meta {
   display: flex;
   flex-wrap: wrap;
@@ -2144,17 +2170,18 @@ button:disabled {
 .gift-anticipation__chip {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
   font-family: "Nunito", sans-serif;
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 700;
   color: var(--ink);
-  opacity: 0.55;
-  padding: 5px 12px;
+  opacity: 0.5;
+  padding: 5px 14px;
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.04);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.06);
   white-space: nowrap;
+  letter-spacing: 0.02em;
 }
 
 /* ===========================
@@ -3812,16 +3839,16 @@ button:disabled {
   }
 
   .gift-anticipation__card {
-    padding: 32px 24px 24px;
-    gap: 18px;
+    padding: 40px 28px 32px;
+    gap: 20px;
   }
 
   .gift-anticipation__title {
-    font-size: 1.7rem;
+    font-size: 1.6rem;
   }
 
   .gift-anticipation__sender-name {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
   }
 
   .wish-experience__header {
@@ -4046,40 +4073,40 @@ button:disabled {
   }
 
   .gift-box__body {
-    width: 180px;
-    height: 158px;
+    width: 170px;
+    height: 148px;
   }
 
   .gift-box__lid {
-    width: 210px;
-    height: 36px;
+    width: 196px;
+    height: 34px;
   }
 
   .gift-box__body-face {
-    width: 180px;
-    height: 158px;
+    width: 170px;
+    height: 148px;
   }
 
   .gift-box__ribbon-v {
-    width: 22px;
-    height: 158px;
-    top: 36px;
+    width: 18px;
+    height: 148px;
+    top: 34px;
   }
 
   .gift-box__ribbon-h {
-    width: 180px;
-    height: 22px;
-    top: calc(36px + 68px);
+    width: 170px;
+    height: 18px;
+    top: calc(34px + 64px);
   }
 
   .gift-box__glow {
-    width: 320px;
-    height: 320px;
+    width: 300px;
+    height: 300px;
   }
 
   .gift-box__ring {
-    width: 260px;
-    height: 260px;
+    width: 240px;
+    height: 240px;
   }
 
 
@@ -4165,41 +4192,42 @@ button:disabled {
   }
 
   .gift-anticipation {
-    padding: 0;
+    padding: 16px 12px;
   }
 
   .gift-anticipation__card {
-    padding: 28px 20px 22px;
+    padding: 32px 20px 28px;
     border-radius: 24px;
-    gap: 16px;
-  }
-
-  .gift-anticipation__envelope {
-    font-size: 1.6rem;
+    gap: 18px;
   }
 
   .gift-anticipation__title {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
 
   .gift-anticipation__subtitle {
+    font-size: 0.85rem;
+  }
+
+  .gift-anticipation__cta-btn {
+    padding: 12px 28px;
     font-size: 0.88rem;
   }
 
   .gift-anticipation__cta-text {
-    font-size: 0.9rem;
+    font-size: 0.88rem;
   }
 
   .gift-anticipation__sender-text {
-    font-size: 0.85rem;
+    font-size: 0.78rem;
   }
 
   .gift-anticipation__sender-name {
-    font-size: 1.15rem;
+    font-size: 1.05rem;
   }
 
   .gift-anticipation__chip {
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     padding: 4px 10px;
   }
 

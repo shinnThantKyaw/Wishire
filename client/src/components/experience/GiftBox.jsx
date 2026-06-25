@@ -56,7 +56,7 @@ function generateParticles(themePrimary, themeSecondary) {
 }
 
 /**
- * GiftBox — Hero gift box with lid, ribbon, bow, and particle burst.
+ * GiftBox — Premium 3D gift box with lid, ribbon, bow, and particle burst.
  *
  * Props:
  *   senderName: string — used for aria-label
@@ -93,7 +93,7 @@ export default function GiftBox({
     <motion.div
       className="gift-box"
       key={`gift-box-${playCount}`}
-      initial={reducedMotion ? { opacity: 1 } : { scale: 0.5, opacity: 0 }}
+      initial={reducedMotion ? { opacity: 1 } : { scale: 0.7, opacity: 0 }}
       animate={
         reducedMotion
           ? { opacity: 1 }
@@ -102,9 +102,9 @@ export default function GiftBox({
               opacity: 1,
               transition: {
                 type: "spring",
-                stiffness: 120,
-                damping: 14,
-                duration: 0.9,
+                stiffness: 100,
+                damping: 12,
+                duration: 1,
               },
             }
       }
@@ -134,18 +134,18 @@ export default function GiftBox({
           opened
             ? { opacity: 0.4, scale: 1.2 }
             : reducedMotion
-            ? { opacity: 0.35, scale: 1 }
-            : { opacity: [0.3, 0.6, 0.3], scale: [1, 1.15, 1] }
+            ? { opacity: 0.3, scale: 1 }
+            : { opacity: [0.25, 0.5, 0.25], scale: [1, 1.12, 1] }
         }
         transition={
           opened
             ? { duration: 0.6 }
             : reducedMotion
             ? { duration: 0 }
-            : { duration: 3, repeat: Infinity, ease: "easeInOut" }
+            : { duration: 3.5, repeat: Infinity, ease: "easeInOut" }
         }
         style={{
-          background: `radial-gradient(circle, ${primary}55 0%, ${secondary}22 50%, transparent 70%)`,
+          background: `radial-gradient(circle, ${primary}44 0%, ${secondary}18 50%, transparent 70%)`,
         }}
       />
 
@@ -156,17 +156,17 @@ export default function GiftBox({
           opened
             ? { opacity: 0 }
             : reducedMotion
-            ? { opacity: 0.2 }
-            : { opacity: [0.15, 0.4, 0.15], scale: [1, 1.05, 1] }
+            ? { opacity: 0.15 }
+            : { opacity: [0.1, 0.3, 0.1], scale: [1, 1.04, 1] }
         }
         transition={
           opened
             ? { duration: 0.3 }
             : reducedMotion
             ? { duration: 0 }
-            : { duration: 2.5, repeat: Infinity, ease: "easeInOut" }
+            : { duration: 3, repeat: Infinity, ease: "easeInOut" }
         }
-        style={{ borderColor: `${primary}30` }}
+        style={{ borderColor: `${primary}20` }}
       />
 
       {/* Gift box body */}
@@ -177,22 +177,38 @@ export default function GiftBox({
           variants={lidV}
           initial="closed"
           animate={opened ? "open" : "closed"}
-          style={{ backgroundColor: primary }}
+          style={{
+            backgroundColor: primary,
+            backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0.18) 0%, transparent 60%)`,
+          }}
         >
-          <div className="gift-box__bow" />
+          <div className="gift-box__bow" style={{ backgroundColor: `${primary}cc` }}>
+            <div
+              className="gift-box__bow-knot"
+              style={{ backgroundColor: `${primary}` }}
+            />
+          </div>
         </motion.div>
 
         <div
           className="gift-box__ribbon-v"
-          style={{ backgroundColor: `${primary}aa` }}
+          style={{
+            backgroundColor: `${primary}aa`,
+            backgroundImage: `linear-gradient(to right, rgba(255,255,255,0.15) 0%, transparent 50%, rgba(0,0,0,0.05) 100%)`,
+          }}
         />
         <div
           className="gift-box__ribbon-h"
-          style={{ backgroundColor: `${primary}66` }}
+          style={{
+            backgroundColor: `${primary}66`,
+            backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, transparent 50%, rgba(0,0,0,0.05) 100%)`,
+          }}
         />
         <div
           className="gift-box__body-face"
-          style={{ backgroundColor: secondary }}
+          style={{
+            backgroundColor: secondary,
+          }}
         />
       </div>
 
