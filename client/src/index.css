@@ -815,6 +815,8 @@
   .gift-box                 { animation: none; }
   .gift-box__lid            { animation: none; }
   .gift-anticipation__cta-btn { animation: none; }
+  .gift-anticipation__cta-shine { animation: none; display: none; }
+  .gift-anticipation__cta-highlight { opacity: 0.15; }
   .gift-anticipation        { animation: none; background-size: 100%; }
   .gift-anticipation__ambient-glow { animation: none; opacity: 0.15; }
 }
@@ -2065,16 +2067,16 @@ button:disabled {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
   text-align: center;
 }
 
 .gift-anticipation__title {
   font-family: "Baloo 2", cursive;
-  font-size: 1.35rem;
+  font-size: 1.75rem;
   font-weight: 700;
   margin: 0;
-  line-height: 1.25;
+  line-height: 1.3;
   color: var(--ink);
   letter-spacing: -0.01em;
 }
@@ -2085,7 +2087,7 @@ button:disabled {
   font-weight: 600;
   color: var(--ink);
   margin: 0;
-  opacity: 0.45;
+  opacity: 0.85;
   letter-spacing: 0.01em;
 }
 
@@ -2111,10 +2113,11 @@ button:disabled {
 }
 
 .gift-anticipation__cta-btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 28px;
+  padding: 14px 36px;
   border-radius: 999px;
   border: none;
   cursor: pointer;
@@ -2126,8 +2129,56 @@ button:disabled {
   background: linear-gradient(135deg, var(--ga-primary, #a855f7), var(--ga-secondary, #d946ef));
   box-shadow: 0 4px 20px var(--cta-glow, rgba(168, 85, 247, 0.3));
   animation: cta-glow-pulse 3s ease-in-out infinite;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  z-index: 1;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* Glassmorphism highlight (top half) */
+.gift-anticipation__cta-highlight {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0) 55%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Shine sweep across the button */
+@keyframes gift-cta-shine {
+  0%   { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(200%) skewX(-15deg); }
+}
+
+.gift-anticipation__cta-shine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255,255,255,0.35) 48%,
+    rgba(255,255,255,0.15) 52%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 2;
+  animation: gift-cta-shine 4s 1s ease-in-out infinite;
+}
+
+.gift-anticipation__cta-icon {
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gift-anticipation__cta-text {
+  z-index: 3;
+  letter-spacing: 0.01em;
 }
 
 .gift-anticipation__cta-btn:hover {
@@ -2135,22 +2186,12 @@ button:disabled {
   box-shadow: 0 6px 28px var(--cta-glow, rgba(168, 85, 247, 0.4));
 }
 
+.gift-anticipation__cta-btn:hover .gift-anticipation__cta-shine {
+  animation: gift-cta-shine 2s ease-in-out infinite;
+}
+
 .gift-anticipation__cta-btn:active {
   transform: scale(0.97);
-}
-
-.gift-anticipation__cta-icon {
-  font-size: 1.1rem;
-  line-height: 1;
-}
-
-/* Legacy text CTA (fallback) */
-.gift-anticipation__cta-text {
-  font-family: "Nunito", sans-serif;
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  opacity: 0.7;
 }
 
 /* ── Sender — refined ── */
@@ -4231,8 +4272,8 @@ button:disabled {
   }
 
   .gift-anticipation__cta-btn {
-    padding: 8px 22px;
-    font-size: 0.8rem;
+    padding: 12px 28px;
+    font-size: 0.88rem;
   }
 
   .gift-anticipation__cta-text {

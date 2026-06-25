@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Gift } from "lucide-react";
 import useReducedMotion from "../../hooks/useReducedMotion";
 import GiftBox from "./GiftBox";
 import FloatingSparkles from "./FloatingSparkles";
@@ -153,11 +154,30 @@ export default function GiftAnticipation({
       >
         {/* ── Headline — emotional, warm ── */}
         <motion.div className="gift-anticipation__headline" variants={fV}>
-          <h1 className="gift-anticipation__title">
-            Something special is waiting for you
+          <h1
+            className="gift-anticipation__title"
+            style={{
+              background: `linear-gradient(135deg, ${primary}, ${secondary})`,
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            🎉 You've received a birthday surprise!
           </h1>
           <p className="gift-anticipation__subtitle">
-            Made with love, just for {recipientName}
+            Sent with love by{" "}
+            <span
+              style={{
+                background: `linear-gradient(135deg, ${primary}, ${secondary})`,
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                fontWeight: 800,
+                fontSize: "1.05em",
+                fontFamily: "'Baloo 2', cursive",
+              }}
+            >
+              {wish.senderName}
+            </span>
           </p>
         </motion.div>
 
@@ -183,25 +203,28 @@ export default function GiftAnticipation({
               "--cta-glow": `${primary}55`,
             }}
           >
-            <span className="gift-anticipation__cta-icon">🎁</span>
-            Open Your Gift
+            <span className="gift-anticipation__cta-shine" />
+            <span className="gift-anticipation__cta-highlight" />
+            <Gift size={18} color="#fff" className="gift-anticipation__cta-icon" />
+            <span className="gift-anticipation__cta-text">Open Your Gift</span>
           </motion.button>
         </motion.div>
 
-        {/* ── Sender — elegant attribution ── */}
+        {/* ── Recipient — colored name ── */}
         <motion.div className="gift-anticipation__sender" variants={fV}>
           <span className="gift-anticipation__sender-text">
-            With love from
+            Prepared with love for
           </span>
           <span
             className="gift-anticipation__sender-name"
             style={{
-              background: `linear-gradient(135deg, ${primary}, ${secondary})`,
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
+              color: primary,
+              background: "none",
+              WebkitBackgroundClip: "unset",
+              WebkitTextFillColor: "unset",
             }}
           >
-            {wish.senderName}
+            {recipientName} 💖
           </span>
         </motion.div>
 
