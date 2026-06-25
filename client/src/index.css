@@ -196,6 +196,9 @@
   }
 }
 
+/* ── Tailwind components layer ── */
+@layer components {
+
 /* ── How It Works ── */
 
 .how {
@@ -4808,3 +4811,5 @@ button:disabled {
     font-size: 0.75rem;
   }
 }
+
+} /* end @layer components */
