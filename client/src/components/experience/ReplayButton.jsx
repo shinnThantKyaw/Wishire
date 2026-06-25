@@ -28,7 +28,7 @@ export default function ReplayButton({ onReplay, reducedMotion = false }) {
 
   return (
     <motion.button
-      className="replay-btn"
+      className="bg-mint text-white font-display font-bold text-lg px-8 py-3.5 rounded-full border-none cursor-pointer min-h-[44px] inline-flex items-center justify-center focus-visible:outline-2 focus-visible:outline-coral focus-visible:outline-offset-2"
       variants={variants}
       initial="hidden"
       animate="visible"

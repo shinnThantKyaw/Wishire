@@ -18,17 +18,22 @@ export default class ErrorBoundary extends Component {
     if (this.state.hasError) {
       return (
         <div className="page wish-page">
-          <div className="error-boundary">
-            <span className="error-boundary__icon">🎂💥</span>
-            <h2 className="error-boundary__title">Something went wrong</h2>
-            <p className="error-boundary__msg">
+          <div className="flex flex-col items-center gap-4 p-[60px_20px] text-center">
+            <span className="text-5xl">🎂💥</span>
+            <h2 className="font-display font-extrabold text-2xl text-coral m-0">
+              Something went wrong
+            </h2>
+            <p className="m-0 opacity-75 max-w-[320px]">
               The birthday surprise hit a snag. Try reloading!
             </p>
-            <div className="error-boundary__actions">
-              <button className="error-boundary__btn" onClick={this.handleRetry}>
+            <div className="flex gap-4 items-center mt-2">
+              <button
+                className="bg-coral text-white font-display font-bold text-base px-6 py-2.5 rounded-full border-none cursor-pointer"
+                onClick={this.handleRetry}
+              >
                 Try Again
               </button>
-              <a className="error-boundary__link" href="/create">
+              <a className="text-mint font-bold no-underline hover:underline" href="/create">
                 Create a New Wish
               </a>
             </div>

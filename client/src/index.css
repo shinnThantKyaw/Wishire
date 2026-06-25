@@ -1,3 +1,169 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── Colors ── */
+  --color-cream: #f8f5ff;
+  --color-ink: #1a1028;
+  --color-coral: #ff6b6b;
+  --color-gold: #fbbf24;
+  --color-mint: #34d399;
+  --color-card: #ffffff;
+  --color-border: #e9e0f0;
+  --color-glass-bg: #ffffff;
+  --color-glass-border: #e9e0f0;
+  --color-input-bg: #ffffff;
+  --color-input-border: rgba(190, 131, 229, 0.25);
+  --color-gradient-start: #a78bfa;
+  --color-gradient-end: #f472b6;
+  --color-section-bg: rgba(248, 245, 255, 0.6);
+  --color-section-border: rgba(190, 131, 229, 0.1);
+
+  /* ── Fonts ── */
+  --font-display: "Baloo 2", cursive;
+  --font-body: "Nunito", sans-serif;
+
+  /* ── Breakpoints ── */
+  --breakpoint-xs: 480px;
+
+  /* ── Shadows ── */
+  --shadow-glass: 0 4px 24px rgba(100, 70, 150, 0.08), 0 1px 3px rgba(100, 70, 150, 0.06);
+  --shadow-input: 0 1px 3px rgba(100, 70, 150, 0.06);
+  --shadow-section: 0 1px 8px rgba(100, 70, 150, 0.05);
+
+  /* ── Animations ── */
+  --animate-section-enter: section-enter 0.6s ease-out 0.2s both;
+  --animate-hero-enter: hero-enter 0.8s ease-out both;
+  --animate-hero-float: hero-float 6s ease-in-out infinite;
+  --animate-title-shimmer: title-shimmer 5s ease-in-out infinite;
+  --animate-hero-gradient-drift: hero-gradient-drift 15s ease-in-out infinite;
+  --animate-hero-glow-breathe: hero-glow-breathe 5s ease-in-out infinite;
+  --animate-cta-shine-sweep: cta-shine-sweep 3s ease-in-out infinite;
+  --animate-cta-wiggle: cta-wiggle 1.5s ease-in-out infinite;
+  --animate-spin: spin 1s linear infinite;
+  --animate-pulse: pulse 2s ease-in-out infinite;
+  --animate-fade-in: fadeIn 0.6s ease-out both;
+  --animate-float-up: float-up 5s ease-out infinite;
+  --animate-skeleton-shimmer: skeleton-shimmer 1.5s ease-in-out infinite;
+  --animate-particle-burst: particle-burst 0.8s ease-out forwards;
+  --animate-success-confetti-burst: success-confetti-burst 0.6s ease-out both;
+  --animate-success-icon-pop: success-icon-pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+  --animate-footer-sparkle-spin: footer-sparkle-spin 8s linear infinite;
+  --animate-footer-sign-float: footer-sign-float 4s ease-in-out infinite;
+  --animate-footer-heart: footer-heart 1.2s ease-in-out infinite;
+  --animate-toast-slide-in: toast-slide-in 0.4s ease-out both;
+  --animate-toast-countdown: toast-countdown linear forwards;
+
+  @keyframes section-enter {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes hero-enter {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes hero-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-8px); }
+  }
+
+  @keyframes title-shimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+
+  @keyframes hero-gradient-drift {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+
+  @keyframes hero-glow-breathe {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50%      { opacity: 0.45; transform: scale(1.12); }
+  }
+
+  @keyframes cta-shine-sweep {
+    0%   { transform: translateX(-100%) skewX(-15deg); }
+    100% { transform: translateX(200%) skewX(-15deg); }
+  }
+
+  @keyframes cta-wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25%      { transform: rotate(-5deg); }
+    75%      { transform: rotate(5deg); }
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.4; }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes float-up {
+    0%   { opacity: 0; transform: translateY(0) translateX(0); }
+    10%  { opacity: 0.8; }
+    80%  { opacity: 0.6; }
+    100% { opacity: 0; transform: translateY(-100vh) translateX(var(--sparkle-sway, 0px)); }
+  }
+
+  @keyframes skeleton-shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  @keyframes particle-burst {
+    0%   { opacity: 1; transform: translate(0, 0) scale(1); }
+    100% { opacity: 0; transform: translate(var(--tx, 0), var(--ty, 0)) scale(0.3); }
+  }
+
+  @keyframes success-confetti-burst {
+    0%   { transform: scale(0); opacity: 1; }
+    50%  { transform: scale(1.2); opacity: 0.8; }
+    100% { transform: scale(0); opacity: 0; }
+  }
+
+  @keyframes success-icon-pop {
+    0%   { transform: scale(0) rotate(-15deg); opacity: 0; }
+    60%  { transform: scale(1.15) rotate(3deg); }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+
+  @keyframes footer-sparkle-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  @keyframes footer-sign-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-6px); }
+  }
+
+  @keyframes footer-heart {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.25); }
+  }
+
+  @keyframes toast-slide-in {
+    from { transform: translateX(100%); opacity: 0; }
+    to   { transform: translateX(0); opacity: 1; }
+  }
+
+  @keyframes toast-countdown {
+    from { width: 100%; }
+    to   { width: 0%; }
+  }
+}
+
+/* ── Legacy CSS custom properties (used by inline styles) ── */
 :root {
   --cream: #f8f5ff;
   --ink: #1a1028;
@@ -19,21 +185,15 @@
   --section-shadow: 0 1px 8px rgba(100, 70, 150, 0.05);
 }
 
-* {
-  box-sizing: border-box;
-}
+/* ── Tailwind base layer ── */
+@layer base {
+  body {
+    @apply m-0 min-h-screen font-body text-ink;
+  }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  color: var(--ink);
-  font-family: "Nunito", sans-serif;
-}
-
-.page {
-  max-width: 560px;
-  margin: 0 auto;
-  padding: 16px 20px 80px;
+  .page {
+    @apply max-w-[560px] mx-auto px-5 pt-4 pb-20;
+  }
 }
 
 /* ── How It Works ── */
@@ -2309,96 +2469,6 @@ button:disabled {
    Error State (WishPage)
    =========================== */
 
-.error-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  padding: 60px 20px;
-  text-align: center;
-}
-
-.error-state__icon {
-  font-size: 3rem;
-}
-
-.error-state__title {
-  font-family: "Baloo 2", sans-serif;
-  font-weight: 800;
-  font-size: 1.6rem;
-  margin: 0;
-  color: var(--coral);
-}
-
-.error-state__message {
-  margin: 0;
-  opacity: 0.75;
-  max-width: 320px;
-  line-height: 1.5;
-}
-
-.error-state__retry {
-  background: var(--coral);
-  color: white;
-  font-family: "Baloo 2", sans-serif;
-  font-weight: 700;
-  font-size: 1rem;
-  padding: 12px 24px;
-  min-height: 44px;
-  min-width: 120px;
-  border-radius: 999px;
-  border: none;
-  cursor: pointer;
-  margin-top: 8px;
-}
-
-.error-state__retry:hover {
-  transform: translateY(-1px);
-}
-
-.error-state__retry:focus-visible {
-  outline: 2px solid var(--mint);
-  outline-offset: 2px;
-}
-
-/* ===========================
-   Audio Controller
-   =========================== */
-
-.audio-controller {
-  position: fixed;
-  top: 16px;
-  right: 16px;
-  z-index: 100;
-}
-
-.audio-controller__btn {
-  min-width: 44px;
-  min-height: 44px;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(255, 255, 255, 0.85);
-  color: var(--mint);
-  font-size: 1.2rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-  transition: background 0.2s, transform 0.15s;
-}
-
-.audio-controller__btn:hover {
-  background: rgba(255, 255, 255, 1);
-  transform: scale(1.05);
-}
-
-.audio-controller__btn:focus-visible {
-  outline: 2px solid var(--mint);
-  outline-offset: 2px;
-}
 
 @keyframes particle-burst {
   0% {
@@ -2525,26 +2595,6 @@ button:disabled {
    Replay Button
    =========================== */
 
-.replay-btn {
-  background: var(--mint);
-  color: white;
-  font-family: "Baloo 2", sans-serif;
-  font-weight: 700;
-  font-size: 1.1rem;
-  padding: 14px 32px;
-  border-radius: 999px;
-  border: none;
-  cursor: pointer;
-  min-height: 44px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.replay-btn:focus-visible {
-  outline: 2px solid var(--coral);
-  outline-offset: 2px;
-}
 
 /* ===========================
    Sentence Revealer Skip Button
@@ -2887,61 +2937,6 @@ button:disabled {
    Error Boundary
    =========================== */
 
-.error-boundary {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  padding: 60px 20px;
-  text-align: center;
-}
-
-.error-boundary__icon {
-  font-size: 3rem;
-}
-
-.error-boundary__title {
-  font-family: "Baloo 2", sans-serif;
-  font-weight: 800;
-  font-size: 1.6rem;
-  margin: 0;
-  color: var(--coral);
-}
-
-.error-boundary__msg {
-  margin: 0;
-  opacity: 0.75;
-  max-width: 320px;
-}
-
-.error-boundary__actions {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  margin-top: 8px;
-}
-
-.error-boundary__btn {
-  background: var(--coral);
-  color: white;
-  font-family: "Baloo 2", sans-serif;
-  font-weight: 700;
-  font-size: 1rem;
-  padding: 10px 24px;
-  border-radius: 999px;
-  border: none;
-  cursor: pointer;
-}
-
-.error-boundary__link {
-  color: var(--mint);
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.error-boundary__link:hover {
-  text-decoration: underline;
-}
 
 /* ===========================
    Theme Selector
@@ -4656,10 +4651,6 @@ button:disabled {
     font-size: 1.1rem;
   }
 
-  .replay-btn {
-    font-size: 1rem;
-    padding: 12px 28px;
-  }
 
   .reaction-bar__emojis {
     gap: 6px;
@@ -4680,18 +4671,6 @@ button:disabled {
     font-size: 0.8rem;
   }
 
-  .error-boundary {
-    padding: 40px 16px;
-  }
-
-  .error-boundary__title {
-    font-size: 1.3rem;
-  }
-
-  .error-boundary__actions {
-    flex-direction: column;
-    gap: 12px;
-  }
 
   .success {
     padding: 32px 20px;
