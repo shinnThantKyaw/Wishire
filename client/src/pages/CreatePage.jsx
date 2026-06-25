@@ -180,14 +180,34 @@ export default function CreatePage() {
     <>
       {/* Toast — fixed at top, outside form so scroll doesn't affect it */}
       {toast && (
-        <div className={`toast toast--${toast.type}`} role="alert">
-          <div className="toast__body">
-            <span className="toast__icon">{toast.type === "error" ? "⚠️" : "✅"}</span>
-            <span className="toast__msg">{toast.message}</span>
-            <button className="toast__close" onClick={() => setToast(null)} aria-label="Dismiss">✕</button>
+        <div
+          className={`fixed top-5 right-5 z-[9999] w-[380px] max-w-[calc(100vw-40px)] rounded-xl overflow-hidden font-body shadow-[0_10px_40px_rgba(0,0,0,0.12),0_2px_8px_rgba(0,0,0,0.06)] animate-toast-slide-in ${
+            toast.type === "error"
+              ? "bg-red-50 border border-red-200"
+              : "bg-green-50 border border-green-200"
+          }`}
+          role="alert"
+        >
+          <div className="flex items-start gap-3 px-4 py-3.5">
+            <span className={`text-base shrink-0 mt-px ${toast.type === "error" ? "text-red-600" : "text-green-600"}`}>
+              {toast.type === "error" ? "⚠️" : "✅"}
+            </span>
+            <span className={`flex-1 text-[0.88rem] font-semibold leading-[1.45] ${toast.type === "error" ? "text-red-800" : "text-green-800"}`}>
+              {toast.message}
+            </span>
+            <button
+              className={`bg-none border-none text-sm cursor-pointer opacity-40 p-0 leading-none transition-opacity duration-150 hover:opacity-100 shrink-0 ${toast.type === "error" ? "text-red-600" : "text-green-600"}`}
+              onClick={() => setToast(null)}
+              aria-label="Dismiss"
+            >
+              ✕
+            </button>
           </div>
-          <div className="toast__progress-track">
-            <div className="toast__progress-bar" key={toast._key} />
+          <div className="h-[3px] bg-black/[0.06]">
+            <div
+              className={`h-full w-full origin-left animate-toast-countdown ${toast.type === "error" ? "bg-red-400" : "bg-green-400"}`}
+              key={toast._key}
+            />
           </div>
         </div>
       )}
