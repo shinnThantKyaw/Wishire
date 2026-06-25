@@ -169,11 +169,6 @@ export default function GiftBox({
         style={{ borderColor: `${primary}20` }}
       />
 
-      {/* Sparkle scatter around the box — 3 layered pseudo-elements for density */}
-      <div className="gift-box__sparkle-scatter" aria-hidden="true">
-        <div className="gift-box__sparkle-scatter__inner" />
-      </div>
-
       {/* Gift box body */}
       <div className="gift-box__body">
         {/* Lid */}
