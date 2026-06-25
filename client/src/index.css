@@ -912,10 +912,11 @@
 }
 
 .create-hero__logo {
+  display: block;
+  margin: 0 auto 8px;
   width: 160px;
   height: 160px;
   object-fit: contain;
-  margin-bottom: 8px;
   animation: hero-float 3s ease-in-out infinite;
   filter: drop-shadow(0 4px 12px rgba(190,131,229,0.20));
 }
@@ -1674,7 +1675,7 @@ button:disabled {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 40px 20px;
+
   width: 100%;
 }
 
@@ -3456,10 +3457,11 @@ button:disabled {
 
 /* App logo */
 .success-logo {
+  display: block;
+  margin: 0 auto 16px;
   width: 160px;
   height: 160px;
   object-fit: contain;
-  margin-bottom: 16px;
   animation: hero-float 3s ease-in-out infinite;
   filter: drop-shadow(0 4px 12px rgba(190,131,229,0.20));
 }
@@ -3836,39 +3838,6 @@ button:disabled {
    Footer — Signature Card
    =========================== */
 
-.footer-wrap {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  margin: 0;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-
-.footer-wrap--visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.footer__tagline-hero {
-  text-align: center;
-  font-family: "Nunito", sans-serif;
-  font-size: 0.88rem;
-  font-weight: 700;
-  color: #8B6DAF;
-  margin: 0 0 14px;
-  letter-spacing: 0.01em;
-}
-
-.footer {
-  position: relative;
-  padding: 10px 50px;
-  border-radius: 36px 36px 0 0;
-  background: #ffffff;
-  border-top: 1px solid rgba(233,160,249,0.15);
-  overflow: hidden;
-}
 
 /* Edge sparkles */
 .footer__sparkle {
@@ -3890,21 +3859,6 @@ button:disabled {
   100% { transform: rotate(360deg) scale(1); }
 }
 
-/* Three-column layout */
-.footer__inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 40px;
-}
-
-/* Left — App branding */
-.footer__left {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-}
 
 .footer__logo {
   width: 80px;
@@ -3925,24 +3879,6 @@ button:disabled {
   50%      { transform: translateY(-3px); }
 }
 
-.footer__app-name {
-  font-family: "Baloo 2", sans-serif;
-  font-weight: 800;
-  font-size: 0.85rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #8B6DAF;
-  margin: 0;
-}
-
-.footer__app-desc {
-  font-family: "Nunito", sans-serif;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #7a6b94;
-  margin: 0 0 8px;
-  line-height: 1.4;
-}
 
 .footer__github {
   display: inline-flex;
@@ -3966,21 +3902,6 @@ button:disabled {
   color: #6B3FA0;
 }
 
-/* Middle — Quote */
-.footer__quote-side {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-}
-
-.footer__quote-block {
-  position: relative;
-  padding: 12px 24px;
-  border-radius: 18px;
-  background: linear-gradient(135deg, rgba(233,160,249,0.08), rgba(217,124,246,0.04));
-  border: 1px solid rgba(233,160,249,0.12);
-  text-align: center;
-}
 
 .footer__quote-mark {
   position: absolute;
@@ -4004,29 +3925,12 @@ button:disabled {
   pointer-events: none;
 }
 
-.footer__quote {
-  font-family: "Nunito", sans-serif;
-  font-size: 0.9rem;
-  font-weight: 700;
-  font-style: italic;
-  line-height: 1.55;
-  color: #5a3e7a;
-  margin: 0;
-}
 
 .footer__quote-tail {
   font-size: 0.85rem;
   opacity: 0.35;
 }
 
-/* Right — Creator signature */
-.footer__right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 2px;
-  text-align: right;
-}
 
 .footer__sign {
   width: 72px;
@@ -4042,13 +3946,6 @@ button:disabled {
   filter: drop-shadow(0 6px 20px rgba(190,131,229,0.40));
 }
 
-.footer__made {
-  font-family: "Nunito", sans-serif;
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: #8B6DAF;
-  margin: 0;
-}
 
 .footer__heart {
   display: inline-block;
@@ -4073,14 +3970,6 @@ button:disabled {
   animation: title-shimmer 5s ease-in-out infinite;
 }
 
-.footer__copy {
-  font-family: "Nunito", sans-serif;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #9B7FC4;
-  margin: 6px 0 0;
-  opacity: 0.7;
-}
 
 /* ===========================
    Toast Notification (shadcn style)
@@ -4354,33 +4243,6 @@ button:disabled {
     padding: 8px 12px 48px;
   }
 
-  .footer-wrap {
-    margin: 32px 12px 0;
-  }
-
-  .footer {
-    padding: 12px 20px;
-  }
-
-  .footer__inner {
-    flex-direction: column;
-    align-items: center;
-    gap: 28px;
-    text-align: center;
-  }
-
-  .footer__left {
-    align-items: center;
-  }
-
-  .footer__quote-side {
-    width: 100%;
-  }
-
-  .footer__right {
-    align-items: center;
-    text-align: center;
-  }
 
   .how {
     padding: 28px 0 8px;

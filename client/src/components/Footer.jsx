@@ -8,10 +8,7 @@ export default function Footer() {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-
-    // Fallback: ensure footer becomes visible even if observer doesn't fire
     const timer = setTimeout(() => setVisible(true), 2000);
-
     const obs = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -27,28 +24,34 @@ export default function Footer() {
   }, []);
 
   return (
-    <div ref={ref} className={`footer-wrap${visible ? " footer-wrap--visible" : ""}`}>
-      {/* Magic tagline — above the footer */}
-      <p className="footer__tagline-hero">
+    <div
+      ref={ref}
+      className={`relative z-2 w-full m-0 opacity-0 translate-y-5 transition-all duration-700 ease-[ease]${visible ? " opacity-100 translate-y-0" : ""}`}
+    >
+      {/* Magic tagline */}
+      <p className="text-center font-body text-sm font-bold text-[#8B6DAF] m-0 mb-3.5 tracking-normal">
         🎂 Every birthday deserves a little magic ✨💜
       </p>
-      <footer className="footer">
+
+      <footer className="relative pt-2.5 pb-2.5 pl-12 pr-12 rounded-t-[36px] bg-white border-t border-[rgba(233,160,249,0.15)] overflow-hidden">
         {/* Edge sparkles */}
         <span className="footer__sparkle footer__sparkle--tl" aria-hidden="true">✨</span>
         <span className="footer__sparkle footer__sparkle--tr" aria-hidden="true">💜</span>
         <span className="footer__sparkle footer__sparkle--bl" aria-hidden="true">💜</span>
         <span className="footer__sparkle footer__sparkle--br" aria-hidden="true">✨</span>
 
-        <div className="footer__inner">
+        <div className="flex items-center justify-between gap-10">
           {/* Left — App branding */}
-          <div className="footer__left">
+          <div className="flex flex-col items-start gap-1">
             <img
               src="/assets/images/Icon.png"
               alt="Wishire"
               className="footer__logo"
             />
-            <p className="footer__app-name">Birthday Wish Maker</p>
-            <p className="footer__app-desc">
+            <p className="font-display font-extrabold text-[0.85rem] tracking-[0.06em] uppercase text-[#8B6DAF] m-0">
+              Birthday Wish Maker
+            </p>
+            <p className="font-body text-xs font-semibold text-[#7a6b94] m-0 mb-2 leading-[1.4]">
               Create beautiful wishes that make someone smile
             </p>
             <a
@@ -63,10 +66,10 @@ export default function Footer() {
           </div>
 
           {/* Middle — Quote */}
-          <div className="footer__quote-side">
-            <div className="footer__quote-block">
+          <div className="flex-1 flex justify-center">
+            <div className="relative px-6 py-3 rounded-[18px] bg-gradient-to-br from-[rgba(233,160,249,0.08)] to-[rgba(217,124,246,0.04)] border border-[rgba(233,160,249,0.12)] text-center">
               <span className="footer__quote-mark" aria-hidden="true">"</span>
-              <p className="footer__quote">
+              <p className="font-body text-[0.9rem] font-bold italic leading-[1.55] text-[#5a3e7a] m-0">
                 Turning wishes into memories,<br />
                 one smile at a time.
               </p>
@@ -76,17 +79,21 @@ export default function Footer() {
           </div>
 
           {/* Right — Creator signature */}
-          <div className="footer__right">
+          <div className="flex flex-col items-end gap-0.5 text-right">
             <img
               src="/assets/images/MySign.png"
               alt="Shin Thant Kyaw"
               className="footer__sign"
             />
-            <p className="footer__made">
-              Developed with <span className="footer__heart" aria-hidden="true">❤️</span> by
+            <p className="font-body text-[0.78rem] font-semibold text-[#8B6DAF] m-0">
+              Developed with <span className="footer__heart inline-block" aria-hidden="true">❤️</span> by
             </p>
-            <p className="footer__creator">Shin Thant Kyaw</p>
-            <p className="footer__copy">© 2026 Wishire, Birthday Wish Maker</p>
+            <p className="footer__creator">
+              Shin Thant Kyaw
+            </p>
+            <p className="font-body text-[0.75rem] font-semibold text-[#9B7FC4] mt-1.5 m-0 opacity-70">
+              © 2026 Wishire, Birthday Wish Maker
+            </p>
           </div>
         </div>
       </footer>

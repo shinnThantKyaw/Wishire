@@ -192,11 +192,12 @@ export default function WishPage() {
 
   // Prepare sentences
   const sentences = wishData.sentences || (wishData.message ? [wishData.message] : []);
+  const surfaceStyle = { "--wish-surface": theme.surface };
 
   return (
     <div
-      className="page wish-page"
-      style={{ "--wish-surface": theme.surface }}
+      className=" wish-page"
+      style={surfaceStyle}
     >
       {/* Audio controller — visible during entire experience */}
       {state.status !== STATUS.IDLE && (
