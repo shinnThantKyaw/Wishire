@@ -192,17 +192,11 @@ export default function GiftBox({
 
         <div
           className="gift-box__ribbon-v"
-          style={{
-            backgroundColor: `${primary}aa`,
-            backgroundImage: `linear-gradient(to right, rgba(255,255,255,0.15) 0%, transparent 50%, rgba(0,0,0,0.05) 100%)`,
-          }}
+          style={{ backgroundColor: `${primary}cc` }}
         />
         <div
           className="gift-box__ribbon-h"
-          style={{
-            backgroundColor: `${primary}66`,
-            backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, transparent 50%, rgba(0,0,0,0.05) 100%)`,
-          }}
+          style={{ backgroundColor: `${primary}cc` }}
         />
         <div
           className="gift-box__body-face"

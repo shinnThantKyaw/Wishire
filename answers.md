@@ -263,3 +263,128 @@ Complete redesign of the GiftAnticipation screen (Phase 1 — the page recipient
 - `prefers-reduced-motion` disables all CSS animations + framer-motion variants
 - All text meets contrast requirements on both dark background and white card
 - CTA button has proper `:hover`, `:focus`, `:active` states
+
+---
+
+## Bug Report: Wish Page Scroll Issues (2026-06-25)
+
+### Bug 1: Scroll Not Smooth / Too Slow
+
+**Root Cause:** Expensive CSS animations + No scroll containment
+
+The wish page has **multiple layers of continuously running CSS animations** that fight with the browser's scroll compositor:
+
+1. **`.gift-anticipation` background animation** (`index.css:1978`)
+   ```css
+   animation: hero-gradient-drift 30s ease-in-out infinite alternate;
+   ```
+   Combined with `background-size: 200% 200%` (set inline in `GiftAnticipation.jsx:116`), this forces the browser to repaint a massive gradient on every animation frame.
+
+2. **14 floating emoji decorations** (`FloatingSparkles.jsx`) each with:
+   - `will-change: transform` (`index.css:2016`)
+   - Individual `hero-deco-float` animations with different durations (15–26s)
+   - CSS `filter` chains of 5–6 filters per emoji (`grayscale`, `brightness`, `sepia`, `hue-rotate`, `saturate`, `blur`)
+   - All running on the compositor thread alongside scroll
+
+3. **Ambient glow blurs** (`index.css:1999, 2008`)
+   - `filter: blur(60px)` and `blur(50px)` on 400px/300px elements
+   - Animated with framer-motion `scale` + `opacity` (`GiftAnticipation.jsx:128-135`)
+   - Blur filters are extremely expensive to composite
+
+4. **`gift-box-float` animation** (`index.css:1770-1773`) — continuous `translateY` on the gift box
+
+5. **`cta-glow-pulse` animation** (`index.css:2082-2085`) — continuous `box-shadow` changes
+
+6. **No `overscroll-behavior: contain`** — browser's default overscroll rubber-banding adds visual complexity on top of all these animations
+
+**Compounding effect:** On scroll, the browser must composite all 14 emoji layers with filter chains, repaint the 200%×200% gradient background, re-blur two large glow orbs, float the gift box, pulse the CTA shadow, AND handle the scroll itself. This overwhelms the GPU compositor, especially on mobile.
+
+---
+
+### Bug 2: White Background (~40px) at Top/Bottom on Fast Scroll
+
+**Root Cause:** Missing background chain + overscroll exposure
+
+The DOM nesting for the wish experience (Phase 2 — MAIN) is:
+
+```
+body                          → background: #f8f5ff (very light purple, almost white)
+  #root                       → NO background
+    div                       → NO background (App.jsx wrapper)
+      div.wish-page           → background: var(--wish-surface) ← SET ✓
+        .experience           → NO background ← MISSING ✗
+          motion.div          → NO background (framer-motion wrapper)
+            .wish-experience  → NO background ← MISSING ✗
+```
+
+When you scroll fast and the browser's **overscroll rubber-banding** kicks in (iOS Safari, Chrome mobile), it reveals the area above the top and below the bottom of the scrollable content. This area shows the **body background** (`#f8f5ff` — so light it looks white) or the **HTML document background** (white by default).
+
+The ~40px white band appears because:
+1. `.wish-page` has `background-color` but `.experience` and `.wish-experience` do NOT
+2. During fast overscroll, the page "bounces" and exposes the body/html background
+3. On the **gift anticipation** phase, `overflow: hidden` on `.gift-anticipation` (`index.css:1976`) prevents scrolling — so the bug only appears in the **MAIN phase** (WishExperience)
+
+**Additional factor:** The `.experience` container (`index.css:1674-1683`) has `min-height: 100vh` + `justify-content: center`. When content is shorter than viewport, the flex container still spans full viewport. On overscroll bounce, the gap between flex content and container edge exposes the white body background.
+
+---
+
+### Suggested Fixes
+
+**Fix 1 — Overscroll containment** (stops the white flash):
+```css
+/* In index.css — .wish-page rule (line 1563) */
+.wish-page {
+  text-align: center;
+  max-width: none;
+  padding: 0;
+  background-color: var(--wish-surface, #faf5ff);
+  overscroll-behavior: contain;   /* ← ADD THIS */
+}
+```
+
+**Fix 2 — Background inheritance** (belt-and-suspenders):
+```css
+/* In index.css — .experience rule (line 1674) */
+.experience {
+  background-color: inherit;   /* ← ADD THIS — inherits from .wish-page */
+}
+
+/* In index.css — .wish-experience rule (line 2387) */
+.wish-experience {
+  background-color: inherit;   /* ← ADD THIS */
+}
+```
+
+**Fix 3 — CSS containment for animated layers** (improves scroll performance):
+```css
+/* In index.css — .gift-anticipation rule (line 1966) */
+.gift-anticipation {
+  contain: layout style paint;   /* ← ADD THIS — isolates repaints */
+}
+
+/* In index.css — .gift-anticipation__deco rule (line 2012) */
+.gift-anticipation__deco {
+  contain: layout style paint;   /* ← ADD THIS */
+}
+
+/* In index.css — .gift-anticipation__ambient-glow rule (line 1990) */
+.gift-anticipation__ambient-glow {
+  contain: layout style paint;   /* ← ADD THIS */
+}
+```
+
+**Fix 4 — Reduce filter complexity** (optional, for mobile perf):
+```css
+/* Simplify the filter chain on sparkles — remove blur on all, use opacity instead */
+.gift-anticipation__deco {
+  /* Remove the blur() from the inline filter chain in FloatingSparkles.jsx */
+  /* Already has opacity control — blur adds marginal visual value at high GPU cost */
+}
+```
+
+### Summary Table
+
+| Bug | Root Cause | Fix |
+|-----|-----------|-----|
+| Slow/janky scroll | 14 animated emoji filters + gradient repaint + blur orbs all compositing simultaneously | Add `contain: layout style paint` to animated layers; reduce filter chain complexity |
+| White 40px bands | Missing background on `.experience` / `.wish-experience` + no `overscroll-behavior: contain` → rubber-band exposes white body bg | Add `overscroll-behavior: contain` to `.wish-page`; propagate `background-color: inherit` down the DOM chain |
