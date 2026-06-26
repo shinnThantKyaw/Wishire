@@ -2829,7 +2829,8 @@ textarea:focus {
   display: flex;
   align-items: center;
   gap: 14px;
-  margin-top: 8px;
+  margin-top: 36px;
+  margin-bottom: -20px;
   width: 100%;
   max-width: 280px;
 }
