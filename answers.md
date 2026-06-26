@@ -388,3 +388,60 @@ The ~40px white band appears because:
 |-----|-----------|-----|
 | Slow/janky scroll | 14 animated emoji filters + gradient repaint + blur orbs all compositing simultaneously | Add `contain: layout style paint` to animated layers; reduce filter chain complexity |
 | White 40px bands | Missing background on `.experience` / `.wish-experience` + no `overscroll-behavior: contain` → rubber-band exposes white body bg | Add `overscroll-behavior: contain` to `.wish-page`; propagate `background-color: inherit` down the DOM chain |
+
+---
+
+## Features of the App for README (2026-06-26)
+
+### Core Experience
+- 🎁 **3D Gift Box Reveal** — premium animated gift box with spring-based lid opening, 28-particle burst, bow, ribbons, and constellation pattern
+- 🎉 **7-Wave Confetti Celebration** — timed multi-directional confetti bursts (center, left, right, rain, fans, final shower)
+- 📸 **Photo Memories Slideshow** — auto-advancing carousel (3.5s) with dot indicators, prev/next, hover-to-pause, wrap-around
+- 💌 **Typewriter Letter Card** — expandable card with character-by-character reveal (40ms/char), blinking cursor, skip button, chime SFX
+- 🎵 **Audio System** — background birthday music (looped), whoosh SFX on gift open, chime on letter finish, pause/resume toggle
+- 🔄 **Replay Experience** — recipient can re-experience the full surprise from the gift box
+
+### Creator Flow
+- 📝 **Rich Wish Form** — sender/recipient name, relationship picker, birth date, message (10K chars with live counter)
+- 🖼️ **Drag & Drop Photo Upload** — up to 5 photos, JPEG/PNG/WebP/GIF, 5MB each, thumbnail previews
+- 🎨 **12 Theme Colors** — Lavender, Sunrise, Ocean, Forest, Rose, Midnight, Amber, Teal, Fuchsia, Sky, Emerald, Slate
+- 👥 **Relationship Picker** — 5 icon-based options (Friend, Family, Coworker, Partner, Custom) with spring animations
+- ✅ **Inline Validation** — validate-on-submit, clear-on-change, per-field errors + toast notifications
+
+### Personalization
+- ♈ **Zodiac Sign** — auto-calculated from birth month/day
+- 💎 **Birthstone** — month-based with hex color
+- 🌸 **Birth Flower** — month-based flower
+- 🏷️ **Flair Chips** — zodiac, birthstone, birth flower displayed as themed pills
+
+### Animations & Effects
+- 🖱️ **Mouse Parallax** — landing page decorations respond to cursor
+- ✨ **Floating Sparkles** — 14 emoji decorations with theme-aware hue rotation
+- 🌟 **Glow Orbs** — breathing gradient orbs across backgrounds
+- 💫 **Staggered Section Reveals** — all experience sections animate in sequence
+- ⭐ **Premium CTA Button** — glassmorphism, shine sweep, icon wiggle, sparkle particles
+- 💀 **Skeleton Loading** — shimmer placeholders while data loads
+
+### Sharing & Success
+- 🔗 **Shareable Link** — unique short URL (`/wish/{id}`) with nanoid
+- 📋 **Copy to Clipboard** — clipboard API with execCommand fallback
+- 🎊 **Success Confetti** — burst when wish is created
+
+### Backend & Data
+- 🗄️ **SQLite + Prisma** — WAL journal mode for concurrent reads/writes
+- 📊 **View Tracking** — records each wish open
+- 👍 **Emoji Reactions** — atomic upsert, supports multi-tap
+- 📏 **Auto Sentence Splitting** — message split into max 6 sentences for staggered display
+- 🔧 **MCP Server** — `get_birthday_flair` tool for AI assistants
+
+### Security
+- 🔒 **UUID Filenames** — uploads stored with crypto.randomUUID()
+- 🛡️ **Magic-Byte Validation** — file type verified by actual bytes
+- 🚫 **Path Traversal Prevention** — resolved path + UUID format validation
+- 🧹 **XSS Prevention** — React text nodes, no dangerouslySetInnerHTML
+
+### Accessibility
+- ♿ **Reduced Motion** — 25+ animations disabled via prefers-reduced-motion
+- ⌨️ **Keyboard Accessible** — gift box Enter/Space, focus-visible outlines, aria-labels
+- 📱 **Touch Aware** — parallax disabled on touch, mobile-adaptive particle counts
+- 👆 **44px Touch Targets** — minimum size for interactive elements
