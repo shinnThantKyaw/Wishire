@@ -1,62 +1,155 @@
-# 🎂 Birthday Wish Generator
+# Wishire 🎂
 
-A small React + Node app that generates a short, personalized birthday wish — funny, sincere, poetic, or chaotic-roast — using real zodiac/birthstone/birth-flower flair pulled from a custom MCP tool.
+> Beautiful birthday wishes, sent with love.
 
-## What's already here
+<img src="client/public/SSs/LandingPage.png" alt="Wishire Landing Page" width="100%" />
+
+---
+
+## Live Demo
+
+Coming soon — deployed demo will be linked here.
+
+---
+
+## About
+
+Create unforgettable birthday surprise pages with heartfelt messages, cherished photos, beautiful animations, and music. Share a single link, and they'll unwrap a magical gift box filled with your love.
+
+---
+
+## Features
+
+- 🎁 **Gift box reveal** — recipient taps to open a 3D animated gift box
+- 🎉 **Confetti celebration** — full-screen confetti burst across multiple waves
+- 📸 **Photo slideshow** — smooth auto-advancing carousel with dot indicators
+- 💌 **Typewriter letter** — expandable card reveals a personal message letter by letter
+- 🎨 **12 theme colors** — lavender, sunrise, ocean, forest, rose, midnight & more
+- 🎵 **Background music** — happy birthday melody with pause/resume controls
+- 🔄 **Replay** — recipient can re-experience the full surprise
+- 📱 **Responsive** — looks beautiful on mobile, tablet, and desktop
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Frontend | React + Vite, Tailwind CSS v4 |
+| Animations | Framer Motion |
+| Audio | Howler.js |
+| Confetti | canvas-confetti |
+| Backend | Node.js + Express |
+| Database | Prisma + SQLite |
+| File Upload | Sharp (thumbnails) + file-type (validation) |
+
+---
+
+## Screenshots
+
+<div align="center">
+
+**Landing Page**
+<img src="client/public/SSs/LandingPage.png" alt="Landing Page" width="100%" />
+
+**Create Wish Form**
+<img src="client/public/SSs/CreateForm.png" alt="Create Form" width="100%" />
+
+**Shareable Link (Success)**
+<img src="client/public/SSs/SuccessPage.png" alt="Success Page" width="100%" />
+
+**Gift Box Reveal**
+<img src="client/public/SSs/GiftBoxPage.png" alt="Gift Box" width="100%" />
+
+**Celebration Page**
+<img src="client/public/SSs/WishViewPage.png" alt="Wish View" width="100%" />
+
+</div>
+
+---
+
+## Architecture
 
 ```
-.mcp.json                              # registers the custom birthday-facts MCP server
-.claude/skills/birthday-wish-style/    # house style rules for generated wish copy
-.claude/agents/tone-checker.md         # subagent that reviews wishes before they ship
-server/                                # Express API + MCP server
-client/                                # React (Vite) frontend
-slides/pitch.md                        # 6-slide pitch template
-report.md                              # report template (copy this into your team repo)
+┌──────────────┐     ┌──────────────┐     ┌──────────┐
+│   React App   │────▶│  Express API  │────▶│  SQLite   │
+│  (Vite :5173) │◀────│  (:3001)      │◀────│ (Prisma) │
+└──────────────┘     └──────────────┘     └──────────┘
+                             │
+                     ┌───────┴───────┐
+                     │  File Upload  │
+                     │  + Thumbnails │
+                     └───────────────┘
 ```
 
-The form, the API route, the MCP tool, the skill, and the subagent are all wired together — but the actual AI-generated wish text is still a placeholder. **That's the part you build with Claude Code.**
+---
 
-## 1. Install Claude Code (if you haven't)
+## Installation
 
 ```bash
-curl -fsSL https://claude.ai/install.sh | bash   # macOS/Linux/WSL
-```
-Windows: see [the install docs](https://docs.claude.com/en/docs/claude-code/overview) for the PowerShell/CMD one-liners.
-
-## 2. Install project dependencies
-
-```bash
-npm install
-cd server && npm install
-cd ../client && npm install
+git clone https://github.com/shinThantKyaw/birthday-wish-generator.git
+cd birthday-wish-generator
+npm install && cd server && npm install && cd ../client && npm install
 cd ..
-```
-
-## 3. Run it
-
-```bash
 npm run dev
 ```
-This starts the API on `http://localhost:3001` and the frontend on `http://localhost:5173`. Open the frontend — the form works end-to-end right now, just with a placeholder wish.
 
-## 4. Start Claude Code and build the real feature
+App opens at `http://localhost:5173`
 
-```bash
-claude
+---
+
+## Environment Variables
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PORT` | No | `3001` | API server port |
+
+No `.env` file needed for local development — SQLite and file uploads work out of the box.
+
+---
+
+## Folder Structure
+
+```
+birthday-wish-generator/
+├── client/
+│   ├── src/
+│   │   ├── pages/           # Home, Create, Success, Wish
+│   │   ├── components/
+│   │   │   ├── experience/  # GiftBox, LetterCard, PhotoSlideshow, etc.
+│   │   │   ├── create/      # PhotoUploader, ThemeSelector
+│   │   │   └── home/        # HeroBackground, CTAButton
+│   │   ├── hooks/           # useReducedMotion, useMouseParallax
+│   │   └── index.css        # All styles (Tailwind + custom)
+│   └── public/
+│       └── assets/          # Images, audio, favicons
+├── server/
+│   ├── routes/              # wishes, photos
+│   ├── services/            # Business logic
+│   ├── middleware/           # Upload, error handling
+│   ├── lib/                 # Prisma client, flair data
+│   └── index.js             # Express entry point
+└── .mcp.json                # MCP servers config
 ```
 
-On first run it'll ask to approve the project-scoped MCP server from `.mcp.json` — say yes. Then try something like:
+---
 
-> Wire `/api/wish` in `server/index.js` up to the Claude API. Follow the rules in `.claude/skills/birthday-wish-style/SKILL.md` for tone, length, and structure. Use the `flair` data already being looked up in that route. After generating the wish, run it past the `tone-checker` subagent — if it comes back `REVISE`, regenerate once with that feedback before sending the response.
+## Future Improvements
 
-From there, keep iterating conversationally — ask it to polish the UI, add a "copy to clipboard" button, handle edge cases, whatever you want to add.
+- Social sharing (WhatsApp, iMessage)
+- Custom theme builder
+- E2E tests with Playwright
+- Email delivery with scheduled sends
+- Visitor statistics dashboard
 
-You'll need an `ANTHROPIC_API_KEY` in `server/.env` for the real API call (not committed — it's in `.gitignore`).
+---
 
-## Assignment checklist
+## License
 
-- [ ] Public GitHub repo, built with Claude Code
-- [ ] 3 ⭐️ from teammates who actually tried it
-- [ ] `.mcp.json`, `.claude/skills/birthday-wish-style/SKILL.md`, `.claude/agents/tone-checker.md` committed
-- [ ] Fill in `slides/pitch.md` with real screenshots, keep 6 slides
-- [ ] Fill in `report.md`, then push it to your **team repo** at `ch-3/<your-github-username>/report.md`
+MIT — feel free to fork and make it your own.
+
+---
+
+## Author
+
+[shinThantKyaw](https://github.com/shinThantKyaw)
