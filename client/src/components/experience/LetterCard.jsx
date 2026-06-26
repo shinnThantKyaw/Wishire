@@ -148,10 +148,23 @@ export default function LetterCard({
     <div className="letter-card-wrapper">
       <motion.article
         className={`letter-card ${open ? "letter-card--open" : ""}`}
+        style={{ "--lc-primary": primary }}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
       >
+        {/* Decorative hearts scattered on the card */}
+        <div className="letter-card__hearts" aria-hidden="true">
+          <span className="letter-card__heart" style={{ top: "8%", left: "6%", fontSize: "1.2rem", opacity: 0.51, color: primary, transform: "rotate(-12deg)" }}>♥</span>
+          <span className="letter-card__heart" style={{ top: "15%", right: "8%", fontSize: "0.9rem", opacity: 0.48, color: secondary, transform: "rotate(20deg)" }}>♥</span>
+          <span className="letter-card__heart" style={{ top: "35%", left: "4%", fontSize: "1rem", opacity: 0.57, color: primary, transform: "rotate(-8deg)" }}>♥</span>
+          <span className="letter-card__heart" style={{ top: "50%", right: "5%", fontSize: "1.3rem", opacity: 0.59, color: secondary, transform: "rotate(15deg)" }}>♥</span>
+          <span className="letter-card__heart" style={{ top: "65%", left: "7%", fontSize: "0.85rem", opacity: 0.46, color: primary, transform: "rotate(-20deg)" }}>♥</span>
+          <span className="letter-card__heart" style={{ top: "78%", right: "6%", fontSize: "1.1rem", opacity: 0.41, color: secondary, transform: "rotate(10deg)" }}>♥</span>
+          <span className="letter-card__heart" style={{ top: "90%", left: "10%", fontSize: "0.95rem", opacity: 0.57, color: primary, transform: "rotate(-5deg)" }}>♥</span>
+          <span className="letter-card__heart" style={{ bottom: "5%", right: "12%", fontSize: "0.8rem", opacity: 0.56, color: secondary, transform: "rotate(25deg)" }}>♥</span>
+        </div>
+
         {/* Closed state — heading + open button */}
         {!open && (
           <motion.div
@@ -160,15 +173,17 @@ export default function LetterCard({
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
           >
-            <h3
-              className="letter-card__heading"
-              style={{
-                background: `linear-gradient(135deg, ${primary}, ${secondary})`,
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              Here is a letter for you, {recipientName} 💝
+            <h3 className="letter-card__heading">
+              <span
+                style={{
+                  background: `linear-gradient(135deg, ${primary}, ${secondary})`,
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                Here is a letter for you, {recipientName}
+              </span>
+              {" 💝"}
             </h3>
             <motion.button
               whileHover={{ scale: 1.05 }}

@@ -2848,13 +2848,17 @@ textarea:focus {
 
 .wish-hero__chip {
   font-family: "Nunito", sans-serif;
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   font-weight: 700;
   color: var(--ink);
-  border: 1px solid;
+  border: 1.5px solid;
   border-radius: 999px;
-  padding: 4px 14px;
-  opacity: 0.7;
+  padding: 5px 16px;
+  opacity: 0.85;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 /* Animated scroll indicator */
@@ -3118,15 +3122,19 @@ textarea:focus {
 }
 
 .letter-card {
+  --lc-primary: #a855f7;
   width: 100%;
   max-width: 480px;
   min-height: 50vh;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 2px solid rgba(255, 255, 255, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.7);
   border-radius: 24px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 0 40px color-mix(in srgb, var(--lc-primary) 15%, transparent),
+    0 0 80px color-mix(in srgb, var(--lc-primary) 8%, transparent);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -3136,8 +3144,23 @@ textarea:focus {
   overflow: hidden;
 }
 
+/* Decorative hearts scattered on the card */
+.letter-card__hearts {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.letter-card__heart {
+  position: absolute;
+  pointer-events: none;
+  line-height: 1;
+}
+
 .letter-card--open {
   padding: 0;
+  padding-top: 8px;
   background: rgba(255, 255, 255, 0.95);
 }
 
@@ -3148,6 +3171,8 @@ textarea:focus {
   align-items: center;
   gap: 24px;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 .letter-card__heading {
@@ -3184,6 +3209,7 @@ textarea:focus {
   display: flex;
   flex-direction: column;
   position: relative;
+  z-index: 1;
   padding: 24px 20px;
 }
 
