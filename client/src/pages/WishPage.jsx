@@ -97,8 +97,7 @@ export default function WishPage() {
     sfxWhooshRef.current = new Howl({
       src: ["/assets/audio/whoosh.mp3"],
       volume: 0.8,
-      onloaderror: (_, msg) => {
-        console.warn("Whoosh SFX failed to load:", msg);
+      onloaderror: () => {
         sfxWhooshRef.current = null;
       },
     });
