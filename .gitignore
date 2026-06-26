@@ -2,7 +2,6 @@ node_modules/
 dist/
 .env
 .DS_Store
-.mcp.json
 .idea/
 *.db
 *.db-journal
@@ -12,3 +11,7 @@ dist/
 client/dist/
 server/uploads/*
 !server/uploads/.gitkeep
+.planning/
+.claude/commands/gsd/
+.claude/agents/gsd-*.md
+explain.md
