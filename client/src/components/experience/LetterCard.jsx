@@ -1,41 +1,23 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { X } from "lucide-react";
 import { Howl } from "howler";
 
 // --- Module-level variants (Rule 3) ---
 
-const cardVariants = {
-  closed: {
-    scale: 1,
-    transition: { type: "spring", stiffness: 200, damping: 25 },
-  },
-  open: {
-    scale: 1,
-    transition: { type: "spring", stiffness: 200, damping: 25 },
-  },
-};
-
-const buttonVariants = {
-  initial: { opacity: 0, y: 10 },
+const letterRevealVariants = {
+  initial: { opacity: 0, y: 50, scale: 0.8 },
   animate: {
     opacity: 1,
     y: 0,
-    transition: { type: "spring", stiffness: 150, damping: 20, delay: 0.3 },
-  },
-  exit: { opacity: 0, y: -10, transition: { duration: 0.2 } },
-};
-
-const letterVariants = {
-  initial: { height: 0, opacity: 0 },
-  animate: {
-    height: "auto",
-    opacity: 1,
-    transition: { height: { duration: 0.4, ease: "easeOut" }, opacity: { duration: 0.3, delay: 0.2 } },
+    scale: 1,
+    transition: { duration: 0.6, type: "spring" },
   },
   exit: {
-    height: 0,
     opacity: 0,
-    transition: { opacity: { duration: 0.2 }, height: { duration: 0.3, delay: 0.1 } },
+    y: -50,
+    scale: 0.8,
+    transition: { duration: 0.3 },
   },
 };
 
@@ -47,7 +29,9 @@ const cursorVariants = {
 };
 
 /**
- * LetterCard — expandable card that reveals letter text with typewriter effect.
+ * LetterCard — card with closed/open states.
+ * Closed: romantic heading + "Open Letter" button.
+ * Open: letter content with typewriter effect, close button, skip button.
  *
  * Props:
  *   sentences: string[] — the letter sentences
@@ -55,18 +39,32 @@ const cursorVariants = {
  *   reducedMotion: boolean — instant reveal if true
  *   recipientName: string — for "Dear {name}" greeting
  *   senderName: string — for sign-off
+ *   theme: { primary, secondary } — for themed colors
  */
-export default function LetterCard({ sentences, playCount, reducedMotion = false, recipientName, senderName }) {
-  const [isOpen, setIsOpen] = useState(false);
+export default function LetterCard({
+  sentences,
+  playCount,
+  reducedMotion = false,
+  recipientName,
+  senderName,
+  theme,
+}) {
+  const [open, setOpen] = useState(false);
   const [displayed, setDisplayed] = useState("");
   const [isComplete, setIsComplete] = useState(false);
   const chimeRef = useRef(null);
   const intervalRef = useRef(null);
 
+  const primary = theme?.primary || "#a855f7";
+  const secondary = theme?.secondary || "#d946ef";
+
   // Build full letter text with greeting and sign-off
   const greeting = recipientName ? `Dear ${recipientName} ❤️\n\n` : "";
-  const signOffText = senderName ? `\n\nWith love,\n${senderName} ❤️` : "\n\nWith love ❤️";
+  const signOffText = senderName
+    ? `\n\nWith love,\n${senderName} ❤️`
+    : "\n\nWith love ❤️";
   const fullText = sentences.join(" ");
+  const typedContent = greeting + fullText + signOffText;
 
   // Initialize chime SFX
   useEffect(() => {
@@ -84,20 +82,15 @@ export default function LetterCard({ sentences, playCount, reducedMotion = false
 
   // Reset on replay
   useEffect(() => {
-    setIsOpen(false);
+    setOpen(false);
     setDisplayed("");
     setIsComplete(false);
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
+    if (intervalRef.current) clearInterval(intervalRef.current);
   }, [playCount]);
-
-  // Full typed content: greeting + message + sign-off
-  const typedContent = greeting + fullText + signOffText;
 
   // Start typewriter when card opens
   useEffect(() => {
-    if (!isOpen || !typedContent) return;
+    if (!open || !typedContent) return;
 
     if (reducedMotion) {
       setDisplayed(typedContent);
@@ -116,127 +109,141 @@ export default function LetterCard({ sentences, playCount, reducedMotion = false
       } else {
         setIsComplete(true);
         clearInterval(intervalRef.current);
-        if (chimeRef.current) {
-          chimeRef.current.play();
-        }
+        if (chimeRef.current) chimeRef.current.play();
       }
     }, 40);
 
     return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
+      if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [isOpen, typedContent, reducedMotion]);
+  }, [open, typedContent, reducedMotion]);
 
-  // Handle "Read your letter" button
   const handleOpen = useCallback((e) => {
     e.stopPropagation();
-    setIsOpen(true);
+    setOpen(true);
   }, []);
 
-  // Handle close — collapse the card back to button
   const handleClose = useCallback((e) => {
     e.stopPropagation();
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-    setIsOpen(false);
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    setOpen(false);
     setDisplayed("");
     setIsComplete(false);
   }, []);
 
-  // Handle skip
   const handleSkip = useCallback(
     (e) => {
       e.stopPropagation();
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
+      if (intervalRef.current) clearInterval(intervalRef.current);
       setDisplayed(typedContent);
       setIsComplete(true);
-      if (chimeRef.current) {
-        chimeRef.current.play();
-      }
+      if (chimeRef.current) chimeRef.current.play();
     },
     [typedContent]
   );
 
-  const isTyping = isOpen && !isComplete && !reducedMotion;
+  const isTyping = open && !isComplete && !reducedMotion;
 
   return (
     <div className="letter-card-wrapper">
-      <AnimatePresence mode="wait">
-        {!isOpen && (
-          <motion.button
-            key={`letter-btn-${playCount}`}
-            className="letter-card__button"
-            variants={buttonVariants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            onClick={handleOpen}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            💌 A Letter For You
-          </motion.button>
-        )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {isOpen && (
+      <motion.article
+        className={`letter-card ${open ? "letter-card--open" : ""}`}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+      >
+        {/* Closed state — heading + open button */}
+        {!open && (
           <motion.div
-            key={`letter-body-${playCount}`}
-            className="letter-card"
-            variants={cardVariants}
-            initial="closed"
-            animate="open"
-            exit="exit"
+            className="letter-card__closed"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
           >
-            <button
-              className="letter-card__close"
-              onClick={handleClose}
-              aria-label="Close letter"
+            <h3
+              className="letter-card__heading"
+              style={{
+                background: `linear-gradient(135deg, ${primary}, ${secondary})`,
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
             >
-              ✕
-            </button>
+              Here is a letter for you, {recipientName} 💝
+            </h3>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleOpen}
+              className="letter-card__open-btn"
+              style={{
+                background: `linear-gradient(135deg, ${primary}, ${secondary})`,
+              }}
+              aria-label="Open letter"
+            >
+              Open Letter 💌
+            </motion.button>
+          </motion.div>
+        )}
+
+        {/* Open state — letter with typewriter */}
+        <AnimatePresence>
+          {open && (
             <motion.div
-              className="letter-card__letter"
-              variants={letterVariants}
+              key={`letter-${playCount}`}
+              className="letter-card__body"
+              variants={letterRevealVariants}
               initial="initial"
               animate="animate"
               exit="exit"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Letter"
             >
-              <p className="letter-card__text">
-                {displayed}
+              {/* Close button */}
+              <button
+                className="letter-card__close"
+                onClick={handleClose}
+                aria-label="Close letter"
+              >
+                <X size={22} />
+              </button>
+
+              {/* Letter content */}
+              <div className="letter-card__content">
+                <p className="letter-card__text">
+                  {displayed}
+                  {isTyping && (
+                    <motion.span
+                      className="letter-card__cursor"
+                      style={{ color: primary }}
+                      variants={cursorVariants}
+                      animate="blink"
+                      aria-hidden="true"
+                    >
+                      |
+                    </motion.span>
+                  )}
+                </p>
+              </div>
+
+              {/* Skip button */}
+              <div className="letter-card__skip-row">
                 {isTyping && (
-                  <motion.span
-                    className="letter-card__cursor"
-                    variants={cursorVariants}
-                    animate="blink"
-                    aria-hidden="true"
+                  <motion.button
+                    className="letter-card__skip"
+                    onClick={handleSkip}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    aria-label="Skip typewriter animation"
                   >
-                    |
-                  </motion.span>
+                    Skip Typing ⏩
+                  </motion.button>
                 )}
-              </p>
-
-              {isTyping && (
-                <button
-                  className="letter-card__skip"
-                  onClick={handleSkip}
-                  aria-label="Skip typewriter animation"
-                >
-                  Skip
-                </button>
-              )}
-
-              {/* Sign-off is now part of typed content */}
+              </div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>
+      </motion.article>
     </div>
   );
 }
