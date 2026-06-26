@@ -1,42 +1,70 @@
-# Birthday Wish Generator
+---
+marp: true
+paginate: true
+transition: fade
+# PechaKucha: 6 slides, 20s auto-advance. Do not change the count.
+auto-advance: 20
+---
 
-A small generator that writes a short, personalized birthday wish — funny, sincere, poetic, or chaotic-roast — using real zodiac/birthstone/birth-flower flair instead of generic filler.
+<!-- slide 1 -->
+# Who's my person?
+**Anyone who wants to send a personalized birthday wish.**
+
+Friends, partners, family, coworkers — people who care enough to go beyond a plain "Happy Birthday" text.
+
+They want something **beautiful, emotional, and shareable** — a digital birthday card that feels personal.
 
 ---
 
-# The Problem
-
-Generic "Happy Birthday!" texts feel low-effort. Writing something genuinely funny or sincere takes more time than most people have before the group chat notices it's someone's birthday.
-
----
-
-# Live Demo — Input
-
-[screenshot: the form — name, relationship, tone, birth month/day]
-
-You pick who it's for and how it should sound. That's the whole interface.
+<!-- slide 2 -->
+# Their problem
+- Generic birthday messages feel **cold and forgettable**
+- Creating something beautiful requires **design skills** most people don't have
+- Existing tools are either **too complex** or **too basic**
+- No easy way to combine **photos, a personal letter, music, and confetti** into one experience
+- Sharing a birthday surprise should be as simple as **sending a link**
 
 ---
 
-# Live Demo — Output
+<!-- slide 3 -->
+# What I built
+**Wishire** — a birthday wish generator that creates an immersive, animated experience.
 
-[screenshot: generated wish + zodiac/birthstone/flower chips]
-
-Notice the flair isn't a random fact dump — it's woven into the sentence.
-
----
-
-# How It's Built
-
-- **React + Vite** frontend, **Node/Express** backend
-- **MCP server** (`birthday-facts`) — looks up zodiac sign, birthstone, birth flower for a given date
-- **Skill** (`birthday-wish-style`) — defines tone, length, and structure rules for every generated wish
-- **Subagent** (`tone-checker`) — reviews each wish for cringe or mean-spirited lines before it ships
+- 🎁 Gift box with anticipation → tap to open
+- 🎉 Confetti celebration fills the screen
+- 📸 Photo slideshow with auto-scroll carousel
+- 💌 Typewriter letter reveal with sound effects
+- 🎨 12 theme colors to match any personality
+- 🎵 Background music throughout the experience
 
 ---
 
-# What's Next
+<!-- slide 4 -->
+# How I built it
+- **MCP**: `birthday-facts` server for zodiac signs, birthstones, and birth flowers — real data, not hardcoded. `github` server for repo operations.
+- **Skill**: `birthday-wish-style` for sentence splitting, typography, and render safety. `framer-motion-patterns` for consistent animations.
+- **Agent**: `project-explainer` to document architecture decisions across the codebase.
+- **Stack**: React + Vite, Express + Prisma, Tailwind CSS v4, Framer Motion, Howler.js
 
-- Save favorite wishes / share as an image
-- Add more tones (e.g. "haiku")
-- Let the tone-checker subagent auto-trigger a regeneration loop instead of just flagging
+---
+
+<!-- slide 5 -->
+# Why it matters
+- **Emotional impact**: Confetti, music, and a personal letter create a real "wow" moment
+- **Accessibility**: No app download — just open a link on any device
+- **Personalization**: 12 themes, custom photos, handwritten-style letter — every wish feels unique
+- **Shareability**: One link = a complete birthday surprise for WhatsApp, iMessage, or social media
+- **Craft**: Clean code, accessibility-first animations, responsive design
+
+---
+
+<!-- slide 6 -->
+# Done checklist
+- [x] repo public
+- [x] MCP + skill + agent used
+- [x] report.md in team repo
+- [x] 12 themed color palettes
+- [x] Photo upload with magic-byte validation
+- [x] Confetti, music, typewriter letter
+- [x] Responsive design (mobile + desktop)
+- [x] Replay functionality
