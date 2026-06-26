@@ -1211,7 +1211,7 @@ textarea:focus {
   gap: 14px;
 }
 
-.page button {
+.page button:not(.relationship-picker__btn):not(.theme-selector__btn) {
   font-family: "Baloo 2", sans-serif;
   font-weight: 700;
   font-size: 1.05rem;
@@ -1225,11 +1225,11 @@ textarea:focus {
   box-shadow: 0 4px 16px rgba(167, 139, 250, 0.3);
 }
 
-.page button:hover {
+.page button:not(.relationship-picker__btn):not(.theme-selector__btn):hover {
   transform: translateY(-1px);
 }
 
-.page button:disabled {
+.page button:not(.relationship-picker__btn):not(.theme-selector__btn):disabled {
   opacity: 0.7;
   cursor: progress;
 }
@@ -1298,28 +1298,41 @@ textarea:focus {
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  padding: 16px 6px 12px;
-  background: rgba(255,255,255,0.70);
-  border: 1.5px solid rgba(233,160,249,0.12);
+  padding: 18px 6px 14px;
+  background: #fff;
+  border: 1px solid #eaeaea;
   border-radius: 16px;
   cursor: pointer;
-  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), border-color 0.2s ease, box-shadow 0.3s ease, background 0.2s ease;
-  box-shadow: 0 2px 8px rgba(100,70,150,0.04);
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.03);
 }
 
-.relationship-picker__btn:hover {
-  border-color: rgba(233,160,249,0.30);
-  transform: translateY(-3px);
-  box-shadow: 0 6px 18px rgba(100,70,150,0.10);
+/* Selected indicator — small dot badge top-right */
+.relationship-picker__btn--active::after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #a953fc;
+  opacity: 0;
+  transform: scale(0);
+  animation: picker-dot-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes picker-dot-in {
+  to { opacity: 1; transform: scale(1); }
 }
 
 .relationship-picker__btn--active {
-  border-color: #E9A0F9;
-  background: linear-gradient(135deg, rgba(233,160,249,0.10), rgba(255,185,231,0.08));
+  border-color: rgba(169, 83, 252, 0.35);
+  background: rgba(169, 83, 252, 0.04);
   box-shadow:
-    0 0 0 2.5px rgba(233,160,249,0.22),
-    0 8px 24px rgba(233,160,249,0.15);
-  transform: translateY(-3px) scale(1.02);
+    0 0 0 1.5px rgba(169, 83, 252, 0.2),
+    0 0 16px 0 rgba(169, 83, 252, 0.08),
+    0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .relationship-picker__emoji {
@@ -1331,28 +1344,30 @@ textarea:focus {
   align-items: center;
   justify-content: center;
   border-radius: 14px;
-  background: rgba(233,160,249,0.06);
-  transition: background 0.2s ease;
+  background: rgba(0, 0, 0, 0.02);
 }
 
 .relationship-picker__btn--active .relationship-picker__emoji {
-  background: rgba(233,160,249,0.12);
+  background: rgba(169, 83, 252, 0.06);
 }
 
 .relationship-picker__label {
   font-family: "Nunito", sans-serif;
   font-size: 0.78rem;
-  font-weight: 700;
-  color: #5a3e7a;
-  opacity: 0.8;
+  font-weight: 600;
+  color: var(--ink);
+  opacity: 0.55;
 }
 
 .relationship-picker__btn--active .relationship-picker__label {
   opacity: 1;
-  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #9333ea;
+}
+
+/* Focus-visible: keyboard only */
+.relationship-picker__btn:focus-visible {
+  outline: 2px solid #a953fc;
+  outline-offset: 2px;
 }
 
 /* Photo upload */
@@ -3070,25 +3085,42 @@ textarea:focus {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 12px 6px;
-  background: #ffffff;
-  border: 1.5px solid var(--input-border);
-  border-radius: 12px;
+  padding: 14px 6px;
+  background: #fff;
+  border: 1px solid #eaeaea;
+  border-radius: 14px;
   cursor: pointer;
-  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
-  box-shadow: var(--input-shadow);
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.03);
 }
 
-.theme-selector__btn:hover {
-  border-color: var(--gradient-start);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(167, 139, 250, 0.15);
+/* Selected dot badge */
+.theme-selector__btn--active::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #a953fc;
+  opacity: 0;
+  transform: scale(0);
+  animation: picker-dot-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 .theme-selector__btn--active {
-  border-color: var(--gradient-start);
-  background: rgba(167, 139, 250, 0.08);
-  box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.2);
+  border-color: rgba(169, 83, 252, 0.35);
+  background: rgba(169, 83, 252, 0.04);
+  box-shadow:
+    0 0 0 1.5px rgba(169, 83, 252, 0.2),
+    0 0 16px 0 rgba(169, 83, 252, 0.08),
+    0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.theme-selector__btn:focus-visible {
+  outline: 2px solid #a953fc;
+  outline-offset: 2px;
 }
 
 .theme-selector__circles {

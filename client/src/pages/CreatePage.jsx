@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import { User, Heart, Cake, MessageSquare, Camera, Palette, Sparkles, Loader2 } from "lucide-react";
 import PhotoUploader from "../components/create/PhotoUploader.jsx";
 import ThemeSelector from "../components/create/ThemeSelector.jsx";
@@ -310,20 +311,32 @@ export default function CreatePage() {
           <label>
             Relationship
             <div className="relationship-picker">
-              {RELATIONSHIPS.map((r) => (
-                <button
-                  key={r.id}
-                  type="button"
-                  className={
-                    "relationship-picker__btn" +
-                    (form.relationship === r.id ? " relationship-picker__btn--active" : "")
-                  }
-                  onClick={() => update("relationship", r.id)}
-                >
-                  <span className="relationship-picker__emoji">{r.emoji}</span>
-                  <span className="relationship-picker__label">{r.label}</span>
-                </button>
-              ))}
+              {RELATIONSHIPS.map((r) => {
+                const isActive = form.relationship === r.id;
+                return (
+                  <motion.button
+                    key={r.id}
+                    type="button"
+                    className={
+                      "relationship-picker__btn" +
+                      (isActive ? " relationship-picker__btn--active" : "")
+                    }
+                    onClick={() => update("relationship", r.id)}
+                    whileHover={{ y: -2, scale: 1.02, borderColor: "rgba(169, 83, 252, 0.25)" }}
+                    whileTap={{ scale: 0.97 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                  >
+                    <motion.span
+                      className="relationship-picker__emoji"
+                      animate={{ scale: isActive ? 1.08 : 1 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    >
+                      {r.emoji}
+                    </motion.span>
+                    <span className="relationship-picker__label">{r.label}</span>
+                  </motion.button>
+                );
+              })}
             </div>
             {form.relationship === "custom" && (
               <div className="form__custom-rel">
