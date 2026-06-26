@@ -186,6 +186,8 @@ export default function SuccessPage() {
             className={`success-btn success-btn--primary${copied ? " success-btn--copied" : ""}`}
             onClick={copyLink}
           >
+            <span className="success-btn__shine" />
+            <span className="success-btn__highlight" />
             {copied ? <Check size={18} strokeWidth={3} /> : <Copy size={16} />}
             {copied ? "Copied!" : "Copy Link"}
           </button>
@@ -199,8 +201,7 @@ export default function SuccessPage() {
           </button>
         </div>
 
-        {/* Subtle back action */}
-        <button className="success-back" onClick={() => navigate("/create")}>
+        <button className="success-btn success-btn--tertiary" onClick={() => navigate("/create")}>
           <ArrowLeft size={14} />
           Create another wish
         </button>
