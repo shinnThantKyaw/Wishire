@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { RotateCcw, Sparkles } from "lucide-react";
 import confetti from "canvas-confetti";
 import useReducedMotion from "../../hooks/useReducedMotion";
 import FloatingSparkles from "./FloatingSparkles";
 import PhotoSlideshow from "./PhotoSlideshow";
 import LetterCard from "./LetterCard";
-import ReplayButton from "./ReplayButton";
 
 // Month names
 const MONTH_NAMES = [
@@ -329,34 +329,76 @@ export default function WishExperience({
           <div className="wish-experience__section-divider" aria-hidden="true" />
         </motion.div>
 
-        {/* 4. Thank you footer */}
-        <motion.div className="wish-experience__thankyou" variants={sV}>
-          <p className="wish-experience__thankyou-main">✨ Thank you for reading ✨</p>
-          <p className="wish-experience__thankyou-text">
-            May this year bring happiness,<br />
-            beautiful memories,<br />
-            and dreams come true ❤️
+        {/* 4. Closing — gradient farewell */}
+        <motion.div className="wish-closing" variants={sV}>
+          <h2
+            className="wish-closing__title"
+            style={{
+              background: `linear-gradient(135deg, ${primary}, ${secondary})`,
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            Wish you a very Happy Birthday!
+          </h2>
+          <p className="wish-closing__text">
+            May this year bring happiness, beautiful memories, and all the love you deserve. You are truly special ❤️
           </p>
           <p
-            className="wish-experience__thankyou-birthday"
-            style={{ color: theme.primary }}
+            className="wish-closing__from"
+            style={{ color: primary }}
           >
-            🎂 Happy Birthday, {wish.recipientName}!
+            🎂 With love, {wish.senderName}
           </p>
         </motion.div>
 
-        {/* 5. Actions */}
-        <motion.div className="wish-experience__actions" variants={sV}>
-          <ReplayButton onReplay={onReplay} reducedMotion={reducedMotion} />
-          <Link to="/" className="wish-experience__make-btn">
-            ✨ Make Your Own Wish
+        {/* 5. Actions — premium buttons */}
+        <motion.div className="wish-closing__actions" variants={sV}>
+          <motion.button
+            className="wish-closing__btn wish-closing__btn--primary"
+            onClick={onReplay}
+            whileHover={reducedMotion ? {} : { scale: 1.04 }}
+            whileTap={reducedMotion ? {} : { scale: 0.97 }}
+            style={{
+              background: `linear-gradient(135deg, ${primary}, ${secondary})`,
+              boxShadow: `0 8px 28px ${primary}45, 0 3px 12px ${primary}30`,
+            }}
+          >
+            <RotateCcw size={18} />
+            <span>Experience Again</span>
+          </motion.button>
+
+          <Link to="/">
+            <motion.span
+              className="wish-closing__btn wish-closing__btn--secondary"
+              whileHover={reducedMotion ? {} : { scale: 1.04 }}
+              whileTap={reducedMotion ? {} : { scale: 0.97 }}
+              style={{
+                borderColor: `${primary}40`,
+                color: primary,
+              }}
+            >
+              <Sparkles size={18} />
+              <span>Make Your Own Wish</span>
+            </motion.span>
           </Link>
         </motion.div>
 
         {/* 6. Powered by */}
-        <motion.p className="wish-experience__powered" variants={sV}>
-          Powered by Wishire 🎁
-        </motion.p>
+        <motion.div className="wish-closing__powered" variants={sV}>
+          <span className="wish-closing__powered-line" />
+          <Link to="/" className="wish-closing__powered-content">
+            <span className="wish-closing__powered-text">Powered by</span>
+            <img
+              src="/assets/images/Icon.png"
+              alt="Wishire"
+              className="wish-closing__powered-logo"
+              width={96}
+              height={96}
+            />
+          </Link>
+          <span className="wish-closing__powered-line" />
+        </motion.div>
       </motion.div>
     </div>
   );

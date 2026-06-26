@@ -3030,81 +3030,135 @@ textarea:focus {
   text-align: center;
 }
 
-/* Thank you footer */
-.wish-experience__thankyou {
+/* ===========================
+   Closing Section
+   =========================== */
+
+.wish-closing {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   text-align: center;
+  padding: 0 8px;
 }
 
-.wish-experience__thankyou-main {
-  font-family: "Baloo 2", sans-serif;
-  font-weight: 700;
-  font-size: 1.3rem;
-  color: var(--ink);
-  margin: 0;
-}
-
-.wish-experience__thankyou-text {
-  font-family: "Nunito", sans-serif;
-  font-size: 1.05rem;
-  line-height: 1.8;
-  color: var(--ink);
-  opacity: 0.8;
-  margin: 0;
-}
-
-.wish-experience__thankyou-birthday {
+.wish-closing__title {
   font-family: "Baloo 2", sans-serif;
   font-weight: 800;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   margin: 0;
+  line-height: 1.3;
 }
 
-/* Powered by */
-.wish-experience__powered {
+.wish-closing__text {
   font-family: "Nunito", sans-serif;
-  font-size: 0.8rem;
-  opacity: 0.4;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--ink);
+  opacity: 0.65;
   margin: 0;
-  text-align: center;
+  max-width: 380px;
 }
 
-/* ===========================
-   Wish Experience Actions
-   =========================== */
+.wish-closing__from {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin: 0;
+}
 
-.wish-experience__actions {
+/* Actions — premium buttons */
+.wish-closing__actions {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
 }
 
-.wish-experience__make-btn {
+.wish-closing__btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 44px;
-  padding: 12px 24px;
-  border: 2px solid var(--mint);
+  gap: 8px;
+  min-height: 48px;
+  padding: 12px 28px;
   border-radius: 999px;
-  background: transparent;
-  color: var(--mint);
   font-family: "Baloo 2", sans-serif;
   font-weight: 700;
-  font-size: 1rem;
-  text-decoration: none;
+  font-size: 0.95rem;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: none;
+  color: #fff;
 }
 
-.wish-experience__make-btn:hover {
-  background: var(--mint);
-  color: #fff;
+.wish-closing__btn--primary {
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
+}
+
+.wish-closing__btn--primary:hover {
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.2);
+}
+
+.wish-closing__btn--secondary {
+  background: transparent;
+  border: 2px solid;
+  color: inherit;
+  box-shadow: none;
+}
+
+.wish-closing__btn--secondary:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+/* Powered by */
+.wish-closing__powered {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 8px;
+  width: 100%;
+  max-width: 280px;
+}
+
+.wish-closing__powered-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+}
+
+.wish-closing__powered-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.wish-closing__powered-content:hover {
+  opacity: 0.8;
+}
+
+.wish-closing__powered-logo {
+  border-radius: 6px;
+  object-fit: contain;
+}
+
+.wish-closing__powered-text {
+  font-family: "Nunito", sans-serif;
+  font-size: 0.78rem;
+  color: var(--ink);
+  opacity: 0.45;
+}
+
+.wish-closing__powered-text strong {
+  font-weight: 800;
+  opacity: 1;
 }
 
 /* ===========================
@@ -4455,7 +4509,7 @@ textarea:focus {
     font-size: 1.05rem;
   }
 
-  .wish-experience__actions {
+  .wish-closing__actions {
     gap: 10px;
   }
 
@@ -4480,12 +4534,14 @@ textarea:focus {
     font-size: 1.3rem;
   }
 
-  .wish-experience__thankyou-main {
-    font-size: 1.15rem;
+  .wish-closing__title {
+    font-size: 1.4rem;
   }
 
-  .wish-experience__thankyou-birthday {
-    font-size: 1.2rem;
+  .wish-closing__btn {
+    min-height: 44px;
+    padding: 10px 22px;
+    font-size: 0.9rem;
   }
 }
 
@@ -4844,13 +4900,13 @@ textarea:focus {
     font-size: 0.95rem;
   }
 
-  .wish-experience__actions {
+  .wish-closing__actions {
     flex-direction: column;
     width: 100%;
     max-width: 280px;
   }
 
-  .wish-experience__make-btn {
+  .wish-closing__btn {
     width: 100%;
   }
 
@@ -4953,20 +5009,22 @@ textarea:focus {
     font-size: 0.85rem;
   }
 
-  .wish-experience__thankyou-main {
-    font-size: 1.1rem;
+  .wish-closing__title {
+    font-size: 1.3rem;
   }
 
-  .wish-experience__thankyou-text {
-    font-size: 0.95rem;
+  .wish-closing__text {
+    font-size: 0.9rem;
   }
 
-  .wish-experience__thankyou-birthday {
-    font-size: 1.15rem;
+  .wish-closing__btn {
+    min-height: 44px;
+    padding: 10px 20px;
+    font-size: 0.85rem;
   }
 
-  .wish-experience__powered {
-    font-size: 0.75rem;
+  .wish-closing__powered-text {
+    font-size: 0.7rem;
   }
 }
 

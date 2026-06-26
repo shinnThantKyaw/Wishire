@@ -153,17 +153,16 @@ export default function LetterCard({
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
       >
-        {/* Decorative hearts scattered on the card */}
+        {/* 6 decorative hearts near corners */}
         <div className="letter-card__hearts" aria-hidden="true">
-          <span className="letter-card__heart" style={{ top: "8%", left: "6%", fontSize: "1.2rem", opacity: 0.51, color: primary, transform: "rotate(-12deg)" }}>♥</span>
-          <span className="letter-card__heart" style={{ top: "15%", right: "8%", fontSize: "0.9rem", opacity: 0.48, color: secondary, transform: "rotate(20deg)" }}>♥</span>
-          <span className="letter-card__heart" style={{ top: "35%", left: "4%", fontSize: "1rem", opacity: 0.57, color: primary, transform: "rotate(-8deg)" }}>♥</span>
-          <span className="letter-card__heart" style={{ top: "50%", right: "5%", fontSize: "1.3rem", opacity: 0.59, color: secondary, transform: "rotate(15deg)" }}>♥</span>
-          <span className="letter-card__heart" style={{ top: "65%", left: "7%", fontSize: "0.85rem", opacity: 0.46, color: primary, transform: "rotate(-20deg)" }}>♥</span>
-          <span className="letter-card__heart" style={{ top: "78%", right: "6%", fontSize: "1.1rem", opacity: 0.41, color: secondary, transform: "rotate(10deg)" }}>♥</span>
-          <span className="letter-card__heart" style={{ top: "90%", left: "10%", fontSize: "0.95rem", opacity: 0.57, color: primary, transform: "rotate(-5deg)" }}>♥</span>
-          <span className="letter-card__heart" style={{ bottom: "5%", right: "12%", fontSize: "0.8rem", opacity: 0.56, color: secondary, transform: "rotate(25deg)" }}>♥</span>
+          <span className="letter-card__heart" style={{ top: "6%", left: "5%", fontSize: "1.2rem", opacity: 0.12, color: primary, transform: "rotate(-15deg)" }}>♥</span>
+          <span className="letter-card__heart" style={{ top: "6%", right: "5%", fontSize: "1rem", opacity: 0.1, color: secondary, transform: "rotate(20deg)" }}>♥</span>
+          <span className="letter-card__heart" style={{ top: "50%", left: "3%", fontSize: "0.9rem", opacity: 0.08, color: secondary, transform: "rotate(-10deg)" }}>♥</span>
+          <span className="letter-card__heart" style={{ top: "50%", right: "3%", fontSize: "1.1rem", opacity: 0.1, color: primary, transform: "rotate(12deg)" }}>♥</span>
+          <span className="letter-card__heart" style={{ bottom: "6%", left: "5%", fontSize: "1rem", opacity: 0.1, color: primary, transform: "rotate(18deg)" }}>♥</span>
+          <span className="letter-card__heart" style={{ bottom: "6%", right: "5%", fontSize: "1.2rem", opacity: 0.12, color: secondary, transform: "rotate(-20deg)" }}>♥</span>
         </div>
+
 
         {/* Closed state — heading + open button */}
         {!open && (
