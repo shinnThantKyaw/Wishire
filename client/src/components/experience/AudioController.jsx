@@ -1,3 +1,5 @@
+import { Pause, Play } from "lucide-react";
+
 /**
  * AudioController — pause/resume button for background music.
  * Fixed position, top-right corner, always visible during the experience.
@@ -5,25 +7,38 @@
  * Props:
  *   isPlaying: boolean
  *   onToggle: () => void
+ *   theme: { primary, secondary } — for themed styling
  */
-export default function AudioController({ isPlaying, onToggle }) {
+export default function AudioController({ isPlaying, onToggle, theme }) {
+  const primary = theme?.primary || "#a855f7";
+
+  // Convert hex to rgba at different opacities — avoids color-mix() fallback issues
+  const hexToRgba = (hex, alpha) => {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  };
+
   return (
-    <div className="fixed top-4 right-4 z-[100]">
+    <div className="audio-controller">
       <button
-        className="w-11 h-11 min-h-[44px] rounded-full border-none bg-white/85 text-mint text-xl cursor-pointer flex items-center justify-center shadow-[0_2px_8px_rgba(0,0,0,0.12)] transition-[background,transform] duration-200 hover:bg-white hover:scale-105 focus-visible:outline-2 focus-visible:outline-mint focus-visible:outline-offset-2"
+        className="audio-controller__btn"
         onClick={onToggle}
         aria-label={isPlaying ? "Pause music" : "Resume music"}
         title={isPlaying ? "Pause music" : "Resume music"}
+        style={{
+          "--ac-bg": hexToRgba(primary, 0.15),
+          "--ac-border": hexToRgba(primary, 0.4),
+          "--ac-shadow": hexToRgba(primary, 0.2),
+          "--ac-bg-hover": hexToRgba(primary, 0.25),
+          "--ac-primary": primary,
+        }}
       >
         {isPlaying ? (
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true">
-            <rect x="3" y="2" width="4" height="14" rx="1" />
-            <rect x="11" y="2" width="4" height="14" rx="1" />
-          </svg>
+          <Pause className="audio-controller__icon" size={18} strokeWidth={2.5} />
         ) : (
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true">
-            <path d="M4 2.5v13l11-6.5z" />
-          </svg>
+          <Play className="audio-controller__icon" size={18} strokeWidth={2.5} />
         )}
       </button>
     </div>

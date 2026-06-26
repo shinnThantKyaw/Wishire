@@ -1320,7 +1320,7 @@ textarea:focus {
   gap: 14px;
 }
 
-button {
+.page button {
   font-family: "Baloo 2", sans-serif;
   font-weight: 700;
   font-size: 1.05rem;
@@ -1334,11 +1334,11 @@ button {
   box-shadow: 0 4px 16px rgba(167, 139, 250, 0.3);
 }
 
-button:hover {
+.page button:hover {
   transform: translateY(-1px);
 }
 
-button:disabled {
+.page button:disabled {
   opacity: 0.7;
   cursor: progress;
 }
@@ -2553,6 +2553,48 @@ button:disabled {
 
 
 /* ===========================
+   Audio Controller
+   =========================== */
+
+.audio-controller {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 100;
+}
+
+.audio-controller__btn {
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+  border-radius: 9999px;
+  border: 2px solid var(--ac-border);
+  background-color: var(--ac-bg);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+  box-shadow: 0 2px 12px var(--ac-shadow);
+}
+
+.audio-controller__btn:hover {
+  transform: scale(1.1);
+  background-color: var(--ac-bg-hover);
+}
+
+.audio-controller__btn:focus-visible {
+  outline: 2px solid var(--ac-primary);
+  outline-offset: 2px;
+}
+
+.audio-controller__icon {
+  color: var(--ac-primary);
+  display: block;
+}
+
+/* ===========================
    Replay Button
    =========================== */
 
@@ -2578,58 +2620,166 @@ button:disabled {
   z-index: 1;
 }
 
-.wish-experience__header-block {
+/* ===========================
+   Hero Card — Glassmorphism
+   =========================== */
+
+.wish-hero {
+  width: 100%;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
 }
 
-.wish-experience__header {
+/* Decorative floating birthday emojis */
+.wish-hero__deco {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wish-hero__deco-emoji {
+  position: absolute;
+  font-size: 1.5rem;
+  opacity: 0.5;
+  animation: hero-float 3s ease-in-out infinite;
+}
+
+@keyframes hero-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(5deg); }
+}
+
+/* Glassmorphism card */
+.wish-hero__card {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 36px 28px 28px;
+  max-width: 460px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 24px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  animation: hero-card-float 4s ease-in-out infinite;
+}
+
+@keyframes hero-card-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* Gradient birthday title */
+.wish-hero__title {
   font-family: "Baloo 2", sans-serif;
   font-weight: 800;
-  font-size: 2.2rem;
+  font-size: 2rem;
   margin: 0;
   text-align: center;
   line-height: 1.3;
 }
 
-.wish-experience__flair-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-}
-
-.wish-experience__flair-line {
+/* Emotional subtitle */
+.wish-hero__subtitle {
   font-family: "Nunito", sans-serif;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: var(--ink);
   margin: 0;
-  opacity: 0.8;
+  text-align: center;
+  opacity: 0.85;
 }
 
-.wish-experience__made-with-love {
+/* Anticipation teaser */
+.wish-hero__teaser {
+  font-family: "Nunito", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin: 0;
+  text-align: center;
+  opacity: 0.55;
+  font-style: italic;
+}
+
+/* Sender attribution */
+.wish-hero__sender {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
   margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  width: 100%;
 }
 
-.wish-experience__made-label {
+.wish-hero__sender-label {
   font-family: "Nunito", sans-serif;
-  font-size: 0.9rem;
-  opacity: 0.6;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink);
+  opacity: 0.55;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.wish-hero__sender-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.wish-hero__sender-name {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 800;
+  font-size: 1.5rem;
   margin: 0;
 }
 
-.wish-experience__made-name {
-  font-family: "Baloo 2", sans-serif;
+.wish-hero__sender-rel {
+  font-family: "Nunito", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink);
+  opacity: 0.45;
+  font-style: italic;
+}
+
+/* Flair chips below card */
+.wish-hero__flair {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  z-index: 1;
+}
+
+.wish-hero__flair-chip {
+  font-family: "Nunito", sans-serif;
+  font-size: 0.8rem;
   font-weight: 700;
-  font-size: 1.2rem;
-  margin: 0;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 999px;
+  padding: 4px 14px;
+  opacity: 0.7;
 }
 
 .wish-experience__made-rel {
@@ -4004,8 +4154,13 @@ button:disabled {
     padding: 20px 12px 48px;
   }
 
-  .wish-experience__header {
-    font-size: 2rem;
+  .wish-hero__title {
+    font-size: 1.8rem;
+  }
+
+  .wish-hero__card {
+    padding: 28px 20px 24px;
+    border-radius: 20px;
   }
 
   .letter-card {
@@ -4033,12 +4188,12 @@ button:disabled {
     font-size: 0.95rem;
   }
 
-  .wish-experience__header {
-    font-size: 1.9rem;
+  .wish-hero__title {
+    font-size: 1.7rem;
   }
 
-  .wish-experience__flair-line {
-    font-size: 0.95rem;
+  .wish-hero__sender-name {
+    font-size: 1.3rem;
   }
 
   .wish-experience__thankyou-main {
@@ -4348,8 +4503,17 @@ button:disabled {
     padding: 16px 10px 40px;
   }
 
-  .wish-experience__header {
-    font-size: 1.6rem;
+  .wish-hero__title {
+    font-size: 1.5rem;
+  }
+
+  .wish-hero__card {
+    padding: 24px 16px 20px;
+    border-radius: 18px;
+  }
+
+  .wish-hero__sender-name {
+    font-size: 1.2rem;
   }
 
   .wish-experience__footer {
@@ -4421,12 +4585,22 @@ button:disabled {
     padding: 2px 8px;
   }
 
-  .wish-experience__header {
-    font-size: 1.6rem;
+  .wish-hero__title {
+    font-size: 1.4rem;
   }
 
-  .wish-experience__flair-line {
-    font-size: 0.9rem;
+  .wish-hero__subtitle {
+    font-size: 1rem;
+  }
+
+  .wish-hero__card {
+    padding: 24px 14px 18px;
+    gap: 12px;
+  }
+
+  .wish-hero__flair-chip {
+    font-size: 0.7rem;
+    padding: 3px 10px;
   }
 
   .wish-experience__section-title {

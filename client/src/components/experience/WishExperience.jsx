@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import confetti from "canvas-confetti";
@@ -56,14 +56,6 @@ const instantSectionVariants = {
   },
 };
 
-// Confetti canvas style (Rule 6: pointer-events: none)
-const confettiCanvasStyle = {
-  position: "fixed",
-  inset: 0,
-  pointerEvents: "none",
-  zIndex: 9999,
-};
-
 /**
  * WishExperience — Page 2 celebration after gift box opens.
  * Shows header, flair info, made-with-love, photos, letter, thank-you, actions.
@@ -83,8 +75,6 @@ export default function WishExperience({
   onReplay,
 }) {
   const reducedMotion = useReducedMotion();
-  const canvasRef = useRef(null);
-  const confettiRef = useRef(null);
   const hasPhotos = wish.photos && wish.photos.length > 0;
   const sV = reducedMotion ? instantSectionVariants : sectionVariants;
 
@@ -94,55 +84,70 @@ export default function WishExperience({
   const monthName = MONTH_NAMES[(wish.birthMonth || 1) - 1];
   const relLabel = RELATIONSHIP_LABELS[wish.relationship] || null;
 
-  // Fire confetti on mount (Rule 7: shared canvas, cleanup on unmount)
+  // Same gradient background as GiftAnticipation
+  const primary = theme.primary || "#a855f7";
+  const secondary = theme.secondary || "#d946ef";
+  const bgGradient = [
+    `radial-gradient(ellipse 70% 55% at 20% 25%, ${primary}47 0%, transparent 55%)`,
+    `radial-gradient(ellipse 60% 45% at 80% 70%, ${secondary}38 0%, transparent 50%)`,
+    `radial-gradient(ellipse 50% 35% at 50% 45%, ${primary}1F 0%, transparent 55%)`,
+    `linear-gradient(170deg, ${primary}30 0%, ${secondary}20 30%, ${primary}12 60%, #F8F0FE 100%)`,
+  ].join(", ");
+
+  // Fire confetti on mount — multiple bursts across the full screen for ~3s
   useEffect(() => {
-    if (!canvasRef.current) return;
-
-    if (!confettiRef.current) {
-      confettiRef.current = confetti.create(canvasRef.current, { resize: true });
-    }
-
-    const particleBase = reducedMotion ? 20 : 200;
-    const particleSecond = reducedMotion ? 10 : 100;
-    const spread = reducedMotion ? 30 : 60;
-    const velocity = reducedMotion ? 20 : 55;
+    const colors = [theme.primary, theme.secondary, "#ffb84d", "#2bb39c", "#4d96ff"];
     const isMobile = window.innerWidth < 768;
+    const scale = reducedMotion ? 0.15 : 1;
+    const base = isMobile ? 60 : 150;
 
-    // First burst
-    confettiRef.current({
-      particleCount: isMobile ? Math.floor(particleBase * 0.4) : particleBase,
-      spread: isMobile ? spread + 20 : spread,
-      origin: { y: 0.7 },
-      velocity,
-      colors: [theme.primary, theme.secondary, "#ffb84d", "#2bb39c", "#4d96ff"],
+    const burst = (opts) => confetti({
+      particleCount: Math.floor((opts.count || base) * scale),
+      spread: opts.spread || 70,
+      startVelocity: opts.velocity || 45,
+      origin: { x: opts.x, y: opts.y || 0.5 },
+      colors,
+      gravity: 0.8,
+      ticks: 300,
     });
 
-    // Second burst at 250ms
-    const timer = setTimeout(() => {
-      if (confettiRef.current) {
-        confettiRef.current({
-          particleCount: isMobile ? Math.floor(particleSecond * 0.4) : particleSecond,
-          spread: isMobile ? 80 : 100,
-          origin: { y: 0.6 },
-          velocity: velocity * 0.6,
-          colors: [theme.primary, theme.secondary, "#ffb84d"],
-        });
-      }
-    }, 250);
+    // 0ms — center burst
+    burst({ x: 0.5, y: 0.6, count: base, spread: 70 });
+
+    // 200ms — left side
+    const t1 = setTimeout(() => burst({ x: 0.2, y: 0.5, count: base * 0.7, spread: 60, velocity: 40 }), 200);
+
+    // 400ms — right side
+    const t2 = setTimeout(() => burst({ x: 0.8, y: 0.5, count: base * 0.7, spread: 60, velocity: 40 }), 400);
+
+    // 800ms — top center rain
+    const t3 = setTimeout(() => burst({ x: 0.5, y: 0.3, count: base * 0.5, spread: 120, velocity: 30 }), 800);
+
+    // 1400ms — bottom-left fan
+    const t4 = setTimeout(() => burst({ x: 0.15, y: 0.7, count: base * 0.5, spread: 50, velocity: 35 }), 1400);
+
+    // 1800ms — bottom-right fan
+    const t5 = setTimeout(() => burst({ x: 0.85, y: 0.7, count: base * 0.5, spread: 50, velocity: 35 }), 1800);
+
+    // 2400ms — final center shower
+    const t6 = setTimeout(() => burst({ x: 0.5, y: 0.4, count: base * 0.8, spread: 100, velocity: 25 }), 2400);
 
     return () => {
-      clearTimeout(timer);
+      [t1, t2, t3, t4, t5, t6].forEach(clearTimeout);
       confetti.reset();
     };
   }, [playCount, theme, reducedMotion]);
 
   return (
-    <>
+    <div
+      style={{
+        background: bgGradient,
+        backgroundSize: "200% 200%",
+        minHeight: "100vh",
+      }}
+    >
       {/* Floating sparkles background */}
       <FloatingSparkles primary={theme.primary} reducedMotion={reducedMotion} />
-
-      {/* Confetti canvas (Rule 6: pointer-events: none) */}
-
 
       <motion.div
         className="wish-experience"
@@ -150,46 +155,78 @@ export default function WishExperience({
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-      ><canvas ref={canvasRef} style={confettiCanvasStyle} />
-        {/* 1. Header */}
-        <motion.div className="wish-experience__header-block" variants={sV}>
-          <h1
-            className="wish-experience__header"
-            style={{ color: theme.primary }}
-          >
-            🎉 Happy Birthday, {wish.recipientName}! 🎂
-          </h1>
-
-          {/* Flair info */}
-          <div className="wish-experience__flair-info">
-            <p className="wish-experience__flair-line">
-              ✨ {monthName} {wish.birthDay} • {wish.flair?.zodiacSign || ""} {zodiacSymbol}
-            </p>
-            {wish.flair?.birthstone && (
-              <p className="wish-experience__flair-line">
-                💎 Birthstone: {wish.flair.birthstone}
-              </p>
-            )}
-            {wish.flair?.birthFlower && (
-              <p className="wish-experience__flair-line">
-                🌸 Birth flower: {wish.flair.birthFlower}
-              </p>
-            )}
+      >
+        {/* 1. Hero — glassmorphism card */}
+        <motion.div className="wish-hero" variants={sV}>
+          {/* Decorative floating birthday elements */}
+          <div className="wish-hero__deco" aria-hidden="true">
+            <span className="wish-hero__deco-emoji" style={{ top: "8%", left: "5%", animationDelay: "0s" }}>✨</span>
+            <span className="wish-hero__deco-emoji" style={{ top: "12%", right: "8%", animationDelay: "0.5s" }}>🎈</span>
+            <span className="wish-hero__deco-emoji" style={{ bottom: "15%", left: "8%", animationDelay: "1s" }}>🌟</span>
+            <span className="wish-hero__deco-emoji" style={{ bottom: "10%", right: "5%", animationDelay: "1.5s" }}>💖</span>
+            <span className="wish-hero__deco-emoji" style={{ top: "50%", left: "2%", animationDelay: "0.8s" }}>🎉</span>
+            <span className="wish-hero__deco-emoji" style={{ top: "40%", right: "3%", animationDelay: "1.2s" }}>🦋</span>
           </div>
 
-          {/* Made with love by */}
-          <div className="wish-experience__made-with-love">
-            <p className="wish-experience__made-label">Made with love by</p>
-            <p
-              className="wish-experience__made-name"
-              style={{ color: theme.primary }}
+          {/* Glassmorphism card — the emotional focal point */}
+          <div className="wish-hero__card">
+            {/* Main greeting */}
+            <h1
+              className="wish-hero__title"
+              style={{
+                background: `linear-gradient(135deg, ${primary}, ${secondary})`,
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
             >
-              ❤️ {wish.senderName}
+              🎉 Happy Birthday, {wish.recipientName}! 🎂
+            </h1>
+
+            {/* Emotional subtitle — makes recipient feel special */}
+            <p className="wish-hero__subtitle">
+              Today is all about celebrating you ❤️
             </p>
-            {relLabel && (
-              <p className="wish-experience__made-rel">
-                (your {relLabel})
-              </p>
+
+            {/* Anticipation teaser */}
+            <p className="wish-hero__teaser">
+              A special surprise made just for you awaits below...
+            </p>
+
+            {/* Sender attribution — prominent, with heart badge */}
+            <div className="wish-hero__sender">
+              <span className="wish-hero__sender-label">Made with ❤️ by</span>
+              <div className="wish-hero__sender-badge">
+                <span
+                  className="wish-hero__sender-name"
+                  style={{
+                    background: `linear-gradient(135deg, ${primary}, ${secondary})`,
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                  }}
+                >
+                  {wish.senderName}
+                </span>
+                {relLabel && (
+                  <span className="wish-hero__sender-rel">Your {relLabel}</span>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Flair chips — below the card */}
+          <div className="wish-hero__flair">
+            <span className="wish-hero__flair-chip">
+              ✨ {monthName} {wish.birthDay} • {wish.flair?.zodiacSign || ""} {zodiacSymbol}
+            </span>
+            {wish.flair?.birthstone && (
+              <span className="wish-hero__flair-chip">
+                💎 {wish.flair.birthstone}
+              </span>
+            )}
+            {wish.flair?.birthFlower && (
+              <span className="wish-hero__flair-chip">
+                🌸 {wish.flair.birthFlower}
+              </span>
             )}
           </div>
         </motion.div>
@@ -253,6 +290,6 @@ export default function WishExperience({
           Powered by Wishire 🎁
         </motion.p>
       </motion.div>
-    </>
+    </div>
   );
 }

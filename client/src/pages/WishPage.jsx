@@ -195,6 +195,7 @@ export default function WishPage() {
         <AudioController
           isPlaying={state.isMusicPlaying}
           onToggle={handleMusicToggle}
+          theme={theme}
         />
       )}
 
