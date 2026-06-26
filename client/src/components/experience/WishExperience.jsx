@@ -254,23 +254,14 @@ export default function WishExperience({
               </p>
             </div>
 
-            {/* Carousel in a keepsake frame */}
-            <div className="wish-photos__frame">
-              {/* Decorative corners */}
-              <span className="wish-photos__corner wish-photos__corner--tl" aria-hidden="true">✨</span>
-              <span className="wish-photos__corner wish-photos__corner--tr" aria-hidden="true">✨</span>
-              <span className="wish-photos__corner wish-photos__corner--bl" aria-hidden="true">💖</span>
-              <span className="wish-photos__corner wish-photos__corner--br" aria-hidden="true">💖</span>
-
-              <PhotoSlideshow
-                photos={wish.photos}
-                playCount={playCount}
-                onComplete={() => {}}
-                recipientName={wish.recipientName}
-                reducedMotion={reducedMotion}
-                theme={theme}
-              />
-            </div>
+            <PhotoSlideshow
+              photos={wish.photos}
+              playCount={playCount}
+              onComplete={() => {}}
+              recipientName={wish.recipientName}
+              reducedMotion={reducedMotion}
+              theme={theme}
+            />
           </motion.div>
         )}
 
