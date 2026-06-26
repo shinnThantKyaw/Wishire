@@ -156,18 +156,46 @@ export default function WishExperience({
         initial="hidden"
         animate="visible"
       >
-        {/* 1. Hero — cardless, floating on background */}
+        {/* 1. Hero */}
         <motion.div className="wish-hero" variants={sV}>
           {/* Soft glow behind the title */}
           <div
             className="wish-hero__glow"
             aria-hidden="true"
             style={{
-              background: `radial-gradient(circle, ${primary}35 0%, transparent 70%)`,
+              background: `radial-gradient(circle, ${primary}30 0%, transparent 70%)`,
             }}
           />
 
-          {/* Main title — strongest visual element */}
+          {/* 3D Illustrations */}
+          <div className="wish-hero__illust" aria-hidden="true">
+            <div className="wish-hero__cake">
+              <span className="wish-hero__cake-emoji">🎂</span>
+              <div className="wish-hero__cake-shadow" />
+            </div>
+            <div className="wish-hero__balloon">
+              <span className="wish-hero__balloon-emoji">🎈</span>
+              <div className="wish-hero__balloon-shadow" />
+            </div>
+            <div className="wish-hero__gift">
+              <span className="wish-hero__gift-emoji">🎁</span>
+              <div className="wish-hero__gift-shadow" />
+            </div>
+          </div>
+
+          {/* Badge */}
+          <div
+            className="wish-hero__badge"
+            style={{
+              background: `linear-gradient(135deg, ${primary}20, ${secondary}20)`,
+              borderColor: `${primary}30`,
+            }}
+          >
+            <span className="wish-hero__badge-star">⭐</span>
+            <span>It's Your Day!</span>
+          </div>
+
+          {/* Main heading */}
           <h1
             className="wish-hero__title"
             style={{
@@ -176,65 +204,76 @@ export default function WishExperience({
               WebkitTextFillColor: "transparent",
             }}
           >
-            🎉 Happy Birthday, {wish.recipientName}! 🎂
+            Happy Birthday, {wish.recipientName}!
           </h1>
 
-          {/* Emotional subtitle */}
-          <p className="wish-hero__subtitle">
-            Today is all about celebrating you ❤️
-          </p>
-
-          {/* Anticipation teaser */}
-          <p className="wish-hero__teaser">
-            A special surprise made just for you awaits below...
-          </p>
-
-          {/* Decorative sparkle divider */}
-          <p className="wish-hero__sparkle-divider" aria-hidden="true">
-            ✨ ✨ ✨
-          </p>
-
-          {/* Sender — second strongest element */}
-          <div className="wish-hero__sender">
-            <span className="wish-hero__sender-label">Sent with    {/* Heart badge */}
-              <span className="footer__heart inline-block" aria-hidden="true">❤️</span> by</span>
-            <div className="wish-hero__sender-row">
-
-              {relLabel && (
-                  <span className="wish-hero__sender-rel">Your {relLabel}</span>
-              )}<span
-                className="wish-hero__sender-name"
-                style={{
-                  background: `linear-gradient(135deg, ${primary}, ${secondary})`,
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                }}
-              >
-                {wish.senderName}
-              </span>
-
-            </div>
-
+          {/* Description */}
+          <div className="wish-hero__desc">
+            <p>Today is your moment to shine and be celebrated.</p>
+            <p>You deserve all the happiness!</p>
+            <p>A sweet surprise is waiting for you below.</p>
           </div>
 
-          {/* Flair info — subtle, below sender */}
-          <div className="wish-hero__flair">
-            <span className="wish-hero__flair-chip">
-              ✨ {monthName} {wish.birthDay} • {wish.flair?.zodiacSign || ""} {zodiacSymbol}
+          {/* Sender card */}
+          <div
+            className="wish-hero__card"
+            style={{
+              borderColor: `${primary}25`,
+            }}
+          >
+            <p className="wish-hero__card-label">
+              Sent with <span aria-hidden="true">❤️</span> by
+            </p>
+            {relLabel && (
+              <p className="wish-hero__card-rel">Your {relLabel}</p>
+            )}
+            <p
+              className="wish-hero__card-name"
+              style={{
+                background: `linear-gradient(135deg, ${primary}, ${secondary})`,
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              {wish.senderName}
+            </p>
+          </div>
+
+          {/* Info chips */}
+          <div className="wish-hero__chips">
+            <span
+              className="wish-hero__chip"
+              style={{ background: `${primary}12`, borderColor: `${primary}20` }}
+            >
+              🎂 {monthName} {wish.birthDay}
             </span>
+            {wish.flair?.zodiacSign && (
+              <span
+                className="wish-hero__chip"
+                style={{ background: `${primary}12`, borderColor: `${primary}20` }}
+              >
+                {zodiacSymbol} {wish.flair.zodiacSign}
+              </span>
+            )}
             {wish.flair?.birthstone && (
-              <span className="wish-hero__flair-chip">
+              <span
+                className="wish-hero__chip"
+                style={{ background: `${primary}12`, borderColor: `${primary}20` }}
+              >
                 💎 {wish.flair.birthstone}
               </span>
             )}
             {wish.flair?.birthFlower && (
-              <span className="wish-hero__flair-chip">
+              <span
+                className="wish-hero__chip"
+                style={{ background: `${primary}12`, borderColor: `${primary}20` }}
+              >
                 🌸 {wish.flair.birthFlower}
               </span>
             )}
           </div>
 
-          {/* Animated scroll indicator */}
+          {/* Scroll indicator */}
           <div className="wish-hero__scroll" aria-hidden="true">
             <div className="wish-hero__scroll-mouse">
               <div className="wish-hero__scroll-dot" />

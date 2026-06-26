@@ -2621,7 +2621,7 @@ textarea:focus {
 }
 
 /* ===========================
-   Hero — Cardless, Floating on Background
+   Hero — Soft Pastel Birthday
    =========================== */
 
 .wish-hero {
@@ -2630,45 +2630,134 @@ textarea:focus {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
-  padding: 48px 20px 24px;
+  gap: 18px;
+  padding: 40px 20px 24px;
+  overflow: hidden;
 }
 
-/* Decorative floating birthday emojis */
-.wish-hero__deco {
+/* Soft glow behind the title */
+.wish-hero__glow {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 220px;
+  border-radius: 50%;
+  filter: blur(50px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 3D Illustrations container */
+.wish-hero__illust {
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 0;
 }
 
-.wish-hero__deco-emoji {
+/* Birthday cake — left side */
+.wish-hero__cake {
   position: absolute;
-  font-size: 1.5rem;
-  opacity: 0.5;
-  animation: hero-float 3s ease-in-out infinite;
+  top: 18%;
+  left: -8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-@keyframes hero-float {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-12px) rotate(5deg); }
+.wish-hero__cake-emoji {
+  font-size: 3rem;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.12));
+  animation: illust-bob 3s ease-in-out infinite;
 }
 
-/* Soft glow behind the title */
-.wish-hero__glow {
-  position: absolute;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 320px;
-  height: 200px;
+.wish-hero__cake-shadow {
+  width: 48px;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.06);
   border-radius: 50%;
-  filter: blur(40px);
-  pointer-events: none;
-  z-index: 0;
+  margin-top: 4px;
+  filter: blur(3px);
 }
 
-/* Gradient birthday title — strongest visual */
+/* Heart balloon — right side top */
+.wish-hero__balloon {
+  position: absolute;
+  top: 8%;
+  right: -4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.wish-hero__balloon-emoji {
+  font-size: 2.8rem;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.1));
+  animation: illust-bob 3.5s ease-in-out infinite 0.5s;
+}
+
+.wish-hero__balloon-shadow {
+  width: 36px;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 50%;
+  margin-top: 4px;
+  filter: blur(3px);
+}
+
+/* Gift box — right side bottom */
+.wish-hero__gift {
+  position: absolute;
+  bottom: 22%;
+  right: -4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.wish-hero__gift-emoji {
+  font-size: 2.6rem;
+  filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.1));
+  animation: illust-bob 4s ease-in-out infinite 1s;
+}
+
+.wish-hero__gift-shadow {
+  width: 40px;
+  height: 7px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 50%;
+  margin-top: 4px;
+  filter: blur(3px);
+}
+
+@keyframes illust-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Badge — "It's Your Day!" */
+.wish-hero__badge {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 18px;
+  border-radius: 999px;
+  border: 1px solid;
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--ink);
+}
+
+.wish-hero__badge-star {
+  font-size: 0.9rem;
+}
+
+/* Main heading */
 .wish-hero__title {
   position: relative;
   z-index: 1;
@@ -2680,112 +2769,75 @@ textarea:focus {
   line-height: 1.3;
 }
 
-/* Emotional subtitle */
-.wish-hero__subtitle {
-  position: relative;
-  z-index: 1;
-  font-family: "Nunito", sans-serif;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--ink);
-  margin: 0;
-  text-align: center;
-  opacity: 0.75;
-}
-
-/* Anticipation teaser */
-.wish-hero__teaser {
-  position: relative;
-  z-index: 1;
-  font-family: "Nunito", sans-serif;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--ink);
-  margin: 0;
-  text-align: center;
-  opacity: 0.5;
-  font-style: italic;
-}
-
-/* Sparkle divider between teaser and sender */
-.wish-hero__sparkle-divider {
-  position: relative;
-  z-index: 1;
-  font-size: 1rem;
-  margin: 0;
-  letter-spacing: 0.4em;
-  opacity: 0.45;
-  animation: sparkle-pulse 2s ease-in-out infinite;
-}
-
-@keyframes sparkle-pulse {
-  0%, 100% { opacity: 0.45; }
-  50% { opacity: 0.7; }
-}
-
-/* Sender attribution — second strongest element */
-.wish-hero__sender {
+/* Description */
+.wish-hero__desc {
   position: relative;
   z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  margin-top: 4px;
+  gap: 4px;
+  text-align: center;
 }
 
-.wish-hero__sender-label {
+.wish-hero__desc p {
   font-family: "Nunito", sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--ink);
+  opacity: 0.6;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Sender card */
+.wish-hero__card {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 18px 28px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid;
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  text-align: center;
+}
+
+.wish-hero__card-label {
+  font-family: "Nunito", sans-serif;
+  font-size: 0.8rem;
   font-weight: 600;
   color: var(--ink);
   opacity: 0.5;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.wish-hero__sender-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-/* Circular heart badge beside sender name */
-.wish-hero__heart-badge {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.1rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  animation: heart-beat 1.5s ease-in-out infinite;
-}
-
-@keyframes heart-beat {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.08); }
-}
-
-.wish-hero__sender-name {
-  font-family: "Baloo 2", sans-serif;
-  font-weight: 800;
-  font-size: 1.6rem;
   margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
-.wish-hero__sender-rel {
+.wish-hero__card-rel {
   font-family: "Nunito", sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: var(--ink);
   opacity: 0.4;
   font-style: italic;
+  margin: 0;
 }
 
-/* Flair chips */
-.wish-hero__flair {
+.wish-hero__card-name {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 800;
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+/* Info chips */
+.wish-hero__chips {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -2794,45 +2846,44 @@ textarea:focus {
   z-index: 1;
 }
 
-.wish-hero__flair-chip {
+.wish-hero__chip {
   font-family: "Nunito", sans-serif;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 700;
   color: var(--ink);
-  background: rgba(255, 255, 255, 0.45);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: 1px solid;
   border-radius: 999px;
   padding: 4px 14px;
-  opacity: 0.65;
+  opacity: 0.7;
 }
 
 /* Animated scroll indicator */
 .wish-hero__scroll {
   position: relative;
   z-index: 1;
-  margin-top: 12px;
+  margin-top: 8px;
   animation: scroll-bounce 2s ease-in-out infinite;
 }
 
 @keyframes scroll-bounce {
-  0%, 100% { transform: translateY(0); opacity: 0.5; }
-  50% { transform: translateY(6px); opacity: 0.8; }
+  0%, 100% { transform: translateY(0); opacity: 0.4; }
+  50% { transform: translateY(6px); opacity: 0.7; }
 }
 
 .wish-hero__scroll-mouse {
-  width: 24px;
-  height: 38px;
+  width: 22px;
+  height: 34px;
   border: 2px solid var(--ink);
-  border-radius: 12px;
+  border-radius: 11px;
   display: flex;
   justify-content: center;
   padding-top: 6px;
-  opacity: 0.25;
+  opacity: 0.2;
 }
 
 .wish-hero__scroll-dot {
-  width: 4px;
-  height: 8px;
+  width: 3px;
+  height: 7px;
   background: var(--ink);
   border-radius: 2px;
   animation: scroll-dot 2s ease-in-out infinite;
@@ -2840,7 +2891,7 @@ textarea:focus {
 
 @keyframes scroll-dot {
   0% { transform: translateY(0); opacity: 1; }
-  100% { transform: translateY(10px); opacity: 0; }
+  100% { transform: translateY(8px); opacity: 0; }
 }
 
 .wish-experience__made-rel {
@@ -4714,8 +4765,20 @@ textarea:focus {
     font-size: 1.5rem;
   }
 
-  .wish-hero__sender-name {
+  .wish-hero__card-name {
     font-size: 1.2rem;
+  }
+
+  .wish-hero__cake-emoji {
+    font-size: 2.4rem;
+  }
+
+  .wish-hero__balloon-emoji {
+    font-size: 2.2rem;
+  }
+
+  .wish-hero__gift-emoji {
+    font-size: 2rem;
   }
 
   .wish-photos__title {
@@ -4809,18 +4872,29 @@ textarea:focus {
     font-size: 1.4rem;
   }
 
-  .wish-hero__subtitle {
-    font-size: 1rem;
+  .wish-hero__desc p {
+    font-size: 0.85rem;
   }
 
-  .wish-hero__heart-badge {
-    width: 34px;
-    height: 34px;
-    font-size: 0.95rem;
+  .wish-hero__card {
+    padding: 14px 20px;
+    border-radius: 16px;
   }
 
-  .wish-hero__sender-name {
-    font-size: 1.3rem;
+  .wish-hero__card-name {
+    font-size: 1.2rem;
+  }
+
+  .wish-hero__cake {
+    display: none;
+  }
+
+  .wish-hero__balloon {
+    display: none;
+  }
+
+  .wish-hero__gift {
+    display: none;
   }
 
   .wish-hero__flair-chip {
