@@ -4,8 +4,6 @@
 
 <img src="client/public/SSs/LandingPage.png" alt="Wishire Landing Page" width="100%" />
 
-<img src="client/public/SSs/LandingPageFull.png" alt="Wishire Landing Page Full" width="100%" />
-
 ---
 
 ## Live Demo
