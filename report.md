@@ -2,7 +2,7 @@
 # ch-3 Personal Project — Report
 
 github_username: shinnThantKyaw
-personal_repo_url: https://github.com/shinThantKyaw/wishire
+personal_repo_url: https://github.com/shinnThantKyaw/Wishire
 project_summary: A birthday wish generator that creates an immersive, animated experience with gift box reveal, confetti, photo slideshow, typewriter letter, and 12 theme colors — shareable via a single link.
 slides_url: slides/pitch.md
 

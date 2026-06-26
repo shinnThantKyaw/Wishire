@@ -4,6 +4,8 @@
 
 <img src="client/public/SSs/LandingPage.png" alt="Wishire Landing Page" width="100%" />
 
+<img src="client/public/SSs/LandingPageFull.png" alt="Wishire Landing Page Full" width="100%" />
+
 ---
 
 ## Live Demo
@@ -52,6 +54,9 @@ Create unforgettable birthday surprise pages with heartfelt messages, cherished 
 **Landing Page**
 <img src="client/public/SSs/LandingPage.png" alt="Landing Page" width="100%" />
 
+**Landing Page (Full)**
+<img src="client/public/SSs/LandingPageFull.png" alt="Landing Page Full" width="100%" />
+
 **Create Wish Form**
 <img src="client/public/SSs/CreateForm.png" alt="Create Form" width="100%" />
 
@@ -87,8 +92,8 @@ Create unforgettable birthday surprise pages with heartfelt messages, cherished 
 ## Installation
 
 ```bash
-git clone https://github.com/shinThantKyaw/birthday-wish-generator.git
-cd birthday-wish-generator
+git clone https://github.com/shinnThantKyaw/Wishire.git
+cd Wishire
 npm install && cd server && npm install && cd ../client && npm install
 cd ..
 npm run dev
@@ -152,4 +157,4 @@ MIT — feel free to fork and make it your own.
 
 ## Author
 
-[shinThantKyaw](https://github.com/shinThantKyaw)
+[shinnThantKyaw](https://github.com/shinnThantKyaw)
