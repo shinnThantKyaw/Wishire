@@ -231,20 +231,46 @@ export default function WishExperience({
           </div>
         </motion.div>
 
-        {/* 2. Photo Slideshow */}
+        {/* 2. Photo Memories — emotional framing + carousel */}
         {hasPhotos && (
-          <motion.div className="wish-experience__section" variants={sV}>
-            <div className="wish-experience__section-divider" aria-hidden="true" />
-            <h2 className="wish-experience__section-title">📸 Photo Memories</h2>
-            <PhotoSlideshow
-              photos={wish.photos}
-              playCount={playCount}
-              onComplete={() => {}}
-              recipientName={wish.recipientName}
-              reducedMotion={reducedMotion}
-              theme={theme}
-            />
-            <div className="wish-experience__section-divider" aria-hidden="true" />
+          <motion.div className="wish-photos" variants={sV}>
+            {/* Emotional intro */}
+            <div className="wish-photos__intro">
+              <h2
+                className="wish-photos__title"
+                style={{
+                  background: `linear-gradient(135deg, ${primary}, ${secondary})`,
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                📸 Our Memories Together
+              </h2>
+              <p className="wish-photos__subtitle">
+                Some moments are too beautiful to forget.
+              </p>
+              <p className="wish-photos__caption">
+                A collection of memories shared between {wish.senderName} &amp; {wish.recipientName} ❤️
+              </p>
+            </div>
+
+            {/* Carousel in a keepsake frame */}
+            <div className="wish-photos__frame">
+              {/* Decorative corners */}
+              <span className="wish-photos__corner wish-photos__corner--tl" aria-hidden="true">✨</span>
+              <span className="wish-photos__corner wish-photos__corner--tr" aria-hidden="true">✨</span>
+              <span className="wish-photos__corner wish-photos__corner--bl" aria-hidden="true">💖</span>
+              <span className="wish-photos__corner wish-photos__corner--br" aria-hidden="true">💖</span>
+
+              <PhotoSlideshow
+                photos={wish.photos}
+                playCount={playCount}
+                onComplete={() => {}}
+                recipientName={wish.recipientName}
+                reducedMotion={reducedMotion}
+                theme={theme}
+              />
+            </div>
           </motion.div>
         )}
 
