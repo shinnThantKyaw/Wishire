@@ -8,7 +8,7 @@
 
 ## Live Demo
 
-- **Frontend:** [wishire-eight.vercel.app](https://wishire-eight.vercel.app)
+- **Frontend:** [wishire-by-stk.vercel.app](https://wishire-by-stk.vercel.app)
 - **Backend API:** [wishire-production.up.railway.app](https://wishire-production.up.railway.app)
 
 ---
