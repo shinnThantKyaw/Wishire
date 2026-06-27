@@ -1,16 +1,14 @@
 import express from "express";
 import cors from "cors";
-import path from "path";
-import { fileURLToPath } from "url";
 import wishRoutes from "./routes/wishes.js";
 import photoRoutes from "./routes/photos.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 const app = express();
-app.use(cors());
+
+// Allow requests from the frontend (set CLIENT_URL in Railway env)
+const allowedOrigin = process.env.CLIENT_URL || "*";
+app.use(cors({ origin: allowedOrigin }));
 app.use(express.json({ limit: "1mb" }));
 
 // API routes
@@ -18,23 +16,10 @@ app.use("/api/wish", wishRoutes);
 app.use("/api/upload", photoRoutes);
 app.use("/api/uploads", photoRoutes);
 
-// Serve static files in production
-const clientDist = path.join(__dirname, "../client/dist");
-app.use(express.static(clientDist));
+// Health check
+app.get("/api/health", (req, res) => res.json({ status: "ok" }));
 
-// Catch-all for SPA routes (Pitfall 5 prevention)
-app.get("*", (req, res) => {
-  const indexPath = path.join(clientDist, "index.html");
-  res.sendFile(indexPath, (err) => {
-    if (err) {
-      res.status(404).json({
-        error: "Client not built. Run 'cd client && npm run build' first.",
-      });
-    }
-  });
-});
-
-// Centralized error handler — must be LAST middleware (RESEARCH.md Pitfall B)
+// Centralized error handler — must be LAST middleware
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 3001;
