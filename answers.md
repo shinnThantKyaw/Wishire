@@ -513,3 +513,28 @@ The Volumes section is inside the **service settings**, not the project settings
 
 ### Why we need a Volume
 SQLite writes the database file to disk. Railway's filesystem is ephemeral — files outside volumes are deleted on every redeploy. A Volume mounts persistent storage at `/data`, so our `DATABASE_URL=file:/data/wishire.db` survives restarts.
+
+---
+
+## PostgreSQL Migration (2026-06-26)
+
+Migrated from SQLite to PostgreSQL because Railway's Volume UI wasn't accessible.
+
+### What changed
+
+| File | Change |
+|------|--------|
+| `server/prisma/schema.prisma` | `provider = "postgresql"`, removed `url`, removed `@default(nanoid(8))` |
+| `server/prisma.config.ts` | New — reads `DATABASE_URL` from env for Prisma 7 CLI |
+| `server/lib/prisma.js` | Uses `PrismaPg` adapter with `pg` driver |
+| `server/package.json` | Added `@prisma/adapter-pg`, `pg`; removed SQLite deps |
+| `server/prisma/migrations/0_init/` | New — PostgreSQL migration SQL |
+
+### Railway deployment steps (PostgreSQL)
+
+1. `git push`
+2. Railway → **+ New** → **Database** → **PostgreSQL**
+3. App service → **Variables** → add `DATABASE_URL=${{Postgres.DATABASE_URL}}`
+4. App service → **Variables** → add `CLOUDINARY_URL=your_url`
+5. App service → **Settings** → **Start Command**: `npx prisma migrate deploy && node index.js`
+6. Redeploy
