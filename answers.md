@@ -445,3 +445,34 @@ The ~40px white band appears because:
 - ⌨️ **Keyboard Accessible** — gift box Enter/Space, focus-visible outlines, aria-labels
 - 📱 **Touch Aware** — parallax disabled on touch, mobile-adaptive particle counts
 - 👆 **44px Touch Targets** — minimum size for interactive elements
+
+---
+
+## Railway Deployment Guide (2026-06-26)
+
+### What's already ready (no changes needed)
+
+| Item | Status | Code |
+|------|--------|------|
+| package.json scripts | ✅ | `"start": "node index.js"`, `"type": "module"` |
+| PORT from env | ✅ | `process.env.PORT \|\| 3001` in `index.js:40` |
+| CORS | ✅ | `app.use(cors())` in `index.js:13` |
+| Isolated monorepo | ✅ | `server/` is self-contained |
+
+### What needs fixing before deploy
+
+1. **SQLite path is hardcoded** (`server/lib/prisma.js:13`) — reads `../dev.db`. Needs to read from `DATABASE_URL` env var, fallback to local path.
+2. **File uploads go to local disk** (`server/middleware/upload.js`) — Railway filesystem is ephemeral. Need cloud storage (Cloudinary).
+
+### Railway dashboard steps
+
+1. New Project → Deploy from GitHub → select `shinnThantKyaw/Wishire`
+2. Set **Root Directory** to `server`
+3. Add a **Volume** (Mount Path: `/data`)
+4. Add env var: `DATABASE_URL=file:/data/wishire.db`
+5. Deploy
+
+### Sources
+- Railway monorepo docs: https://docs.railway.com/deployments/monorepo
+- Railway volumes: https://docs.railway.com/integrations/api/manage-volumes
+- Railway build config: https://docs.railway.com/builds/build-configuration

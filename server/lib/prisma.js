@@ -8,9 +8,11 @@ const __dirname = path.dirname(__filename);
 
 const globalForPrisma = globalThis;
 
-// Use the plain filename — busy_timeout is set via PRAGMA after connect,
-// not as a query parameter (BetterSqlite3 treats ?busy_timeout as part of the filename).
-const dbPath = path.resolve(__dirname, "../dev.db");
+// Railway: DATABASE_URL=file:/data/wishire.db  (persistent volume)
+// Local:   falls back to ../dev.db
+const dbPath = process.env.DATABASE_URL
+  ? process.env.DATABASE_URL.replace("file:", "")
+  : path.resolve(__dirname, "../dev.db");
 
 const adapter = new PrismaBetterSqlite3({
   url: `file:${dbPath}`,

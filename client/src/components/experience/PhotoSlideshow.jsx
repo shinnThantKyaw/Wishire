@@ -138,9 +138,7 @@ export default function PhotoSlideshow({
           }}
         >
           {photos.map((photo, index) => {
-            const src = photo?.filename
-              ? `/api/uploads/${photo.filename}`
-              : "";
+            const src = photo?.filename || "";
             return (
               <div key={index} className="photo-slideshow__slide">
                 <img
