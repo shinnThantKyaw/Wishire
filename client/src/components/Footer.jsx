@@ -33,16 +33,16 @@ export default function Footer() {
         🎂 Every birthday deserves a little magic ✨💜
       </p>
 
-      <footer className="relative pt-2.5 pb-2.5 pl-12 pr-12 rounded-t-[36px] bg-white border-t border-[rgba(233,160,249,0.15)] overflow-hidden">
+      <footer className="relative pt-3 pb-3 px-5 sm:px-8 md:px-12 rounded-t-[36px] bg-white border-t border-[rgba(233,160,249,0.15)] overflow-hidden">
         {/* Edge sparkles */}
         <span className="footer__sparkle footer__sparkle--tl" aria-hidden="true">✨</span>
         <span className="footer__sparkle footer__sparkle--tr" aria-hidden="true">💜</span>
         <span className="footer__sparkle footer__sparkle--bl" aria-hidden="true">💜</span>
         <span className="footer__sparkle footer__sparkle--br" aria-hidden="true">✨</span>
 
-        <div className="flex items-center justify-between gap-10">
+        <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-6 sm:gap-10">
           {/* Left — App branding */}
-          <div className="flex flex-col items-start gap-1">
+          <div className="flex flex-col items-center sm:items-start gap-1 text-center sm:text-left">
             <img
               src="/assets/images/Icon.png"
               alt="Wishire"
@@ -65,8 +65,8 @@ export default function Footer() {
             </a>
           </div>
 
-          {/* Middle — Quote */}
-          <div className="flex-1 flex justify-center">
+          {/* Middle — Quote (hidden on mobile) */}
+          <div className="hidden sm:flex flex-1 justify-center">
             <div className="relative px-6 py-3 rounded-[18px] bg-gradient-to-br from-[rgba(233,160,249,0.08)] to-[rgba(217,124,246,0.04)] border border-[rgba(233,160,249,0.12)] text-center">
               <span className="footer__quote-mark" aria-hidden="true">"</span>
               <p className="font-body text-[0.9rem] font-bold italic leading-[1.55] text-[#5a3e7a] m-0">
@@ -79,7 +79,7 @@ export default function Footer() {
           </div>
 
           {/* Right — Creator signature */}
-          <div className="flex flex-col items-end gap-0.5 text-right">
+          <div className="flex flex-col items-center sm:items-end gap-0.5 text-center sm:text-right">
             <img
               src="/assets/images/MySign.png"
               alt="Shin Thant Kyaw"

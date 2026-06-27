@@ -48,6 +48,7 @@ export default function WishPage() {
   const [error, setError] = useState(null);
   const musicRef = useRef(null);
   const sfxWhooshRef = useRef(null);
+  const sfxConfettiRef = useRef(null);
 
   // Fetch wish data on mount
   useEffect(() => {
@@ -96,9 +97,19 @@ export default function WishPage() {
 
     sfxWhooshRef.current = new Howl({
       src: ["/assets/audio/whoosh.mp3"],
+      html5: true,
       volume: 0.8,
       onloaderror: () => {
         sfxWhooshRef.current = null;
+      },
+    });
+
+    sfxConfettiRef.current = new Howl({
+      src: ["/assets/audio/confetti-sound.mp3"],
+      html5: true,
+      volume: 0.6,
+      onloaderror: () => {
+        sfxConfettiRef.current = null;
       },
     });
 
@@ -111,16 +122,22 @@ export default function WishPage() {
         sfxWhooshRef.current.unload();
         sfxWhooshRef.current = null;
       }
+      if (sfxConfettiRef.current) {
+        sfxConfettiRef.current.unload();
+        sfxConfettiRef.current = null;
+      }
     };
   }, []);
 
   // Handle gift box tap — starts music + whoosh, transitions to MAIN
   const handleGiftBoxOpen = useCallback(() => {
+
     if (musicRef.current) {
       musicRef.current.play();
     }
-    if (sfxWhooshRef.current) {
-      sfxWhooshRef.current.play();
+
+    if (sfxConfettiRef.current) {
+      sfxConfettiRef.current.play();
     }
     dispatch({ type: "OPEN" });
   }, []);

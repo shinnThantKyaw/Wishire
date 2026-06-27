@@ -1,9 +1,10 @@
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 
 /*
  * Floating decorations — match landing page HeroBackground style.
  * All emojis tinted to the theme's primary color via CSS filter.
  * Spread around edges and corners, never over center content.
+ * On mobile, only flower (🌸) and heart (💜) are shown.
  */
 
 const DECORATIONS = [
@@ -23,6 +24,8 @@ const DECORATIONS = [
   { emoji: "💜", size: 16, x: 3,  y: 35, opacity: 0.22, blur: false, dur: 25, delay: -14,  drift: 8,   rot: 6   },
   { emoji: "🌸", size: 16, x: 96, y: 50, opacity: 0.20, blur: true,  dur: 26, delay: -16,  drift: -6,  rot: -4  },
 ];
+
+const MOBILE_ALLOWED = new Set(["🌸", "💜"]);
 
 /** Convert hex color to hue degrees (0–360) */
 function hexToHue(hex) {
@@ -50,8 +53,25 @@ function hexToHue(hex) {
  *   primary: string — theme primary hex color (e.g. "#a855f7")
  *   reducedMotion: boolean — hide decorations if true
  */
+function useIsMobile(breakpoint = 640) {
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== "undefined" && window.innerWidth < breakpoint
+  );
+  useEffect(() => {
+    const mql = window.matchMedia(`(max-width: ${breakpoint - 1}px)`);
+    const handler = (e) => setIsMobile(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, [breakpoint]);
+  return isMobile;
+}
+
 export default function FloatingSparkles({ primary = "#a855f7", reducedMotion = false }) {
-  const decorations = useMemo(() => DECORATIONS, []);
+  const isMobile = useIsMobile();
+  const decorations = useMemo(
+    () => isMobile ? DECORATIONS.filter((d) => MOBILE_ALLOWED.has(d.emoji)) : DECORATIONS,
+    [isMobile]
+  );
 
   // The hue-rotate filter baseline is purple (~270°).
   // Subtract to shift from purple to the target theme hue.
