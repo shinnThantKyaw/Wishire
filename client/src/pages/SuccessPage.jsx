@@ -1,7 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { Howl } from "howler";
 import { PartyPopper, Copy, ExternalLink, ArrowLeft, Check, Sparkles } from "lucide-react";
 import { THEMES } from "../components/create/ThemeSelector.jsx";
+
+const confettiSound = new Howl({
+  src: ["/assets/audio/confetti-sound.mp3"],
+  html5: true,
+  volume: 0.6,
+});
 
 /* ── Confetti burst ── */
 
@@ -46,7 +53,10 @@ export default function SuccessPage() {
       })
       .then((data) => {
         setWish(data);
-        setTimeout(() => spawnConfetti(confettiRef.current), 400);
+        setTimeout(() => {
+          spawnConfetti(confettiRef.current);
+          confettiSound.play();
+        }, 200);
       })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
