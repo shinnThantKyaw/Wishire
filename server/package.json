@@ -4,7 +4,8 @@
   "type": "module",
   "version": "1.0.0",
   "scripts": {
-    "start": "node index.js",
+    "postinstall": "prisma generate",
+    "start": "prisma migrate deploy && node index.js",
     "mcp": "node mcp-server.js"
   },
   "dependencies": {
