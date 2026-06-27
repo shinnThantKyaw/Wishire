@@ -348,7 +348,7 @@ export default function CreatePage() {
                   <input
                     value={form.customRelationship}
                     onChange={(e) => update("customRelationship", e.target.value)}
-                    placeholder="e.g. Bestie, Neighbor, Coach..."
+                    placeholder="e.g. အသဲကြော်ပဲလှော်လေး :3 ..."
                   />
                 </div>
               </div>
