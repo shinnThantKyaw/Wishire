@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import useMouseParallax from "../../hooks/useMouseParallax";
 
 /* ───────────────────────────────────────
@@ -32,6 +32,21 @@ const DECORATIONS = [
   { emoji: "💜", size: 14, x: 70, y: 60, opacity: 0.14, blur: false, dur: 23, delay: -11,  drift: -10, rot: 8,   depth: 1.4 },
 ];
 
+const MOBILE_ALLOWED = new Set(["🌸", "💜"]);
+
+function useIsMobile(breakpoint = 640) {
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== "undefined" && window.innerWidth < breakpoint
+  );
+  useEffect(() => {
+    const mql = window.matchMedia(`(max-width: ${breakpoint - 1}px)`);
+    const handler = (e) => setIsMobile(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, [breakpoint]);
+  return isMobile;
+}
+
 /* ───────────────────────────────────────
    Glow orbs — soft purple hints
    ─────────────────────────────────────── */
@@ -44,6 +59,11 @@ const GLOW_ORBS = [
 
 export default function HeroBackground() {
   const mouse = useMouseParallax();
+  const isMobile = useIsMobile();
+  const decorations = useMemo(
+    () => isMobile ? DECORATIONS.filter((d) => MOBILE_ALLOWED.has(d.emoji)) : DECORATIONS,
+    [isMobile]
+  );
 
   const parallaxStyle = useMemo(() => {
     return (depth) => ({
@@ -73,7 +93,7 @@ export default function HeroBackground() {
       ))}
 
       {/* Layer 3 — Floating emoji decorations (all purple) */}
-      {DECORATIONS.map((d, i) => (
+      {decorations.map((d, i) => (
         <span
           key={`deco-${i}`}
           className="hero-bg__deco"
