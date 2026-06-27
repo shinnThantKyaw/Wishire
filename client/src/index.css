@@ -151,8 +151,6 @@
 }
 
 .how__step-icon {
-  font-size: 2rem;
-  line-height: 1;
   width: 52px;
   height: 52px;
   display: flex;
@@ -163,6 +161,7 @@
   border: 1px solid rgba(233,160,249,0.2);
   margin-bottom: 4px;
   box-shadow: 0 2px 8px rgba(100,70,150,0.06);
+  color: #7C3AED;
 }
 
 .how__step-label {
@@ -184,12 +183,12 @@
 
 /* Highlighted final step */
 .how__step--highlight .how__step-icon {
-  font-size: 2.3rem;
   width: 60px;
   height: 60px;
   background: linear-gradient(135deg, rgba(233,160,249,0.15), rgba(217,124,246,0.10));
   border-color: rgba(233,160,249,0.30);
   box-shadow: 0 4px 20px rgba(233,160,249,0.15);
+  color: #9333ea;
 }
 
 .how__step--highlight .how__step-label {
@@ -239,8 +238,8 @@
   box-shadow: 0 6px 18px rgba(100,70,150,0.08);
 }
 
-.how__preview-emoji {
-  font-size: 1.6rem;
+.how__preview-icon {
+  color: #7C3AED;
   line-height: 1;
 }
 
