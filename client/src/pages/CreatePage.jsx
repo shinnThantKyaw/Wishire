@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { User, Heart, Cake, MessageSquare, Camera, Palette, Sparkles, Loader2 } from "lucide-react";
 import PhotoUploader from "../components/create/PhotoUploader.jsx";
@@ -236,11 +236,13 @@ export default function CreatePage() {
 
       {/* ── Hero ── */}
       <div className="create-hero">
-        <img
-          src="/assets/images/Icon.png"
-          alt="Wishire"
-          className="create-hero__logo"
-        />
+        <Link to="/">
+          <img
+            src="/assets/images/Icon.png"
+            alt="Wishire"
+            className="create-hero__logo"
+          />
+        </Link>
         <h1 className="create-hero__title">Create a Birthday Surprise</h1>
         <p className="create-hero__subtitle">
           Turn your words, photos, and memories into a magical birthday experience.

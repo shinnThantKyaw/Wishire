@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { PartyPopper, Copy, ExternalLink, ArrowLeft, Check, Sparkles } from "lucide-react";
 import { THEMES } from "../components/create/ThemeSelector.jsx";
 
@@ -136,11 +136,13 @@ export default function SuccessPage() {
 
       <div className="success-content">
         {/* App logo */}
-        <img
-          src="/assets/images/Icon.png"
-          alt="Wishire"
-          className="success-logo"
-        />
+        <Link to="/">
+          <img
+            src="/assets/images/Icon.png"
+            alt="Wishire"
+            className="success-logo"
+          />
+        </Link>
 
         {/* Headline with celebration icon */}
         <div className="success-header">

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { ExternalLink } from "lucide-react";
 
 export default function Footer() {
@@ -43,11 +44,13 @@ export default function Footer() {
         <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-6 sm:gap-10">
           {/* Left — App branding */}
           <div className="flex flex-col items-center sm:items-start gap-1 text-center sm:text-left">
-            <img
-              src="/assets/images/Icon.png"
-              alt="Wishire"
-              className="footer__logo"
-            />
+            <Link to="/">
+              <img
+                src="/assets/images/Icon.png"
+                alt="Wishire"
+                className="footer__logo"
+              />
+            </Link>
             <p className="font-display font-extrabold text-[0.85rem] tracking-[0.06em] uppercase text-[#8B6DAF] m-0">
               Birthday Wish Maker
             </p>
