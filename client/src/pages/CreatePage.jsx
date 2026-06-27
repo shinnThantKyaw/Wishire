@@ -273,7 +273,7 @@ export default function CreatePage() {
       <form className="create-card form" onSubmit={generate}>
         <div className="form__section form__section--about-you">
           <h2 className="form__section-title"><span className="form__section-icon"><User size={16} /></span> About You</h2>
-          <p className="form__section-helper">✨ Your message starts here</p>
+          <p className="form__section-helper"><Sparkles size={14} className="inline" /> Your message starts here</p>
           <label>
             Your name
             <div className="form__input-wrap">
@@ -432,7 +432,7 @@ export default function CreatePage() {
 
         <button className="create-submit" type="submit" disabled={loading}>
           {loading ? <Loader2 size={18} className="spin" /> : <Sparkles size={18} />}
-          {loading ? uploadProgress || "Creating..." : "Create Wish ✨"}
+          {loading ? uploadProgress || "Creating..." : <><span>Create Wish</span> <Sparkles size={16} /></>}
         </button>
       </form>
     </div>

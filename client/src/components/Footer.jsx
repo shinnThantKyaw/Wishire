@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Cake, Sparkles, Heart } from "lucide-react";
 
 export default function Footer() {
   const [visible, setVisible] = useState(false);
@@ -30,8 +30,11 @@ export default function Footer() {
       className={`relative z-2 w-full m-0 opacity-0 translate-y-5 transition-all duration-700 ease-[ease]${visible ? " opacity-100 translate-y-0" : ""}`}
     >
       {/* Magic tagline */}
-      <p className="text-center font-body text-sm font-bold text-[#8B6DAF] m-0 mb-3.5 tracking-normal">
-        🎂 Every birthday deserves a little magic ✨💜
+      <p className="text-center font-body text-sm font-bold text-[#8B6DAF] m-0 mb-3.5 tracking-normal flex items-center justify-center gap-1.5">
+        <Cake size={16} />
+        Every birthday deserves a little magic
+        <Sparkles size={14} />
+        <Heart size={14} />
       </p>
 
       <footer className="relative pt-3 pb-3 px-5 sm:px-8 md:px-12 rounded-t-[36px] bg-white border-t border-[rgba(233,160,249,0.15)] overflow-hidden">

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { PenLine, Share2, Gift, Camera, Mail, PartyPopper } from "lucide-react";
+import { PenLine, Share2, Gift, Camera, Mail, PartyPopper, Sparkles } from "lucide-react";
 import HeroBackground from "../components/home/HeroBackground";
 import CTAButton from "../components/home/CTAButton";
 
@@ -114,7 +114,7 @@ export default function HomePage() {
             className="how__cta-btn"
             onClick={() => navigate("/create")}
           >
-            Create Your Wish ✨
+            Create Your Wish <Sparkles size={16} />
           </button>
           <span className="how__cta-note">No signup required</span>
         </div>
