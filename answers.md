@@ -476,3 +476,40 @@ The ~40px white band appears because:
 - Railway monorepo docs: https://docs.railway.com/deployments/monorepo
 - Railway volumes: https://docs.railway.com/integrations/api/manage-volumes
 - Railway build config: https://docs.railway.com/builds/build-configuration
+
+---
+
+## Railway Deployment — Step-by-Step Guide (2026-06-26)
+
+### Done
+- ✅ Code committed with Cloudinary + configurable DB path
+- ✅ Cloudinary URL added to local env
+
+### Steps
+
+1. `git push` — push code to GitHub
+2. Railway → New Project → Deploy from GitHub → select `shinnThantKyaw/Wishire`
+3. Service → Settings → **Root Directory**: `server`
+4. Service → Settings → **Volumes** section → **Add Volume** → Mount Path: `/data`
+   - **Note:** Volume is under the SERVICE settings, NOT the project settings
+   - Free plan: 0.5GB limit (plenty for SQLite)
+5. Service → Variables → Add `CLOUDINARY_URL` and `DATABASE_URL=file:/data/wishire.db`
+6. Redeploy if it doesn't auto-deploy
+
+### How to find the Volume section
+
+The Volumes section is inside the **service settings**, not the project settings:
+1. Click on your service box in the project canvas
+2. Click the **Settings** tab at the top
+3. Scroll down — you'll see **"Volumes"** section with an **"Add Volume"** button
+4. Set Mount Path to `/data`
+
+### Volume size limits by plan
+| Plan | Volume Size |
+|------|-------------|
+| Free/Trial | 0.5GB |
+| Hobby ($5/mo) | 5GB |
+| Pro ($20/mo) | 50GB |
+
+### Why we need a Volume
+SQLite writes the database file to disk. Railway's filesystem is ephemeral — files outside volumes are deleted on every redeploy. A Volume mounts persistent storage at `/data`, so our `DATABASE_URL=file:/data/wishire.db` survives restarts.

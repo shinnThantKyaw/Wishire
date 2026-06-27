@@ -1,14 +1,13 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../lib/generated/prisma"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
 }
 
 model Wish {
-  id            String   @id @default(nanoid(8))
+  id            String   @id
   senderName    String
   recipientName String
   relationship  String   @default("friend")
