@@ -4096,21 +4096,23 @@ textarea:focus {
 
 
   .how {
-    padding: 28px 0 8px;
+    padding: 28px 16px 8px;
   }
 
   .how__steps {
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    max-width: 280px;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 8px;
+    max-width: 100%;
   }
 
   .how__step {
-    flex-direction: row;
-    gap: 12px;
-    text-align: left;
-    padding: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+    padding: 0 4px;
   }
 
   .how__step-icon {
@@ -4118,17 +4120,20 @@ textarea:focus {
   }
 
   .how__step-desc {
-    align-items: flex-start;
+    align-items: center;
+  }
+
+  .how__step-desc span {
+    text-align: center;
   }
 
   .how__connector {
     position: absolute;
-    right: auto;
-    left: 25px;
-    top: auto;
-    bottom: -14px;
-    width: 2px;
-    height: 12px;
+    right: -10px;
+    left: auto;
+    top: 26px;
+    width: 14px;
+    height: 2px;
     background: linear-gradient(180deg, rgba(233,160,249,0.3), rgba(233,160,249,0.05));
   }
 
