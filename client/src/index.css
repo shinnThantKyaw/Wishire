@@ -94,11 +94,15 @@
 
 .how {
   text-align: center;
-  padding: 32px 0 12px;
+  padding: 32px 20px 12px;
   margin-top: 4px;
   position: relative;
   z-index: 1;
   animation: section-enter 0.6s ease-out 0.2s both;
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 24px 24px 0 0;
 }
 
 @keyframes section-enter {
@@ -115,15 +119,15 @@
   font-weight: 800;
   font-size: 1.5rem;
   margin: 0 0 6px;
-  color: #3D2458;
+  color: #2A1640;
 }
 
 .how__subtitle {
   font-family: "Nunito", sans-serif;
   font-size: 0.92rem;
-  color: #4A3560;
+  color: #3A2550;
   margin: 0;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 /* Steps row — desktop */
@@ -155,25 +159,27 @@
   align-items: center;
   justify-content: center;
   border-radius: 16px;
-  background: rgba(233,160,249,0.08);
-  border: 1px solid rgba(233,160,249,0.15);
+  background: rgba(255,255,255,0.8);
+  border: 1px solid rgba(233,160,249,0.2);
   margin-bottom: 4px;
+  box-shadow: 0 2px 8px rgba(100,70,150,0.06);
 }
 
 .how__step-label {
   font-family: "Baloo 2", sans-serif;
   font-weight: 700;
   font-size: 0.95rem;
-  color: #3D2458;
+  color: #2A1640;
 }
 
 .how__step-desc {
   font-family: "Nunito", sans-serif;
   font-size: 0.78rem;
-  color: #5a3e7a;
+  color: #3D2855;
   line-height: 1.35;
   display: flex;
   flex-direction: column;
+  font-weight: 600;
 }
 
 /* Highlighted final step */
@@ -220,10 +226,12 @@
   gap: 4px;
   padding: 18px 10px 16px;
   border-radius: 14px;
-  background: rgba(255,255,255,0.7);
-  border: 1px solid rgba(233,160,249,0.12);
-  box-shadow: 0 2px 8px rgba(100,70,150,0.04);
+  background: rgba(255,255,255,0.88);
+  border: 1px solid rgba(233,160,249,0.15);
+  box-shadow: 0 2px 12px rgba(100,70,150,0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .how__preview-card:hover {
@@ -240,14 +248,15 @@
   font-family: "Baloo 2", sans-serif;
   font-weight: 700;
   font-size: 0.82rem;
-  color: #3D2458;
+  color: #2A1640;
 }
 
 .how__preview-desc {
   font-family: "Nunito", sans-serif;
   font-size: 0.72rem;
-  color: #5a3e7a;
+  color: #3D2855;
   line-height: 1.3;
+  font-weight: 600;
 }
 
 /* Bottom CTA */
@@ -294,8 +303,8 @@
 .how__cta-note {
   font-family: "Nunito", sans-serif;
   font-size: 0.78rem;
-  color: #9B7FC4;
-  font-weight: 600;
+  color: #6B4D8F;
+  font-weight: 700;
 }
 
 /* ── Hero Section ── */
@@ -315,6 +324,7 @@
 
 .hero--home {
   padding-bottom: 20px;
+  background: radial-gradient(ellipse 80% 70% at 50% 40%, rgba(255,255,255,0.45) 0%, transparent 70%);
 }
 
 @keyframes hero-enter {
@@ -360,7 +370,7 @@
   font-family: "Nunito", sans-serif;
   font-size: 0.95rem;
   font-weight: 700;
-  color: #6B4D8F;
+  color: #5A3D7A;
   margin: 0;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -379,7 +389,7 @@
 
 .hero__title-line {
   display: block;
-  color: #2D1840;
+  color: #1E0E30;
 }
 
 .hero__title-line--accent {
@@ -401,9 +411,10 @@
   font-family: "Nunito", sans-serif;
   font-size: 1.05rem;
   line-height: 1.65;
-  color: #4A3560;
+  color: #3A2550;
   max-width: 440px;
   margin: 0;
+  font-weight: 600;
 }
 
 /* Feature grid — 2×2 */
