@@ -82,7 +82,11 @@ export default function WishExperience({
     ? ZODIAC_SYMBOLS[wish.flair.zodiacSign] || ""
     : "";
   const monthName = MONTH_NAMES[(wish.birthMonth || 1) - 1];
-  const relLabel = RELATIONSHIP_LABELS[wish.relationship] || null;
+  const rawRel = wish.relationship || "";
+  const isCustom = !(rawRel in RELATIONSHIP_LABELS);
+  const relLabel = isCustom
+    ? (rawRel ? rawRel.charAt(0).toUpperCase() + rawRel.slice(1) : null)
+    : RELATIONSHIP_LABELS[rawRel];
 
   // Same gradient background as GiftAnticipation
   const primary = theme.primary || "#a855f7";
@@ -225,7 +229,7 @@ export default function WishExperience({
               Sent with <span aria-hidden="true">❤️</span> by
             </p>
             {relLabel && (
-              <p className="wish-hero__card-rel">Your {relLabel}</p>
+              <p className="wish-hero__card-rel">{isCustom ? relLabel : `Your ${relLabel}`}</p>
             )}
             <p
               className="wish-hero__card-name"
