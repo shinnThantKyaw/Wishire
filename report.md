@@ -44,3 +44,50 @@ Built using a project-based approach with iterative commits — each feature (gi
 
 - path: .claude/agents/gsd-security-auditor.md
 - what: Verifies threat mitigations from the plan's threat model exist in implemented code. Checks photo upload security (UUID filenames, magic-byte validation, path traversal prevention) and reaction endpoint safety (debounced increments, input validation).
+
+---
+
+<!-- ch-4 personal-project report. -->
+
+# ch-4 Personal Project — Report
+
+## Project
+
+- GitHub username: @shinnThantKyaw
+- Repo URL: https://github.com/shinnThantKyaw/Wishire
+- Live / download URL: https://wishire-by-stk.vercel.app
+- License: MIT
+- One-line summary: A birthday wish generator that creates an immersive, animated experience with gift box reveal, confetti, photo slideshow, typewriter letter, and 12 theme colors — shareable via a single link.
+
+## Product-Intro Slides
+
+- Slides path: slides/pitch.md
+
+## Demo Screenshots
+
+<!-- TODO: Capture 5 screenshots with Chrome DevTools MCP at 1280×800 desktop resolution.
+     Suggested shots:
+     1. HomePage hero with floating decorations and CTA button
+     2. CreatePage form with photo uploader and theme selector
+     3. SuccessPage with confetti and shareable link
+     4. WishPage GiftAnticipation screen with gift box
+     5. WishExperience with photo slideshow and letter card
+-->
+
+- Resolution used: 1280×800 desktop
+
+![screenshot 1 — HomePage hero](client/public/ScreenShotsForCh4/01.png)
+![screenshot 2 — CreatePage form](client/public/ScreenShotsForCh4/02.png)
+![screenshot 3 — SuccessPage share link](client/public/ScreenShotsForCh4/03.png)
+![screenshot 4 — WishPage gift box](client/public/ScreenShotsForCh4/04.png)
+![screenshot 5 — WishExperience celebration](client/public/ScreenShotsForCh4/05.png)
+
+## Notes (optional)
+
+- **Stack:** React 18 + Vite frontend, Express + Prisma + PostgreSQL backend, Cloudinary for photo storage
+- **Run locally:** `npm install && cd server && npm install && cd ../client && npm install && cd .. && npm run dev`
+- **MCP servers:** `birthday-facts` (custom tool for zodiac/birthstone/flower lookup) and `github` (repo management)
+- **Skills:** 5 project-specific skills enforcing display conventions, security rules, animation patterns, form UX, and UI/UX design intelligence
+- **Agents:** 4 GSD agents for execution, code review, security auditing, and project documentation
+- **Accessibility:** Full `prefers-reduced-motion` support, keyboard accessible gift box, 44px touch targets
+- **Screenshots:** 5 screenshots at 1280×800 desktop resolution

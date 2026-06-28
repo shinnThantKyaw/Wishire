@@ -2,7 +2,7 @@
 
 > Beautiful birthday wishes, sent with love.
 
-<img src="client/public/SSs/LandingPage.png" alt="Wishire Landing Page" width="100%" />
+<img src="client/public/ScreenShotsForReadme/LandingPage.png" alt="Wishire Landing Page" width="100%" />
 
 ---
 
@@ -98,22 +98,22 @@ Create unforgettable birthday surprise pages with heartfelt messages, cherished 
 <div align="center">
 
 **Landing Page**
-<img src="client/public/SSs/LandingPage.png" alt="Landing Page" width="100%" />
+<img src="client/public/ScreenShotsForReadme/LandingPage.png" alt="Landing Page" width="100%" />
 
 **Landing Page (Full)**
-<img src="client/public/SSs/LandingPageFull.png" alt="Landing Page Full" width="100%" />
+<img src="client/public/ScreenShotsForReadme/LandingPageFull.png" alt="Landing Page Full" width="100%" />
 
 **Create Wish Form**
-<img src="client/public/SSs/CreateForm.png" alt="Create Form" width="100%" />
+<img src="client/public/ScreenShotsForReadme/CreateForm.png" alt="Create Form" width="100%" />
 
 **Shareable Link (Success)**
-<img src="client/public/SSs/SuccessPage.png" alt="Success Page" width="100%" />
+<img src="client/public/ScreenShotsForReadme/SuccessPage.png" alt="Success Page" width="100%" />
 
 **Gift Box Reveal**
-<img src="client/public/SSs/GiftBoxPage.png" alt="Gift Box" width="100%" />
+<img src="client/public/ScreenShotsForReadme/GiftBoxPage.png" alt="Gift Box" width="100%" />
 
 **Celebration Page**
-<img src="client/public/SSs/WishViewPage.png" alt="Wish View" width="100%" />
+<img src="client/public/ScreenShotsForReadme/WishViewPage.png" alt="Wish View" width="100%" />
 
 </div>
 
