@@ -44,7 +44,7 @@ Create unforgettable birthday surprise pages with heartfelt messages, cherished 
 
 ### Animations & Effects
 - 🖱️ **Mouse Parallax** — landing page decorations respond to cursor
-- ✨ **Floating Sparkles** — 14 emoji decorations with theme-aware hue rotation
+- ✨ **Floating Sparkles** — 14 decorations (emojis on hero, Lucide icons on experience) with theme-aware hue rotation
 - 🌟 **Glow Orbs** — breathing gradient orbs across backgrounds
 - 💫 **Staggered Section Reveals** — all experience sections animate in sequence
 - ⭐ **Premium CTA Button** — glassmorphism, shine sweep, icon wiggle, sparkle particles
@@ -154,12 +154,14 @@ Create unforgettable birthday surprise pages with heartfelt messages, cherished 
 git clone https://github.com/shinnThantKyaw/Wishire.git
 cd Wishire
 
-# Install dependencies
+# Install dependencies (root, server, and client)
+npm install
 cd server && npm install
 cd ../client && npm install
+cd ..
 
 # Set up environment variables
-cd ../server
+cd server
 cp .env.example .env   # or create .env manually (see below)
 
 # Run database migrations
@@ -226,17 +228,24 @@ CLIENT_URL=http://localhost:5173
 
 ```
 Wishire/
+├── .claude/                 # Claude Code config, skills, agents
+│   ├── skills/              # 5 project-specific skills
+│   ├── agents/              # GSD agents for execution, review, security
+│   └── settings.json        # Plugin and permission settings
 ├── client/
 │   ├── src/
 │   │   ├── pages/           # Home, Create, Success, Wish
 │   │   ├── components/
 │   │   │   ├── experience/  # GiftBox, LetterCard, PhotoSlideshow, etc.
 │   │   │   ├── create/      # PhotoUploader, ThemeSelector
-│   │   │   └── home/        # HeroBackground, CTAButton
+│   │   │   ├── home/        # HeroBackground, CTAButton
+│   │   │   └── shared/      # ErrorBoundary, Footer, ScrollToTop
 │   │   ├── hooks/           # useReducedMotion, useMouseParallax
 │   │   └── index.css        # All styles (Tailwind + custom)
 │   ├── public/
-│   │   └── assets/          # Images, audio, favicons
+│   │   ├── assets/          # Images, audio, favicons
+│   │   ├── ScreenShotsForReadme/  # README screenshots
+│   │   └── ScreenShotsForCh4/     # Ch-4 submission screenshots
 │   └── vercel.json          # Vercel config (API proxy + SPA routing)
 ├── server/
 │   ├── routes/              # wishes, photos
@@ -245,6 +254,7 @@ Wishire/
 │   ├── lib/                 # Prisma client, Cloudinary, flair data, errors
 │   ├── prisma/              # Schema + migrations
 │   ├── index.js             # Express entry point
+│   ├── mcp-server.js        # MCP server (get_birthday_flair tool)
 │   ├── prisma.config.ts     # Prisma configuration
 │   └── Dockerfile           # Railway deployment
 └── .mcp.json                # MCP servers config
