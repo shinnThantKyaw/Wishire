@@ -14,16 +14,33 @@ Built using a project-based approach with iterative commits — each feature (gi
 
 ### MCP
 - path: .mcp.json
-- what: Two MCP servers — `birthday-facts` (provides real zodiac signs, birthstones, and birth flowers based on birth date via a local Node.js server) and `github` (enables repo management, commits, and issue tracking directly from Claude Code). The birthday-facts server was used to dynamically fetch flair data for each wish, while the github server manages the project repository.
+- what: Two MCP servers — `birthday-facts` (custom Node.js MCP server exposing `get_birthday_flair` tool that returns zodiac sign, birthstone, and birth flower from birth month/day; used to populate flair chips on each wish) and `github` (enables repo management, commits, and issue tracking directly from Claude Code).
 
 ### Skill
 - path: .claude/skills/birthday-wish-style/SKILL.md
-- what: Defines rules for wish display — sentence splitting (split on `. `, `! `, `? `), typography (p/span with line-height 1.6–1.8), flair chip formatting (zodiac/birthstone as pills), and render safety (user-generated content treated as untrusted, no dangerouslySetInnerHTML). Ensures all wish text displays consistently and safely.
+- what: Display conventions for wish text — sentence splitting rules, typography (line-height, font sizing), flair chip formatting (zodiac/birthstone/birthflower as themed pills), and render safety (no dangerouslySetInnerHTML, user content as untrusted text nodes). Applied to LetterCard, FlairChips, and all wish display components.
 
-### Skill (secondary)
 - path: .claude/skills/framer-motion-patterns/SKILL.md
-- what: 8 animation rules — stable AnimatePresence keys, `mode="wait"`, variants at module level, `onAnimationComplete` for state transitions, `playCount` in keys for replay, confetti canvas `pointer-events: none`, shared canvas instance, eager Howl creation with deferred play. Applied across all 15 experience components.
+- what: 8 animation rules for Framer Motion — stable AnimatePresence keys with playCount, `mode="wait"`, variants defined at module level (not inline), `onAnimationComplete` for state dispatch, confetti canvas `pointer-events: none`, shared canvas instance, eager Howl creation with deferred `.play()`. Prevents Pitfall 2 (exit animations not firing). Applied across all 15 experience components.
+
+- path: .claude/skills/photo-upload-security/SKILL.md
+- what: Security rules for multer-based photo uploads — crypto.randomUUID() filenames, magic-byte validation via `file-type`, 5MB/5-file limits, controlled serve route with UUID regex, path traversal prevention. Prevents Pitfall 3. Applied to `server/routes/photos.js` and `server/middleware/upload.js`.
+
+- path: .claude/skills/form-creator-flow/SKILL.md
+- what: Patterns for the creator form — react-dropzone drag-drop with cumulative file addition, thumbnail previews with blob URL lifecycle cleanup, theme color circle selector, inline validation (validate on submit, clear on change), toast notifications, and memory leak prevention. Applied to CreatePage, PhotoUploader, ThemeSelector.
+
+- path: .claude/skills/ui-ux-pro-max/SKILL.md
+- what: UI/UX design intelligence — 67 styles, 96 color palettes, 57 font pairings, accessibility guidelines, and animation patterns. Used for the premium gift box redesign, hero background, CTA button glassmorphism, and overall visual polish across all pages.
 
 ### Agent
 - path: .claude/agents/project-explainer.md
-- what: Documents architecture decisions and explains the project structure. Used to maintain a clear understanding of the component tree (WishPage → ExperienceOrchestrator → GiftAnticipation / WishExperience), state machine (IDLE → GIFT_BOX → MAIN), and data flow across the codebase.
+- what: Maintains a living EXPLAIN.md documenting the full codebase architecture — component tree (WishPage → ExperienceOrchestrator → GiftAnticipation / WishExperience), state machine (IDLE → GIFT_BOX → MAIN), data flow, and remaining work. Used after major features to keep documentation in sync.
+
+- path: .claude/agents/gsd-executor.md
+- what: Executes development plans with atomic commits, deviation handling, and state management. Used to implement phases 1–5 of the roadmap — each plan was executed with structured commits and checkpoint protocols.
+
+- path: .claude/agents/gsd-code-reviewer.md
+- what: Reviews source files for bugs, security issues, and code quality. Produces structured REVIEW.md with severity-classified findings. Used to audit experience components and API routes.
+
+- path: .claude/agents/gsd-security-auditor.md
+- what: Verifies threat mitigations from the plan's threat model exist in implemented code. Checks photo upload security (UUID filenames, magic-byte validation, path traversal prevention) and reaction endpoint safety (debounced increments, input validation).
