@@ -76,11 +76,11 @@ Built using a project-based approach with iterative commits — each feature (gi
 
 - Resolution used: 1280×800 desktop
 
-![screenshot 1 — HomePage hero](client/public/ScreenShotsForCh4/01.png)
-![screenshot 2 — CreatePage form](client/public/ScreenShotsForCh4/02.png)
-![screenshot 3 — SuccessPage share link](client/public/ScreenShotsForCh4/03.png)
-![screenshot 4 — WishPage gift box](client/public/ScreenShotsForCh4/04.png)
-![screenshot 5 — WishExperience celebration](client/public/ScreenShotsForCh4/05.png)
+![screenshot 1 — HomePage hero](ScreenShotsForCh4/01.png)
+![screenshot 2 — CreatePage form](ScreenShotsForCh4/02.png)
+![screenshot 3 — SuccessPage share link](ScreenShotsForCh4/03.png)
+![screenshot 4 — WishPage gift box](ScreenShotsForCh4/04.png)
+![screenshot 5 — WishExperience celebration](ScreenShotsForCh4/05.png)
 
 ## Notes (optional)
 

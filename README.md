@@ -244,8 +244,7 @@ Wishire/
 │   │   └── index.css        # All styles (Tailwind + custom)
 │   ├── public/
 │   │   ├── assets/          # Images, audio, favicons
-│   │   ├── ScreenShotsForReadme/  # README screenshots
-│   │   └── ScreenShotsForCh4/     # Ch-4 submission screenshots
+│   │   └── ScreenShotsForReadme/  # README screenshots
 │   └── vercel.json          # Vercel config (API proxy + SPA routing)
 ├── server/
 │   ├── routes/              # wishes, photos
@@ -257,6 +256,7 @@ Wishire/
 │   ├── mcp-server.js        # MCP server (get_birthday_flair tool)
 │   ├── prisma.config.ts     # Prisma configuration
 │   └── Dockerfile           # Railway deployment
+├── ScreenShotsForCh4/       # Ch-4 submission screenshots
 └── .mcp.json                # MCP servers config
 ```
 
